@@ -118,17 +118,40 @@ app.post('/file/upload', upload.single("file"), (req, res) => {
     });
 });
 
+app.post('/file/removeByPath', async (req, res) => {
+    const { apiKey, file } = req.body;
+
+    try {
+        // Verify API key
+        const user = await verifyApiKey(apiKey);
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid API key' });
+        }
+
+        // Get file ID by path
+        const fileID = await getFileIDByPath(file);
+        if (!fileID) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+
+        // Remove file from filesystem
+        fs.unlink(file, async (err) => {
+            if (err) {
+                return res.status(500).json({ error: 'Error deleting file from filesystem' });
+            }
+
+            // Remove file from database
+            await removeFileByPath(file);
+            res.status(200).json({ message: 'File deleted successfully' });
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 app.get('/file/', async (req, res) => {
     const { apiKey, dir } = req.query;
-    jwt.verify(apiKey, process.env.AUTH_SECRET, async (err, decoded) => {
-        if (err) {
-            console.log(err);
-            return res.status(401).json({ error: 'Invalid API key', success: false });
-        } else {
-            const files = await db.getAllFilesByUserId(decoded.id);
-            res.status(200).json({ files: files });
-        }
-    });
+    
 });
 
 // Start the server
