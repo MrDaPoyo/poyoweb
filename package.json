@@ -1,0 +1,32 @@
+{
+  "name": "poyoweb",
+  "version": "0.0.1",
+  "description": "The Silliest, Free, Open-Source WebHost!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrdapoyo/poyoweb.git"
+  },
+  "keywords": [
+    "poyoweb",
+    "webhost",
+    "free",
+    "indie",
+    "web"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrdapoyo/poyoweb/issues"
+  },
+  "homepage": "https://github.com/mrdapoyo/poyoweb#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}
