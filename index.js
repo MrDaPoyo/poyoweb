@@ -66,8 +66,16 @@ app.post('/login', async (req, res) => {
 const storage = multer.diskStorage({
     destination: async function (req, file, cb) {
         const { apiKey, dir } = req.body;
-        fs.ensureDirSync(path.join(__dirname, 'websites/users', (await db.findUserById(await jwt.verify(apiKey, process.env.AUTH_SECRET).id)).username, dir || ''));
-        cb(null, path.join(__dirname, 'websites/users', (await db.findUserById(await jwt.verify(apiKey, process.env.AUTH_SECRET).id)).username, dir || ''));
+
+        // Sanitize dir to prevent directory traversal
+        const sanitizedDir = path.normalize(dir || '').replace(/^(\.\.(\/|\\|$))+/, '');
+        try {
+            const username = (await db.findUserById(await jwt.verify(apiKey, process.env.AUTH_SECRET).id)).username;
+            fs.ensureDirSync(path.join(__dirname, 'websites/users', username, sanitizedDir));
+            cb(null, path.join(__dirname, 'websites/users', username, sanitizedDir));
+        } catch (error) {
+            req.res.status(401).json({ error: 'Invalid API key', success: false });
+        }
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname);
