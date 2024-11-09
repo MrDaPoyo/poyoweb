@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('./db');
+const multer = require('multer');
 require('dotenv').config();
 
 const app = express();
@@ -56,6 +57,8 @@ app.post('/login', async (req, res) => {
         }
     }
 });
+
+
 
 // Start the server
 app.listen(port, () => {
