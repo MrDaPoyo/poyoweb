@@ -39,17 +39,17 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-    const { email, username, password } = req.body;
-    if ((!email && !username) || !password) {
+    const { user, password } = req.body;
+    if ((!user) || !password) {
         res.status(400).json({ error: 'Missing required fields', success: false });
         return;
     } else {
         try {
-            const result = await db.loginUser(email, password);
+            const result = await db.loginUser(user, password);
             if (result.success) {
                 res.status(200).json({ message: 'User logged in successfully', jwt: result.jwt, success: result.success });
             } else {
-                res.status(400).json({ error: result.error, success: result.success });
+                res.status(400).json({ error: result.message, success: result.success });
             }
         } catch (error) {
             res.status(500).json({ error: JSON.parse(error) });
