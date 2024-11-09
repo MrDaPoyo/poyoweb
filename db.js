@@ -213,15 +213,17 @@ function insertFileInfo(fileID, updatedData) {
         SET
           fileName = COALESCE(?, fileName),
           fileLocation = COALESCE(?, fileLocation),
+          fileFullPath = COALESCE(?, fileFullPath),
           fileSize = COALESCE(?, fileSize),
           status = COALESCE(?, status),
           lastModifiedAt = CURRENT_TIMESTAMP
-        WHERE id = ?
+          WHERE id = ?
       `;
 
             const updateValues = [
                 updatedData.fileName || null,
                 updatedData.fileLocation || null,
+                updatedData.fileFullPath || null,
                 updatedData.fileSize || null,
                 updatedData.status || null,
                 fileID
@@ -237,13 +239,14 @@ function insertFileInfo(fileID, updatedData) {
         } else {
             // File doesn't exist, perform insert
             const insertQuery = `
-        INSERT INTO files (fileName, fileLocation, fileSize, status, createdAt, lastModifiedAt, userID)
-        VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?)
+        INSERT INTO files (fileName, fileLocation, fileFullPath, fileSize, status, createdAt, lastModifiedAt, userID)
+        VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?)
       `;
 
             const insertValues = [
                 updatedData.fileName,
                 updatedData.fileLocation,
+                updatedData.fileFullPath,
                 updatedData.fileSize || 0,
                 updatedData.status || 'active',
                 updatedData.userID  // Assuming you have userID in the updatedData
@@ -256,6 +259,21 @@ function insertFileInfo(fileID, updatedData) {
                 console.log(`Row inserted with ID: ${this.lastID}`);
             });
         }
+    });
+}
+
+function getAllFilesByUserId(userID) {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT * FROM files WHERE userID = ?`;
+
+        db.all(query, [userID], (err, rows) => {
+            if (err) {
+                console.error('Error retrieving files:', err.message);
+                reject(err);
+            }
+
+            resolve(rows);
+        });
     });
 }
 
@@ -428,6 +446,7 @@ module.exports = {
     removeFileByPath,
     removeFileByID,
     getAllUserNames,
+    getAllFilesByUserId,
     createApiKey,
     verifyApiKey,
     createUser,

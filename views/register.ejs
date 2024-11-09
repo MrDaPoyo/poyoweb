@@ -72,15 +72,40 @@
             </div>
             <button type="submit">Login</button>
         </form>
-        <h2>Upload File</h2>
+        <h2>File Management</h2>
         <input type="text" id="dir" name="dir" placeholder="Directory">
         <input type="text" id="apiKey" name="apiKey" placeholder="API Key">
+        <h2>Read Files</h2>
+        <ul id="fileList">
+        </ul>
+        <button id="refreshFileList">Refresh</button>
+        <script>
+            document.getElementById("refreshFileList").addEventListener("click", function() {
+                var fileList = document.getElementById("fileList");
+                while (fileList.firstChild) {
+                    fileList.removeChild(fileList.firstChild);
+                }
+                var apiKey = document.getElementById("apiKey").value;
+                fetch("/file?apiKey=" + apiKey)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        data.forEach(file => {
+                            var li = document.createElement("li");
+                            li.textContent = file;
+                            fileList.appendChild(li);
+                        });
+                    });
+            });
+        </script>
+        <h2>Upload File</h2>
         <form action="/file/upload" class="dropzone" method="POST"></form>
         <script>
             Dropzone.autoDiscover = false;
             var myDropzone = new Dropzone(".dropzone", {
                 paramName: "file",
                 maxFilesize: 400, // MB
+                uploadMultiple: false,
                 dictDefaultMessage: "Drag and drop files here or click to upload",
                 init: function() {
                     this.on("sending", function(file, xhr, formData) {

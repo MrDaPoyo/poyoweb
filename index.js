@@ -67,11 +67,14 @@ const storage = multer.diskStorage({
     destination: async function (req, file, cb) {
         const { apiKey, dir } = req.body;
 
-        // Sanitize dir to prevent directory traversal
-        const sanitizedDir = path.normalize(dir || '').replace(/^(\.\.(\/|\\|$))+/, '');
         try {
+            // Sanitize dir to prevent directory traversal
+            const sanitizedDir = path.normalize(dir || '').replace(/^(\.\.(\/|\\|$))+/, '');
             const username = (await db.findUserById(await jwt.verify(apiKey, process.env.AUTH_SECRET).id)).username;
+            
             fs.ensureDirSync(path.join(__dirname, 'websites/users', username, sanitizedDir));
+            
+            req.body.file = file;
             cb(null, path.join(__dirname, 'websites/users', username, sanitizedDir));
         } catch (error) {
             req.res.status(401).json({ error: 'Invalid API key', success: false });
@@ -84,17 +87,24 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.post('/file/upload', upload.any(), (req, res) => {
-    const { apiKey, file } = req.body;
+app.post('/file/upload', upload.single("file"), (req, res) => {
+    var { apiKey, file, dir } = req.body;
+    dir = dir || '';
+    dir = dir.replace(/^(\.\.(\/|\\|$))+/, '');
     jwt.verify(apiKey, process.env.AUTH_SECRET, async (err, decoded) => {
         if (err) {
             console.log(err);
             return res.status(401).json({ error: 'Invalid API key', success: false });
         } else if (file) {
+            const userDir = path.join(__dirname, 'websites/users', (await db.findUserById(decoded.id)).username, dir || '');
+            const filePath = path.join(userDir, file.originalname);
+            const fileSize = (await fs.stat(filePath)).size;
+
             const fileData = {
-                fileName: file.originalName,
-                fileLocation: file.path,
-                fileSize: file.size,
+                fileName: file.originalname,
+                fileLocation: filePath,
+                fileFullPath: filePath,
+                fileSize: fileSize,
                 status: 'active',
                 userID: decoded.id // Assuming the decoded token contains userID
             };
@@ -103,7 +113,20 @@ app.post('/file/upload', upload.any(), (req, res) => {
 
             res.status(200).json({ message: 'File uploaded successfully', file: file });
         } else {
-            res.status(400).json({ error: 'No file uploaded' });
+            res.status(400).json({ error: 'No file uploaded', success: false });
+        }
+    });
+});
+
+app.get('/file/', async (req, res) => {
+    const { apiKey, dir } = req.query;
+    jwt.verify(apiKey, process.env.AUTH_SECRET, async (err, decoded) => {
+        if (err) {
+            console.log(err);
+            return res.status(401).json({ error: 'Invalid API key', success: false });
+        } else {
+            const files = await db.getAllFilesByUserId(decoded.id);
+            res.status(200).json({ files: files });
         }
     });
 });
