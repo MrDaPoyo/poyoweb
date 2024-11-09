@@ -78,6 +78,45 @@ function createUser(username, email, password) {
     });
 }
 
+function loginUser(userEmailOrName, password) {
+    return new Promise((resolve, reject) => {
+        const email = userEmailOrName.includes('@') ? userEmailOrName : null;
+        if (!email) {
+            const query = `SELECT * FROM users WHERE username = ?`;
+            db.get(query, [userEmailOrName], async (err, row) => {
+                if (err) {
+                    reject(err);
+                } else if (!row) {
+                    resolve({ success: false, message: 'User not found' });
+                } else {
+                    const match = await bcrypt.compare(password, row.password);
+                    if (match) {
+                        resolve({ success: true, jwt: jwt.sign({ id: row.id }, process.env.AUTH_SECRET) });
+                    } else {
+                        resolve({ success: false, message: 'Incorrect password' });
+                    }
+                }
+            });
+        } else {
+            const query = `SELECT * FROM users WHERE email = ?`;
+            db.get(query, [email], async (err, row) => {
+                if (err) {
+                    reject(err);
+                } else if (!row) {
+                    resolve({ success: false, message: 'User not found' });
+                } else {
+                    const match = await bcrypt.compare(password, row.password);
+                    if (match) {
+                        resolve({ success: true, jwt: jwt.sign({ id: row.id }, process.env.AUTH_SECRET) });
+                    } else {
+                        resolve({ success: false, message: 'Incorrect password' });
+                    }
+                }
+            });
+        }
+    });
+}
+
 function addFile(fileName, fileLocation, userID, fileSize = 0, status = 'active') {
     return new Promise((resolve, reject) => {
         const query = `INSERT INTO files (fileName, fileLocation, userID, fileSize, status)
@@ -389,4 +428,5 @@ module.exports = {
 	verifyApiKey,    
     createUser,
     hashPassword,
+    loginUser
 };
