@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
     res.render("register");
 });
 
-app.post('/register', async (req, res) => {
+app.post('/auth/register', async (req, res) => {
     const { username, email, password } = req.body;
     if (!username || !email || !password) {
         res.status(400).json({ error: 'Missing required fields' });
@@ -44,7 +44,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.post('/login', async (req, res) => {
+app.post('/auth/login', async (req, res) => {
     const { user, password } = req.body;
     if ((!user) || !password) {
         res.status(400).json({ error: 'Missing required fields', success: false });
@@ -84,7 +84,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.post('/upload', upload.any(), (req, res) => {
+app.post('/file/upload', upload.any(), (req, res) => {
     const { apiKey, file } = req.body;
     jwt.verify(apiKey, process.env.AUTH_SECRET, async (err, decoded) => {
         if (err) {

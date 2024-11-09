@@ -41,7 +41,7 @@
     <h1>PoyoWeb Test Panel</h1>
     <div class="form-container">
         <h2>Register</h2>
-        <form action="/register" method="POST">
+        <form action="/auth/register" method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required>
@@ -61,7 +61,7 @@
             <button type="submit">Register</button>
         </form>
         <h2>Login</h2>
-        <form action="/login" method="POST">
+        <form action="/auth/login" method="POST">
             <div class="form-group">
                 <label for="username">Username or Email</label>
                 <input type="text" id="username" name="user" required>
@@ -75,7 +75,7 @@
         <h2>Upload File</h2>
         <input type="text" id="dir" name="dir" placeholder="Directory">
         <input type="text" id="apiKey" name="apiKey" placeholder="API Key">
-        <form action="/upload" class="dropzone" method="POST"></form>
+        <form action="/file/upload" class="dropzone" method="POST"></form>
         <script>
             Dropzone.autoDiscover = false;
             var myDropzone = new Dropzone(".dropzone", {
