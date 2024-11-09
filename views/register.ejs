@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,9 +13,11 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         input {
             width: 100%;
             padding: 8px;
@@ -22,6 +25,7 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
         button {
             width: 100%;
             padding: 10px;
@@ -31,12 +35,16 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #45a049;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js" integrity="sha512-U2WE1ktpMTuRBPoCFDzomoIorbOyUv0sP8B+INA3EzNAhehbzED1rOJg6bCqPf/Tuposxb5ja/MAUnC8THSbLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"
+        integrity="sha512-U2WE1ktpMTuRBPoCFDzomoIorbOyUv0sP8B+INA3EzNAhehbzED1rOJg6bCqPf/Tuposxb5ja/MAUnC8THSbLQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
+
 <body>
     <h1>PoyoWeb Test Panel</h1>
     <div class="form-container">
@@ -80,7 +88,7 @@
         </ul>
         <button id="refreshFileList">Refresh</button>
         <script>
-            document.getElementById("refreshFileList").addEventListener("click", function() {
+            document.getElementById("refreshFileList").addEventListener("click", function () {
                 var fileList = document.getElementById("fileList");
                 while (fileList.firstChild) {
                     fileList.removeChild(fileList.firstChild);
@@ -90,9 +98,9 @@
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
-                        data.forEach(file => {
+                        data.files.forEach(file => {
                             var li = document.createElement("li");
-                            li.textContent = file;
+                            li.textContent = file.fileName + " (" + file.fileSize + " bytes)";
                             fileList.appendChild(li);
                         });
                     });
@@ -107,17 +115,17 @@
                 maxFilesize: 400, // MB
                 uploadMultiple: false,
                 dictDefaultMessage: "Drag and drop files here or click to upload",
-                init: function() {
-                    this.on("sending", function(file, xhr, formData) {
+                init: function () {
+                    this.on("sending", function (file, xhr, formData) {
                         var dir = document.getElementById("dir").value;
                         var apiKey = document.getElementById("apiKey").value;
                         formData.append("dir", dir);
                         formData.append("apiKey", apiKey);
                     });
-                    this.on("success", function(file, response) {
+                    this.on("success", function (file, response) {
                         console.log("File uploaded successfully");
                     });
-                    this.on("error", function(file, response) {
+                    this.on("error", function (file, response) {
                         console.error("File upload error");
                     });
                 }
@@ -125,4 +133,5 @@
         </script>
     </div>
 </body>
+
 </html>
