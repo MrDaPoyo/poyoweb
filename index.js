@@ -11,30 +11,26 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
-
 app.post('/register', async (req, res) => {
     const { username, email, password } = req.body;
     if (!username || !email || !password) {
         res.status(400).json({ error: 'Missing required fields' });
         return;
-    } else if (password.length < 8) {
+    } else if (password.length > 8) {
         try {
             const hashedPassword = await db.hashPassword(password);
             const result = await db.createUser(username, email, await hashedPassword);
 
             if (result.success) {
-                res.status(201).json({ message: 'User registered successfully', result });
+                res.status(201).json({ message: 'User registered successfully', jwt: result.jwt, success: result.success });
             } else {
-                res.status(400).json({ error: result.error });
+                res.status(400).json({ error: result.error, success: result.success });
             }
         } catch (error) {
             res.status(500).json({ error: JSON.parse(error) });
         }
     } else {
-        res.status(400).json({ error: 'Password must be at least 8 characters long' });
+        res.status(400).json({ error: 'Password must be at least 8 characters long', success: false});
     }
 });
 
