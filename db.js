@@ -2,6 +2,9 @@ const sqlite3 = require('sqlite3').verbose();
 const { on } = require('events');
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 // Create a new database file if it doesn't exist
 const db = new sqlite3.Database('./poyoweb.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
@@ -50,33 +53,30 @@ function setupDB() {
 
 setupDB();
 
-//const getUserIDByName = (userName, callback) => {
-//  const selectQuery = `SELECT id FROM users WHERE username = ? LIMIT 1;`;
-//
-//  db.get(selectQuery, [userName], (err, row) => {
-//    if (err) {
-//      console.error('Error retrieving userID:', err.message);
-//      return;
-//    }
-//
-//if (row) {
-//  console.log(`UserID for "${userName}":`, row.id);
-//  } else {
-//      console.log(`No user found with the name "${userName}".`);
-//    }
-//  });
-//};
-function getUserIDByName(username) {
+function hashPassword(password) {
     return new Promise((resolve, reject) => {
-        db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
+        bcrypt.hash(password, 10, (err, hash) => {
             if (err) {
                 reject(err);
             }
-            resolve(row.id);
-        })
+            resolve(hash);
+        });
     });
 }
 
+function createUser(username, email, password) {
+    return new Promise((resolve, reject) => {
+        const query = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
+        db.run(query, [username, email, password], function (err) {
+            if (err) {
+                resolve({ success: false, message: err.message });
+            } else {
+                const userId = this.lastID;
+                resolve({ success: true, jwt: jwt.sign({ id: userId }, process.env.AUTH_SECRET) });
+            }
+        });
+    });
+}
 
 function addFile(fileName, fileLocation, userID, fileSize = 0, status = 'active') {
     return new Promise((resolve, reject) => {
@@ -381,11 +381,12 @@ module.exports = {
     addSizeByWebsiteName, // Updated function export
     db,
 	insertFileInfo,
-	getUserIDByName,
 	getFileIDByPath,
 	removeFileByPath,
 	removeFileByID,
 	getAllUserNames,
 	createApiKey,
 	verifyApiKey,    
+    createUser,
+    hashPassword,
 };
