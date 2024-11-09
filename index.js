@@ -91,7 +91,6 @@ app.post('/file/upload', upload.any(), (req, res) => {
             console.log(err);
             return res.status(401).json({ error: 'Invalid API key', success: false });
         } else if (file) {
-            console.log(file);
             const fileData = {
                 fileName: file.originalName,
                 fileLocation: file.path,

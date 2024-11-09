@@ -132,7 +132,7 @@ function findUserById(id) {
             resolve(row);
         });
     });
-} 
+}
 
 function findUserByEmail(email) {
     return new Promise((resolve, reject) => {
@@ -200,15 +200,15 @@ function getTotalSizeByWebsiteName(name) {
 }
 
 function insertFileInfo(fileID, updatedData) {
-  const selectQuery = `SELECT id FROM files WHERE id = ?`;
+    const selectQuery = `SELECT id FROM files WHERE id = ?`;
 
-  db.get(selectQuery, [fileID], async (err, row) => {
-    if (err) {
-      return console.error(err.message);
-    }
-    if (await row) {
-      // File exists, perform update
-      const updateQuery = `
+    db.get(selectQuery, [fileID], async (err, row) => {
+        if (err) {
+            return console.error(err.message);
+        }
+        if (await row) {
+            // File exists, perform update
+            const updateQuery = `
         UPDATE files
         SET
           fileName = COALESCE(?, fileName),
@@ -219,44 +219,44 @@ function insertFileInfo(fileID, updatedData) {
         WHERE id = ?
       `;
 
-      const updateValues = [
-        updatedData.fileName || null,
-        updatedData.fileLocation || null,
-        updatedData.fileSize || null,
-        updatedData.status || null,
-        fileID
-      ];
+            const updateValues = [
+                updatedData.fileName || null,
+                updatedData.fileLocation || null,
+                updatedData.fileSize || null,
+                updatedData.status || null,
+                fileID
+            ];
 
-      db.run(updateQuery, updateValues, function (err) {
-        if (err) {
-          return console.error(err.message);
-        }
-        console.log(`Row(s) updated: ${this.changes}`);
-      });
+            db.run(updateQuery, updateValues, function (err) {
+                if (err) {
+                    return console.error(err.message);
+                }
+                console.log(`Row(s) updated: ${this.changes}`);
+            });
 
-    } else {
-      // File doesn't exist, perform insert
-      const insertQuery = `
+        } else {
+            // File doesn't exist, perform insert
+            const insertQuery = `
         INSERT INTO files (fileName, fileLocation, fileSize, status, createdAt, lastModifiedAt, userID)
         VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?)
       `;
 
-      const insertValues = [
-        updatedData.fileName,
-        updatedData.fileLocation,
-        updatedData.fileSize || 0,
-        updatedData.status || 'active',
-        updatedData.userID  // Assuming you have userID in the updatedData
-      ];
+            const insertValues = [
+                updatedData.fileName,
+                updatedData.fileLocation,
+                updatedData.fileSize || 0,
+                updatedData.status || 'active',
+                updatedData.userID  // Assuming you have userID in the updatedData
+            ];
 
-      db.run(insertQuery, insertValues, function (err) {
-        if (err) {
-          return console.error(err.message);
+            db.run(insertQuery, insertValues, function (err) {
+                if (err) {
+                    return console.error(err.message);
+                }
+                console.log(`Row inserted with ID: ${this.lastID}`);
+            });
         }
-        console.log(`Row inserted with ID: ${this.lastID}`);
-      });
-    }
-  });
+    });
 }
 
 function getFileIDByPath(filePath) {
@@ -323,36 +323,35 @@ function removeFileByID(fileID) {
 
 
 function getAllUserNames() {
-  return new Promise((resolve, reject) => {
-    const query = 'SELECT id, username FROM users WHERE username IS NOT NULL';
+    return new Promise((resolve, reject) => {
+        const query = 'SELECT id, username FROM users WHERE username IS NOT NULL';
 
-    db.all(query, [], (err, rows) => {
-      if (err) {
-        console.error('Error executing query:', err.message);
-        reject(err);
-      } else {
-        const names = rows.map(row => (//{  id: row.id, 
- row.username //}
- ));
-        resolve(names);
-      }
+        db.all(query, [], (err, rows) => {
+            if (err) {
+                console.error('Error executing query:', err.message);
+                reject(err);
+            } else {
+                const names = rows.map(row => (//{  id: row.id, 
+                    row.username //}
+                ));
+                resolve(names);
+            }
+        });
     });
-  });
 }
 
 function getWebsiteByDomain(domain) {
     return new Promise((resolve, reject) => {
         db.get('SELECT * FROM websites WHERE domain = ?', [domain], (err, row) => {
             if (err) {
-            	var no = false;
+                var no = false;
                 resolve(no);
             } else {
-            	if (row) {
-            		var result = {};
-            		resolve({name: row.name, views: row.views, size: row.totalSize, tier: row.tier});
-            	} else {
-            		resolve(false);
-            	}
+                if (row) {
+                    resolve({ name: row.name, views: row.views, size: row.totalSize, tier: row.tier });
+                } else {
+                    resolve(false);
+                }
             }
         })
     });
@@ -360,7 +359,7 @@ function getWebsiteByDomain(domain) {
 
 function createApiKey(username) {
     if (!username) {
-    	console.log("Failed to create API Key: Missing Username");
+        console.log("Failed to create API Key: Missing Username");
         return false;
     }
 
@@ -387,7 +386,7 @@ async function verifyApiKey(apiKey) {
     if (apiKey) {
         try {
             const decoded = await jwt.verify(apiKey, process.env.TOKEN_KEY);
-            
+
             if (await decoded) {
                 return await decoded;
             } else {
@@ -420,17 +419,17 @@ module.exports = {
     isUserVerifiedById,
     addView,
     retrieveViews,
-	getWebsiteByDomain,   	
+    getWebsiteByDomain,
     getTotalSizeByWebsiteName, // Updated function export
     addSizeByWebsiteName, // Updated function export
     db,
-	insertFileInfo,
-	getFileIDByPath,
-	removeFileByPath,
-	removeFileByID,
-	getAllUserNames,
-	createApiKey,
-	verifyApiKey,    
+    insertFileInfo,
+    getFileIDByPath,
+    removeFileByPath,
+    removeFileByID,
+    getAllUserNames,
+    createApiKey,
+    verifyApiKey,
     createUser,
     hashPassword,
     loginUser
