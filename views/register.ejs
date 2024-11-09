@@ -35,6 +35,7 @@
             background-color: #45a049;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js" integrity="sha512-U2WE1ktpMTuRBPoCFDzomoIorbOyUv0sP8B+INA3EzNAhehbzED1rOJg6bCqPf/Tuposxb5ja/MAUnC8THSbLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <div class="form-container">
@@ -58,6 +59,7 @@
             </div>
             <button type="submit">Register</button>
         </form>
+        <h2>Login</h2>
         <form action="/login" method="POST">
             <div class="form-group">
                 <label for="username">Username or Email</label>
@@ -69,6 +71,32 @@
             </div>
             <button type="submit">Login</button>
         </form>
+        <h2>Upload File</h2>
+        <input type="text" id="dir" name="dir" placeholder="Directory">
+        <input type="text" id="apiKey" name="apiKey" placeholder="API Key">
+        <form action="/upload" class="dropzone" method="POST"></form>
+        <script>
+            Dropzone.autoDiscover = false;
+            var myDropzone = new Dropzone(".dropzone", {
+                paramName: "file",
+                maxFilesize: 400, // MB
+                dictDefaultMessage: "Drag and drop files here or click to upload",
+                init: function() {
+                    this.on("sending", function(file, xhr, formData) {
+                        var dir = document.getElementById("dir").value;
+                        var apiKey = document.getElementById("apiKey").value;
+                        formData.append("dir", dir);
+                        formData.append("apiKey", apiKey);
+                    });
+                    this.on("success", function(file, response) {
+                        console.log("File uploaded successfully");
+                    });
+                    this.on("error", function(file, response) {
+                        console.error("File upload error");
+                    });
+                }
+            });
+        </script>
     </div>
 </body>
 </html>

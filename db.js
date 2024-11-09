@@ -117,29 +117,22 @@ function loginUser(userEmailOrName, password) {
     });
 }
 
-function addFile(fileName, fileLocation, userID, fileSize = 0, status = 'active') {
-    return new Promise((resolve, reject) => {
-        const query = `INSERT INTO files (fileName, fileLocation, userID, fileSize, status)
-                       VALUES (?, ?, ?, ?, ?)`;
-
-        db.run(query, [fileName, fileLocation, userID, fileSize, status], function (err) {
-            if (err) {
-                console.error('Error inserting file:', err.message);
-                reject(err);
-            } else {
-                console.log(`File added with ID: ${this.lastID}`);
-
-                resolve(this.lastID);  // Return the ID of the inserted file
-            }
-        });
-    });
-}
-
 function readUsers() {
     db.all('SELECT * FROM users', async (err, rows) => {
         return rows;
     });
 }
+
+function findUserById(id) {
+    return new Promise((resolve, reject) => {
+        db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(row);
+        });
+    });
+} 
 
 function findUserByEmail(email) {
     return new Promise((resolve, reject) => {
@@ -149,6 +142,17 @@ function findUserByEmail(email) {
             }
             resolve(row)
         })
+    });
+}
+
+function findUserByUsername(username) {
+    return new Promise((resolve, reject) => {
+        db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(row);
+        });
     });
 }
 
@@ -409,9 +413,10 @@ function closeDB() {
 
 module.exports = {
     setupDB,
-    addFile,
     readUsers,
     findUserByEmail,
+    findUserByUsername,
+    findUserById,
     isUserVerifiedById,
     addView,
     retrieveViews,

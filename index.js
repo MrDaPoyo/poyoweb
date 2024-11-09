@@ -1,7 +1,12 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const db = require('./db');
+const path = require('path');
+const fs = require('fs-extra')
 const multer = require('multer');
 require('dotenv').config();
+
+db.setupDB();
 
 const app = express();
 const port = 3000;
@@ -35,7 +40,7 @@ app.post('/register', async (req, res) => {
             res.status(500).json({ error: error });
         }
     } else {
-        res.status(400).json({ error: 'Password must be at least 8 characters long', success: false});
+        res.status(400).json({ error: 'Password must be at least 8 characters long', success: false });
     }
 });
 
@@ -58,7 +63,43 @@ app.post('/login', async (req, res) => {
     }
 });
 
+const storage = multer.diskStorage({
+    destination: async function (req, file, cb) {
+        const { apiKey, dir } = req.body;
+        fs.ensureDirSync(path.join(__dirname, 'websites/users', (await db.findUserById(await jwt.verify(apiKey, process.env.AUTH_SECRET).id)).username, dir || ''));
+        cb(null, path.join(__dirname, 'websites/users', (await db.findUserById(await jwt.verify(apiKey, process.env.AUTH_SECRET).id)).username, dir || ''));
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
 
+const upload = multer({ storage: storage });
+
+app.post('/upload', upload.any(), (req, res) => {
+    const { apiKey, file } = req.body;
+    jwt.verify(apiKey, process.env.AUTH_SECRET, async (err, decoded) => {
+        if (err) {
+            console.log(err);
+            return res.status(401).json({ error: 'Invalid API key', success: false });
+        } else if (file) {
+            console.log(file);
+            const fileData = {
+                fileName: file.originalName,
+                fileLocation: file.path,
+                fileSize: file.size,
+                status: 'active',
+                userID: decoded.id // Assuming the decoded token contains userID
+            };
+
+            db.insertFileInfo(file.filename, fileData);
+
+            res.status(200).json({ message: 'File uploaded successfully', file: file });
+        } else {
+            res.status(400).json({ error: 'No file uploaded' });
+        }
+    });
+});
 
 // Start the server
 app.listen(port, () => {
