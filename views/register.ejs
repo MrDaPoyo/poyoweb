@@ -82,7 +82,7 @@
         </form>
         <h2>File Management</h2>
         <input type="text" id="dir" name="dir" placeholder="Directory">
-        <input type="text" id="apiKey" name="apiKey" placeholder="API Key">
+        <input type="text" id="apiKey" name="apiKey" placeholder="API Key" required>
         <h2>Read Files</h2>
         <ul id="fileList">
         </ul>
@@ -93,9 +93,7 @@
                 while (fileList.firstChild) {
                     fileList.removeChild(fileList.firstChild);
                 }
-                var apiKey = document.getElementById("apiKey").value;
-                var dir = document.getElementById("dir").value;
-                fetch("/file?apiKey=" + apiKey + "&dir=" + dir)
+                fetch("/file?apiKey=" + document.getElementById("apiKey").value + "&dir=" + document.getElementById("dir").value)
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
@@ -111,7 +109,7 @@
                                             "Content-Type": "application/json"
                                         },
                                         body: JSON.stringify({
-                                            apiKey: apiKey,
+                                            apiKey: document.getElementById("apiKey").value,
                                             file: file.cleanPath
                                         })
                                     })
@@ -127,6 +125,33 @@
                             fileList.appendChild(li);
                         });
                     });
+            });
+        </script>
+        <h2>Rename File</h2>
+            <input type="text" id="oldName" name="file" placeholder="File Path">
+            <input type="text" id="newName" name="newName" placeholder="New Name">
+            <button type="submit" id="renameFileSubmit">Rename</button>
+        <script>
+            var RenameSubmitButton = document.getElementById("renameFileSubmit");
+            RenameSubmitButton.addEventListener("click", function () {;
+                fetch("/file/renameByPath", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        apiKey: document.getElementById("apiKey").value,
+                        file: document.getElementById("oldName").value,
+                        newName: document.getElementById("newName").value
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        document.getElementById("refreshFileList").click();
+                    }
+                });
             });
         </script>
         <h2>Upload File</h2>

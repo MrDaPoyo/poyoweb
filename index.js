@@ -138,6 +138,25 @@ app.post('/file/upload', upload.single("file"), async (req, res) => {
     }
 });
 
+app.post('/file/renameByPath', async (req, res) => {
+    const { apiKey, file, newName } = req.body;
+    console.log(apiKey);
+    var user = await verifyApiKey(apiKey);
+    console.log(await user);
+    if (!await user) {
+        return res.status(401).json({ error: 'Invalid API key' });
+    } else {
+        var filePath = path.join(await user.username, file);
+        var newFilePath = path.join(await user.username, newName);
+        if (!fs.existsSync(path.join('websites/users', filePath))) {
+            return res.status(404).json({ error: 'File not found', success: false });
+        }
+        db.insertFileInfo(db.getFileIDByPath(filePath), { fileLocation: newFilePath, fileName: newName, fileFullPath: path.join('websites/users', newFilePath), userID: await user.id });
+        fs.rename(path.join('websites/users', filePath), path.join('websites/users', newFilePath));
+        return res.status(200).json({ message: 'File renamed successfully', success: true });
+    }
+});
+
 app.post('/file/removeByPath', async (req, res) => {
     const { apiKey, file } = req.body;
 
