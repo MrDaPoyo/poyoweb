@@ -12,6 +12,7 @@ const port = 8080;
 const checkAuthMiddleware = (req, res, next) => {
   const token = req.cookies.auth;
   req.jwt = token;
+  res.locals.jwt = token;
 
   if (!token) {
     res.locals.loggedIn = false;
