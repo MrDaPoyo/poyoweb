@@ -45,7 +45,7 @@ app.post('/auth/login', async (req, res) => {
             const data = text ? JSON.parse(text) : {};
             if (data.success) {
                 res.cookie('auth', data.jwt, { httpOnly: true });
-                res.status(200).json({ message: 'User logged in successfully', jwt: data.jwt, success: data.success });
+                res.redirect("index", { message: 'User logged in successfully', success: data.success });
             } else {
                 res.clearCookie('auth');
                 res.render('login', { message: data.error, title: 'Login' });
@@ -78,7 +78,7 @@ app.post('/auth/register', (req, res) => {
         .then(data => {
             if (data.success) {
                 res.cookie('auth', data.jwt, { httpOnly: true });
-                res.render("index", { message: data.message, title: 'Home' });
+                res.redirect("index", { message: data.message, title: 'Home' });
             } else {
                 res.status(400).json({ error: data.error, success: data.success });
             }
