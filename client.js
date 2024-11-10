@@ -149,7 +149,7 @@ app.get("/dashboard", async (req, res) => {
     .then((data) => {
       res.render("dashboard", {
         title: "Dashboard",
-        files: JSON.stringify(data),
+        files: JSON.parse(data),
       });
     })
     .catch((error) => {

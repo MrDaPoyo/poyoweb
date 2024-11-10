@@ -202,11 +202,15 @@ app.get('/file/', async (req, res) => {
             if (dir) {
                 directory = path.join(directory, dir);
             }
+            directory = directory.replace(/^(\.\.(\/|\\|$))+/, '');
             try {
+                if (!fs.existsSync(directory)) {
+                    return res.status(404).json({ error: 'Directory not found' });
+                }
                 const files = await dirWalker(path.join(__dirname, 'websites/users', await username), directory);
                 res.status(200).json({ files });
             } catch (error) {
-                res.status(500).json({ error: 'Path not found' + error });
+                res.status(500).json({ error: 'Path not found: ' + error });
             }
         } else {
             res.status(404).json({ error: 'User not found' });
