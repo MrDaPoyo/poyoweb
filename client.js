@@ -18,6 +18,7 @@ app.use(express.static('public'));
 
 const notLoggedInMiddleware = (req, res, next) => {
     const token = req.cookies.auth;
+    res.locals.user = true;
     if (!token) {
         res.locals.loggedIn = false;
         next();
