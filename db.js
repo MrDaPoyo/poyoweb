@@ -90,13 +90,13 @@ function loginUser(userEmailOrName, password) {
                 if (err) {
                     reject(err);
                 } else if (!row) {
-                    resolve({ success: false, message: 'User not found' });
+                    resolve({ success: false, message: 'Invalid Credentials' });
                 } else {
                     const match = await bcrypt.compare(password, row.password);
                     if (match) {
                         resolve({ success: true, jwt: jwt.sign({ id: row.id }, process.env.AUTH_SECRET) });
                     } else {
-                        resolve({ success: false, message: 'Incorrect password' });
+                        resolve({ success: false, message: 'Invalid Credentials' });
                     }
                 }
             });
