@@ -71,9 +71,9 @@ const storage = multer.diskStorage({
             // Sanitize dir to prevent directory traversal
             const sanitizedDir = path.normalize(dir || '').replace(/^(\.\.(\/|\\|$))+/, '');
             const username = (await db.findUserById(await jwt.verify(apiKey, process.env.AUTH_SECRET).id)).username;
-            
+
             fs.ensureDirSync(path.join(__dirname, 'websites/users', username, sanitizedDir));
-            
+
             req.body.file = file;
             cb(null, path.join(__dirname, 'websites/users', username, sanitizedDir));
         } catch (error) {
@@ -123,13 +123,13 @@ app.post('/file/removeByPath', async (req, res) => {
 
     try {
         // Verify API key
-        const user = await verifyApiKey(apiKey);
+        const user = await db.verifyApiKey(apiKey);
         if (!user) {
             return res.status(401).json({ error: 'Invalid API key' });
         }
 
         // Get file ID by path
-        const fileID = await getFileIDByPath(file);
+        const fileID = await db.getFileIDByPath(file);
         if (!fileID) {
             return res.status(404).json({ error: 'File not found' });
         }
@@ -151,7 +151,28 @@ app.post('/file/removeByPath', async (req, res) => {
 
 app.get('/file/', async (req, res) => {
     const { apiKey, dir } = req.query;
-    
+    var user = jwt.verify(apiKey, process.env.AUTH_SECRET);
+    var userId = await user.id;
+    if (!userId) {
+        return res.status(401).json({ error: 'Invalid API key' });
+    } else {
+        user = await db.findUserById(userId);
+        var username = user.username;
+        if (username) {
+            var directory = path.join(__dirname, 'websites/users', username);
+            if (dir) {
+                directory = path.join(directory, dir);
+            }
+            try {
+                const files = await fs.readdir(directory);
+                res.status(200).json({ files });
+            } catch (error) {
+                res.status(500).json({ error: 'Path not found' });
+            }
+        } else {
+            res.status(404).json({ error: 'User not found' });
+        }
+    }
 });
 
 // Start the server

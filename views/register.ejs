@@ -94,13 +94,14 @@
                     fileList.removeChild(fileList.firstChild);
                 }
                 var apiKey = document.getElementById("apiKey").value;
-                fetch("/file?apiKey=" + apiKey)
+                var dir = document.getElementById("dir").value;
+                fetch("/file?apiKey=" + apiKey + "&dir=" + dir)
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
                         data.files.forEach(file => {
                             var li = document.createElement("li");
-                            li.textContent = file.fileName + " (" + file.fileSize + " bytes)";
+                            li.textContent = file;
                             fileList.appendChild(li);
                         });
                     });
