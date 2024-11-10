@@ -29,7 +29,7 @@ const notLoggedInMiddleware = (req, res, next) => {
             } else if (decoded) {
                 console.log('Decoded:', decoded);
                 res.locals.loggedIn = true;
-                res.status(401).json({ error: 'Log Off to access this page' });
+                res.redirect('/');
             } else {
                 res.locals.loggedIn = false;
                 next();
