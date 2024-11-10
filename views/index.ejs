@@ -1,5 +1,6 @@
 <%- include('header.ejs') %> 
 <% if (locals.loggedIn) { %>
+	<a href="/dashboard">Dashboard</a>
     <a href="/auth/logout">Logout</a>
 <% } else { %>
     <a href="/auth/login">Login</a>
