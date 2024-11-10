@@ -18,16 +18,20 @@ app.use(express.static('public'));
 
 const notLoggedInMiddleware = (req, res, next) => {
     const token = req.cookies.auth;
-    console.log('Token: ', token);
     if (!token) {
-        return next();
+        res.locals.loggedIn = false;
+        next();
     } else {
         jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
             if (err) {
-                return next();
+                res.locals.loggedIn = false;
+                next();
             } else if (decoded) {
-                return res.status(401).json({ error: 'Log Off to access this page' });
+                console.log('Decoded:', decoded);
+                res.locals.loggedIn = true;
+                res.status(401).json({ error: 'Log Off to access this page' });
             } else {
+                res.locals.loggedIn = false;
                 next();
             }
         });
