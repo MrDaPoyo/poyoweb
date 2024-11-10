@@ -19,19 +19,19 @@ app.use(express.static('public'));
 const notLoggedInMiddleware = (req, res, next) => {
     const token = req.cookies.auth;
     if (!token) {
-        res.locals.loggedIn = false;
+        req.loggedIn = false;
         next();
     } else {
         jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
             if (err) {
-                res.locals.loggedIn = false;
+                req.loggedIn = false;
                 next();
             } else if (decoded) {
-                res.locals.loggedIn = true;
-                res.locals.user = { id: decoded.id };
+                req.loggedIn = true;
+                req.user = { id: decoded.id };
                 next();
             } else {
-                res.locals.loggedIn = false;
+                req.loggedIn = false;
                 next();
             }
         });
