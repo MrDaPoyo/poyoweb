@@ -117,7 +117,7 @@ app.post('/file/upload', upload.single("file"), async (req, res) => {
         const fileSize = (await fs.stat(filePath)).size;
         var totalSize = await db.getTotalSizeByWebsiteName(await user.username) + fileSize;
         var fileID = db.getFileIDByPath(filePath) || null;
-        if (await totalSize < process.env.USER_MAX_SIZE) {
+        if (await totalSize < (process.env.USER_MAX_SIZE || 524288000)) {
             const fileData = {
                 fileName: file.originalname,
                 fileLocation: path.join(dir, file.originalname),
