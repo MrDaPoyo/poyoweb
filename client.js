@@ -10,26 +10,24 @@ const app = express();
 const port = 8080;
 
 
-const isUserLoggedInMiddleware = (req, res, next) => {
+const checkAuthMiddleware = (req, res, next) => {
     const token = req.cookies.auth;
+
     if (!token) {
         res.locals.loggedIn = false;
-        return res.redirect('/auth/login');
-    } else {
-        jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
-            if (err) {
-                res.loggedIn = false;
-                cookies.clearCookie('auth');
-            } else if (decoded) {
-                res.loggedIn = true;
-                user = { id: decoded.id };
-            } else {
-                res.loggedIn = false;
-            }
-        });
-        next();
+        return next();
     }
-}
+
+    jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
+        if (err) {
+            res.locals.loggedIn = false;
+        } else {
+            res.locals.loggedIn = true;
+            res.locals.user = { id: decoded.id };
+        }
+        next();
+    });
+};
 
 const notLoggedInMiddleware = (req, res, next) => {
     const token = req.cookies.auth;
@@ -54,7 +52,7 @@ const notLoggedInMiddleware = (req, res, next) => {
 };
 
 app.use(cookieParser());
-app.use(isUserLoggedInMiddleware)
+app.use(checkAuthMiddleware);
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
