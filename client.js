@@ -142,6 +142,10 @@ app.post('/auth/register', notLoggedInMiddleware, (req, res) => {
     }
 });
 
+app.get("/dashboard", (req, res) => {
+	res.render("dashboard", {title: "Dashboard"});
+})
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
