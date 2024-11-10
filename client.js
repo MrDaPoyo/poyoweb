@@ -149,6 +149,7 @@ app.get("/dashboard", async (req, res) => {
       res.render("dashboard", {
         title: "Dashboard",
         files: JSON.stringify(data),
+        jwt: req.jwt,
       });
     })
     .catch((error) => {
