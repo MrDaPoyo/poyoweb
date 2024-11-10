@@ -12,6 +12,7 @@ const port = 8080;
 
 const checkAuthMiddleware = (req, res, next) => {
     const token = req.cookies.auth;
+    req.jwt = token;
 
     if (!token) {
         res.locals.loggedIn = false;
@@ -64,6 +65,39 @@ app.get('/', (req, res) => {
     res.render('index', { title: 'Home' });
 });
 
+app.post('/auth/register', notLoggedInMiddleware, (req, res) => {
+    const { username, password, email } = req.body;
+    if ((!username) || !password || !email) {
+        res.status(400).json({ error: 'Missing required fields', success: false });
+        return;
+    } else {
+        fetch(process.env.API_URL + 'auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+                email: email
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    res.cookie('auth', data.jwt, { httpOnly: true });
+                    res.redirect("index", { message: data.message, title: 'Home' });
+                } else {
+                    res.status(400).json({ error: data.error, success: data.success });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                res.status(500).json({ error: 'An error occurred; ' + error });
+            });
+    }
+});
+
 app.get('/auth/login', notLoggedInMiddleware, (req, res) => {
     res.render('login', { title: 'Login' });
 });
@@ -109,41 +143,10 @@ app.get('/auth/logout', (req, res) => {
     res.redirect('/');
 });
 
-app.post('/auth/register', notLoggedInMiddleware, (req, res) => {
-    const { username, password, email } = req.body;
-    if ((!username) || !password || !email) {
-        res.status(400).json({ error: 'Missing required fields', success: false });
-        return;
-    } else {
-        fetch(process.env.API_URL + 'auth/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password,
-                email: email
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    res.cookie('auth', data.jwt, { httpOnly: true });
-                    res.redirect("index", { message: data.message, title: 'Home' });
-                } else {
-                    res.status(400).json({ error: data.error, success: data.success });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                res.status(500).json({ error: 'An error occurred; ' + error });
-            });
-    }
-});
-
 app.get("/dashboard", (req, res) => {
-	res.render("dashboard", {title: "Dashboard"});
+    var data = fetch(`${process.env.API_URL}file?jwt=${req.jwt}&dir=${req.query.dir}`);
+    data = JSON.parse(data);
+	res.render("dashboard", {title: "Dashboard", files: data});
 })
 
 app.listen(port, () => {
