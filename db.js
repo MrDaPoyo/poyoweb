@@ -66,25 +66,17 @@ function hashPassword(password) {
 
 function createUser(username, email, password) {
     return new Promise((resolve, reject) => {
-        var userName = username;
         const query = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
+
         db.run(query, [username, email, password], function (err) {
             if (err) {
-                resolve({ success: false, message: err.message });
-            } else {
-                try {
-                    const userId = this.lastID;
-                    createWebsite({
-                        userID: userId,
-                        name: userName,
-                        domain: `${username}.${process.env.URL_SUFFIX}`,
-                        tier: '1'
-                    });
-                    resolve({ success: true, jwt: jwt.sign({ id: userId }, process.env.AUTH_SECRET) });
-                } catch (err) {
-                    resolve({ success: false, message: err.message });
-                }
+                return reject({ success: false, message: err.message });
             }
+
+            const userId = this.lastID;
+            createWebsite(userId, username, `${username}.${process.env.URL_SUFFIX}`, '1');
+            console.log(`User created with ID: ${userId}`);
+            resolve({ success: true, jwt: jwt.sign({ id: userId }, process.env.AUTH_SECRET) });
         });
     });
 }
