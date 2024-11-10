@@ -5,31 +5,15 @@ const fetch = require('node-fetch');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
-const userMiddleware = async (req, res, next) => {
-    const token = req.cookies.auth;
-    if (!token) {
-        return res.status(401).json({ error: 'You must log off to access this page.' });
-    }
-    try {
-        const response = await fetch(process.env.API_URL + 'user/data', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ jwt: token })
-        });
-        const data = await response.json();
-        if (data.success) {
-            req.user = data.user;
-            next();
-        } else {
-            res.status(400).json({ error: data.error });
-        }
-    } catch (error) {
-        console.log('Error:', error);
-        res.status(500).json({ error: 'An error occurred; ' + error });
-    }
-};
+const app = express();
+const port = 8080;
+
+app.use(cookieParser());
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 const notLoggedInMiddleware = (req, res, next) => {
     const token = req.cookies.auth;
@@ -41,16 +25,6 @@ const notLoggedInMiddleware = (req, res, next) => {
         }
     });
 }
-
-const app = express();
-const port = 8080;
-
-app.use(cookieParser());
-app.set('view engine', 'ejs');
-app.set('views', 'views');
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
 
 app.get('/', (req, res) => {
     res.render('index', { title: 'Home' });
@@ -94,7 +68,7 @@ app.post('/auth/login', notLoggedInMiddleware, async (req, res) => {
     }
 });
 
-app.get('/auth/logout', userMiddleware, (req, res) => {
+app.get('/auth/logout', (req, res) => {
     res.clearCookie('auth');
     res.redirect('/');
 });
