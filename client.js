@@ -22,7 +22,7 @@ const notLoggedInMiddleware = (req, res, next) => {
         res.locals.loggedIn = false;
         next();
     } else {
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
             if (err) {
                 res.locals.loggedIn = false;
                 next();
