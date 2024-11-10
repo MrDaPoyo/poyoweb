@@ -94,6 +94,7 @@ const storage = multer.diskStorage({
             fs.ensureDirSync(path.join(__dirname, 'websites/users', await username, sanitizedDir));
 
             req.body.file = file;
+            req.file = file;
             cb(null, path.join(__dirname, 'websites/users', await username, sanitizedDir));
         } catch (error) {
             req.res.status(401).json({ error: 'Invalid API key', success: false });
@@ -107,34 +108,49 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post('/file/upload', upload.single("file"), async (req, res) => {
-    var { apiKey, file, dir } = req.body;
+    var { apiKey, dir } = req.body;
+    var file = req.file;
     dir = dir || '';
     dir = dir.replace(/^(\.\.(\/|\\|$))+/, '');
     var user = await verifyApiKey(apiKey);
-    if (file) {
-        const userDir = path.join(__dirname, 'websites/users', await user.username, dir || '');
-        const filePath = path.join(userDir, file.originalname);
-        const fileSize = (await fs.stat(filePath)).size;
+    if (file && file.originalname && file.size) {
+        var fullPath = path.join(__dirname, 'websites/users', await user.username, dir || '');
+        var filePath = path.join(fullPath, file.originalname);
+        var resolvedPath = path.resolve(filePath);
+        userDir = path.resolve(path.join(__dirname, 'websites/users', await user.username));
+
+        if (!resolvedPath.startsWith(userDir)) {
+            return res.status(400).json({ error: 'Invalid file path', success: false });
+        }
+
+        const fileSize = (await fs.stat(fullPath)).size;
         var totalSize = await db.getTotalSizeByWebsiteName(await user.username) + fileSize;
-        var fileID = db.getFileIDByPath(filePath) || null;
+        var fileID = await db.getFileIDByPath(filePath);
+
         if (await totalSize < (process.env.USER_MAX_SIZE || 524288000)) {
             const fileData = {
                 fileName: file.originalname,
                 fileLocation: path.join(dir, file.originalname),
-                fileFullPath: filePath,
+                fileFullPath: fullPath,
                 fileSize: fileSize,
                 status: 'active',
                 userID: await user.id // Assuming the decoded token contains userID
             };
-            db.insertFileInfo(fileID, fileData);
-            db.setTotalSizeByWebsiteName(await db.findUserById(await user.id), await totalSize);
+            db.insertFileInfo(await fileID || null, fileData);
+            if (await fileID) {
+                const oldFileSize = (await fs.stat(filePath)).size;
+                totalSize = totalSize - oldFileSize;
+            }
+            db.setTotalSizeByWebsiteName(await user.username, await totalSize);
             res.status(200).json({ message: 'File uploaded successfully', file: file });
+            return;
         } else {
             res.status(400).json({ error: 'Not enough space for file', success: false });
-            console.log()
+            return;
         }
     } else {
-        res.status(400).json({ error: 'No file uploaded', success: false });
+        res.status(400).json({ error: 'No file uploaded, could be due to missing fields or a suspicious name', success: false });
+        return;
     }
 });
 
