@@ -88,7 +88,7 @@ app.post('/auth/register', (req, res) => {
                 res.status(500).json({ error: 'An error occurred; ' + error });
             });
     }
-}
+});
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
