@@ -68,9 +68,11 @@ app.post('/auth/login', notLoggedInMiddleware, async (req, res) => {
             const data = text ? JSON.parse(text) : {};
             if (data.success) {
                 res.cookie('auth', data.jwt, { httpOnly: true });
-                res.redirect("index", { message: 'User logged in successfully', success: data.success });
+                res.locals.loggedIn = true;
+                res.redirect("index");
             } else {
                 res.clearCookie('auth');
+                res.locals.loggedIn = false;
                 res.render('login', { message: data.error, title: 'Login' });
             }
         } catch (error) {
