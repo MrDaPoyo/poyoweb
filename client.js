@@ -78,7 +78,7 @@ app.post('/auth/register', (req, res) => {
         .then(data => {
             if (data.success) {
                 res.cookie('auth', data.jwt, { httpOnly: true });
-                res.status(200).json({ message: 'User registered successfully', success: data.success });
+                res.render("index", { message: data.message, title: 'Home' });
             } else {
                 res.status(400).json({ error: data.error, success: data.success });
             }
