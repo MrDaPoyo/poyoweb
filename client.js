@@ -5,8 +5,6 @@ const fetch = require('node-fetch');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
-app.use(cookieParser());
-
 const userMiddleware = async (req, res, next) => {
     const token = req.cookies.auth;
     if (!token) {
@@ -47,6 +45,7 @@ const notLoggedInMiddleware = (req, res, next) => {
 const app = express();
 const port = 8080;
 
+app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.use(express.json());
