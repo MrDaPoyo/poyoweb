@@ -1,5 +1,7 @@
 const ejs = require('ejs');
 const express = require('express');
+require('dotenv').config();
+
 const app = express();
 const port = 8000;
 
@@ -19,7 +21,7 @@ app.get('/auth/login', (req, res) => {
 
 app.post('/auth/login', (req, res) => {
     const { user, password } = req.body;
-    fetch('http://localhost:3000/auth/login', {
+    fetch(process.env.API_URL + 'auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -27,11 +29,21 @@ app.post('/auth/login', (req, res) => {
         body: JSON.stringify({
             user: user,
             password: password
-        })
-    }).then((response) => {
-        console.log(response);
-        return res.send(response);
+        }),
+        timeout: 5000
     })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            res.redirect('/');
+        } else {
+            res.render('login', { title: 'Login', message: 'Invalid credentials' });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        res.render('login', { title: 'Login', message: 'An error occurred' });
+    });
 });
 
 app.listen(port, () => {
