@@ -20,7 +20,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.get("/", (req, res) => {
-    res.render("register");
+    res.render("everything");
 });
 
 async function verifyApiKey(apiKey) {
