@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-const notLoggedInMiddleware = (req, res, next) => {
+const notLoggedInMiddleware = (req, next) => {
     const token = req.cookies.auth;
     if (!token) {
         req.loggedIn = false;
