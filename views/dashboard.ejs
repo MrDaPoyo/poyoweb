@@ -12,7 +12,7 @@
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 />
-<%- files %>
+<%- JSON.stringify(files) %>
 <h2>Upload File</h2>
 <form action="/dashboard/upload" class="dropzone" method="POST"></form>
 <script>
