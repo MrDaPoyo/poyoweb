@@ -48,6 +48,7 @@ app.post('/auth/register', async (req, res) => {
             const result = await db.createUser(username, email, await hashedPassword);
 
             if (result.success) {
+                fs.mkdir(path.join(__dirname, 'websites/users', username), { recursive: true });
                 res.status(201).json({ message: 'User registered successfully', jwt: result.jwt, success: result.success });
             } else {
                 res.status(400).json({ error: result.message, success: result.success });
