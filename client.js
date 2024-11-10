@@ -29,7 +29,7 @@ const notLoggedInMiddleware = (req, next) => {
             } else if (decoded) {
                 req.loggedIn = true;
                 req.user = {id: decoded.id};
-                redirect('/');
+                res.redirect('/');
             } else {
                 req.loggedIn = false;
                 next();
