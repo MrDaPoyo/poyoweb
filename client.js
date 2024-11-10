@@ -144,7 +144,7 @@ app.get("/auth/logout", (req, res) => {
 });
 
 app.get("/dashboard", async (req, res) => {
-    fetch(`${process.env.API_URL}file?jwt=${req.jwt}&dir=${req.query.dir}`)
+    fetch(`${process.env.API_URL}file?apiKey=${req.jwt}&dir=${req.query.dir}`)
     .then((response) => response.text())
     .then((data) => {
       res.render("dashboard", {
@@ -167,7 +167,7 @@ app.post("/dashboard/upload", async (req, res) => {
     },
     body: JSON.stringify({
       file: file,
-      jwt: req.jwt,
+      apiKey: req.jwt,
       dir: dir,
     }),
   })
