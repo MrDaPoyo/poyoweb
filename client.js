@@ -74,19 +74,19 @@ app.post('/auth/register', (req, res) => {
                 email: email
             })
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    res.cookie('auth', data.jwt, { httpOnly: true });
-                    res.status(200).json({ message: 'User registered successfully', success: data.success });
-                } else {
-                    res.status(400).json({ error: data.error, success: data.success });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                res.status(500).json({ error: 'An error occurred; ' + error });
-            });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                res.cookie('auth', data.jwt, { httpOnly: true });
+                res.status(200).json({ message: 'User registered successfully', success: data.success });
+            } else {
+                res.status(400).json({ error: data.error, success: data.success });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            res.status(500).json({ error: 'An error occurred; ' + error });
+        });
     }
 });
 
