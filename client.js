@@ -144,14 +144,12 @@ app.get("/auth/logout", (req, res) => {
 });
 
 app.get("/dashboard", async (req, res) => {
-    console.log(req.jwt);
     fetch(`${process.env.API_URL}file?jwt=${req.jwt}&dir=${req.query.dir}`)
     .then((response) => response.text())
     .then((data) => {
       res.render("dashboard", {
         title: "Dashboard",
         files: JSON.stringify(data),
-        jwt: req.jwt,
       });
     })
     .catch((error) => {
@@ -175,7 +173,7 @@ app.post("/dashboard/upload", async (req, res) => {
   })
     .then((response) => response.text())
     .then((data) => {
-      res.json(data);
+      res.text(data);
     })
     .catch((error) => {
       console.error("Error:", error);
