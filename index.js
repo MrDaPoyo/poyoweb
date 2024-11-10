@@ -1,23 +1,28 @@
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
 
-exec('node server.js', (err, stdout, stderr) => {
-    if (err) {
-        console.error(`Error running server.js: ${err}`);
-        return;
-    }
-    console.log(`server.js output: ${stdout}`);
-    if (stderr) {
-        console.error(`server.js stderr: ${stderr}`);
-    }
+const server = spawn('node', ['server.js']);
+const client = spawn('node', ['client.js']);
+
+server.stdout.on('data', (data) => {
+    console.log(`server.js output:\n${data}`);
 });
 
-exec('node client.js', (err, stdout, stderr) => {
-    if (err) {
-        console.error(`Error running client.js: ${err}`);
-        return;
-    }
-    console.log(`client.js output: ${stdout}`);
-    if (stderr) {
-        console.error(`client.js stderr: ${stderr}`);
-    }
+server.stderr.on('data', (data) => {
+    console.error(`server.js stderr:\n${data}`);
+});
+
+server.on('close', (code) => {
+    console.log(`server.js process exited with code ${code}`);
+});
+
+client.stdout.on('data', (data) => {
+    console.log(`client.js output:\n${data}`);
+});
+
+client.stderr.on('data', (data) => {
+    console.error(`client.js stderr:\n${data}`);
+});
+
+client.on('close', (code) => {
+    console.log(`client.js process exited with code ${code}`);
 });
