@@ -18,8 +18,10 @@ app.use(express.static('public'));
 const notLoggedInMiddleware = (req, res, next) => {
     const token = req.cookies.auth;
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (decoded) {
-            return res.status(401).json({ error: 'Unauthorized' });
+        if (err) {
+            return next();
+        } else if (decoded) {
+            return res.status(401).json({ error: 'Log Off to access this page' });
         } else {
             next();
         }
