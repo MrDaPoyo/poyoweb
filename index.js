@@ -142,7 +142,6 @@ app.post('/file/renameByPath', async (req, res) => {
     const { apiKey, file, newName } = req.body;
     console.log(apiKey);
     var user = await verifyApiKey(apiKey);
-    console.log(await user);
     if (!await user) {
         return res.status(401).json({ error: 'Invalid API key' });
     } else {
