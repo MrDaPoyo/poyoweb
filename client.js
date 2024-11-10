@@ -9,12 +9,27 @@ require('dotenv').config();
 const app = express();
 const port = 8080;
 
-app.use(cookieParser());
-app.set('view engine', 'ejs');
-app.set('views', 'views');
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+
+const isUserLoggedInMiddleware = (req, res, next) => {
+    const token = req.cookies.auth;
+    if (!token) {
+        res.locals.loggedIn = false;
+        return res.redirect('/auth/login');
+    } else {
+        jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
+            if (err) {
+                res.loggedIn = false;
+                cookies.clearCookie('auth');
+            } else if (decoded) {
+                res.loggedIn = true;
+                user = { id: decoded.id };
+            } else {
+                res.loggedIn = false;
+            }
+        });
+        next();
+    }
+}
 
 const notLoggedInMiddleware = (req, res, next) => {
     const token = req.cookies.auth;
@@ -37,6 +52,15 @@ const notLoggedInMiddleware = (req, res, next) => {
         });
     }
 };
+
+app.use(cookieParser());
+app.use(isUserLoggedInMiddleware)
+
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
     res.render('index', { title: 'Home' });
