@@ -137,7 +137,7 @@ app.post('/file/removeByPath', async (req, res) => {
             return res.status(401).json({ error: 'Invalid API key' });
         }
         db.removeFileByID(db.getFileIDByPath(filePath));
-        fs.unlink(path.join(__dirname, 'websites/users', filePath));
+        fs.unlink(path.join('websites/users', filePath));
         return res.status(200).json({ message: 'File removed successfully', success: true });
 
     } catch (error) {

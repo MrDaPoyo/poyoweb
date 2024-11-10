@@ -321,7 +321,6 @@ function getFileById(fileID) {
             if (row) {
                 resolve(row);  // Return the file if found
             } else {
-                console.log(`No file found with ID: ${fileID}`);
                 resolve(null);  // Return null if no file was found
             }
         });
