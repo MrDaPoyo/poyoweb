@@ -104,7 +104,7 @@ app.post('/file/upload', upload.single("file"), (req, res) => {
 
             const fileData = {
                 fileName: file.originalname,
-                fileLocation: filePath,
+                fileLocation: path.join(dir, file.originalname),
                 fileFullPath: filePath,
                 fileSize: fileSize,
                 status: 'active',
@@ -125,7 +125,8 @@ app.post('/file/removeByPath', async (req, res) => {
 
     try {
         // Verify API key
-        const user = await db.verifyApiKey(apiKey);
+        const user = jwt.verify(apiKey, process.env.AUTH_SECRET);
+        var filePath = path.join(__dirname, 'websites/users', (await db.findUserById(user.id)).username, file);
         if (!user) {
             return res.status(401).json({ error: 'Invalid API key' });
         }
@@ -137,13 +138,13 @@ app.post('/file/removeByPath', async (req, res) => {
         }
 
         // Remove file from filesystem
-        fs.unlink(file, async (err) => {
+        fs.unlink(filePath, async (err) => {
             if (err) {
                 return res.status(500).json({ error: 'Error deleting file from filesystem' });
             }
 
             // Remove file from database
-            await removeFileByPath(file);
+            await db.removeFileByPath(file);
             res.status(200).json({ message: 'File deleted successfully' });
         });
     } catch (error) {

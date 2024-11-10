@@ -277,6 +277,26 @@ function getAllFilesByUserId(userID) {
     });
 }
 
+function getFileById(fileID) {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT * FROM files WHERE id = ?`;
+
+        db.get(query, [fileID], (err, row) => {
+            if (err) {
+                console.error('Error retrieving file:', err.message);
+                reject(err);
+            }
+
+            if (row) {
+                resolve(row);  // Return the file if found
+            } else {
+                console.log(`No file found with ID: ${fileID}`);
+                resolve(null);  // Return null if no file was found
+            }
+        });
+    });
+}
+
 function getFileIDByPath(filePath) {
     return new Promise((resolve, reject) => {
         const query = `SELECT id FROM files WHERE fileLocation = ? LIMIT 1`;
@@ -442,6 +462,7 @@ module.exports = {
     addSizeByWebsiteName, // Updated function export
     db,
     insertFileInfo,
+    getFileById,
     getFileIDByPath,
     removeFileByPath,
     removeFileByID,

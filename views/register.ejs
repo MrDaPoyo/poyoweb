@@ -102,6 +102,28 @@
                         data.files.forEach(file => {
                             var li = document.createElement("li");
                             li.textContent = file.name + " (" + file.size + " bytes)";
+                            var removeButton = document.createElement("button");
+                            removeButton.textContent = "Remove";
+                            removeButton.addEventListener("click", function () {
+                                    fetch("/file/removeByPath", {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify({
+                                            apiKey: apiKey,
+                                            file: file.cleanPath
+                                        })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log(data);
+                                        if (data.success) {
+                                            li.remove();
+                                        }
+                                    });
+                            });
+                            li.appendChild(removeButton);
                             fileList.appendChild(li);
                         });
                     });
