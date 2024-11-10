@@ -20,28 +20,23 @@ const notLoggedInMiddleware = (req, res, next) => {
     const token = req.cookies.auth;
     if (!token) {
         res.locals.loggedIn = false;
-        res.loggedIn = false;
         next();
     } else {
         jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
             if (err) {
                 res.locals.loggedIn = false;
-                res.loggedIn = false;
                 next();
             } else if (decoded) {
-                console.log('Decoded:', decoded);
                 res.locals.loggedIn = true;
-                res.loggedIn = true;
-                res.locals.user.id = decoded.id;
-                res.redirect('/');
+                res.locals.user = { id: decoded.id };
+                next();
             } else {
                 res.locals.loggedIn = false;
-                res.loggedIn = false;
                 next();
             }
         });
     }
-}
+};
 
 app.get('/', (req, res) => {
     res.render('index', { title: 'Home' });
