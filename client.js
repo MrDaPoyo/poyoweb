@@ -4,7 +4,7 @@ require('dotenv').config();
 const fetch = require('node-fetch');
 
 const app = express();
-const port = 8000;
+const port = 8080;
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');

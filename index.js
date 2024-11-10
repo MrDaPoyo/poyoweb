@@ -1,7 +1,7 @@
 const { spawn } = require('child_process');
 
-const server = spawn('node', ['server.js']);
 const client = spawn('node', ['client.js']);
+const server = spawn('node', ['server.js']);
 
 server.stdout.on('data', (data) => {
     console.log(`server.js output:\n${data}`);

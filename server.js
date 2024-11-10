@@ -11,17 +11,13 @@ const dirWalker = require('./snippets/dirWalker');
 db.setupDB();
 
 const app = express();
-const port = 3000;
+const port = 9000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
-
-app.get("/", (req, res) => {
-    res.render("everything");
-});
 
 async function verifyApiKey(apiKey) {
     return new Promise((resolve, reject) => {
