@@ -38,8 +38,7 @@ app.post('/auth/login', async (req, res) => {
                 }),
                 timeout: 5000
             });
-            const text = await response.stringify();
-            console.log(text);
+            const text = await response.text();
             const data = text ? JSON.parse(text) : {};
             if (data.success) {
                 res.status(200).json({ message: 'User logged in successfully', jwt: data.jwt, success: data.success });
