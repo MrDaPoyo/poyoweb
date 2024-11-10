@@ -58,8 +58,8 @@ app.post('/auth/login', async (req, res) => {
 });
 
 app.post('/auth/register', (req, res) => {
-    const { user, password, email } = req.body;
-    if ((!user) || !password || !email) {
+    const { username, password, email } = req.body;
+    if ((!username) || !password || !email) {
         res.status(400).json({ error: 'Missing required fields', success: false });
         return;
     } else {
@@ -69,7 +69,7 @@ app.post('/auth/register', (req, res) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                user: user,
+                username: username,
                 password: password,
                 email: email
             })
