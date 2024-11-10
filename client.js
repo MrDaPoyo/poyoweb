@@ -2,6 +2,9 @@ const ejs = require('ejs');
 const express = require('express');
 require('dotenv').config();
 const fetch = require('node-fetch');
+const cookieParser = require('cookie-parser');
+
+cookieParser();
 
 const app = express();
 const port = 8080;
@@ -39,12 +42,13 @@ app.post('/auth/login', async (req, res) => {
                 timeout: 5000
             });
             const text = await response.text();
-            console.log('Response: ', text);
             const data = text ? JSON.parse(text) : {};
             if (data.success) {
+                res.cookie('auth', data.jwt, { httpOnly: true });
                 res.status(200).json({ message: 'User logged in successfully', jwt: data.jwt, success: data.success });
             } else {
-                res.status(400).json({ error: data.message, success: data.success });
+                res.clearCookie('auth');
+                res.render('login', { message: data.error, title: 'Login' });
             }
         } catch (error) {
             console.error('Error:', error);
