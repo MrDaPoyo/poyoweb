@@ -101,19 +101,25 @@ app.post('/file/upload', upload.single("file"), (req, res) => {
             const userDir = path.join(__dirname, 'websites/users', (await db.findUserById(decoded.id)).username, dir || '');
             const filePath = path.join(userDir, file.originalname);
             const fileSize = (await fs.stat(filePath)).size;
+            var totalSize = await db.getTotalSizeByWebsiteName(await db.findUserById(decoded.id)).username + await fileSize;
+            console.log(await db.getTotalSizeByWebsiteName(await db.findUserById(decoded.id)).username);
+            if (await totalSize < process.env.USER_MAX_SIZE) {
+                const fileData = {
+                    fileName: file.originalname,
+                    fileLocation: path.join(dir, file.originalname),
+                    fileFullPath: filePath,
+                    fileSize: fileSize,
+                    status: 'active',
+                    userID: decoded.id // Assuming the decoded token contains userID
+                };
 
-            const fileData = {
-                fileName: file.originalname,
-                fileLocation: path.join(dir, file.originalname),
-                fileFullPath: filePath,
-                fileSize: fileSize,
-                status: 'active',
-                userID: decoded.id // Assuming the decoded token contains userID
-            };
-
-            db.insertFileInfo(file.filename, fileData);
-
-            res.status(200).json({ message: 'File uploaded successfully', file: file });
+                db.insertFileInfo(file.filename, fileData);
+                db.setTotalSizeByWebsiteName(await db.findUserById(decoded.id), await totalSize);
+                res.status(200).json({ message: 'File uploaded successfully', file: file });
+            } else {
+                res.status(400).json({ error: 'Not enough space for file', success: false });
+                console.log()
+            }
         } else {
             res.status(400).json({ error: 'No file uploaded', success: false });
         }
@@ -126,27 +132,14 @@ app.post('/file/removeByPath', async (req, res) => {
     try {
         // Verify API key
         const user = jwt.verify(apiKey, process.env.AUTH_SECRET);
-        var filePath = path.join(__dirname, 'websites/users', (await db.findUserById(user.id)).username, file);
+        var filePath = path.join((await db.findUserById(user.id)).username, file);
         if (!user) {
             return res.status(401).json({ error: 'Invalid API key' });
         }
+        db.removeFileByID(db.getFileIDByPath(filePath));
+        fs.unlink(path.join(__dirname, 'websites/users', filePath));
+        return res.status(200).json({ message: 'File removed successfully', success: true });
 
-        // Get file ID by path
-        const fileID = await db.getFileIDByPath(file);
-        if (!fileID) {
-            return res.status(404).json({ error: 'File not found' });
-        }
-
-        // Remove file from filesystem
-        fs.unlink(filePath, async (err) => {
-            if (err) {
-                return res.status(500).json({ error: 'Error deleting file from filesystem' });
-            }
-
-            // Remove file from database
-            await db.removeFileByPath(file);
-            res.status(200).json({ message: 'File deleted successfully' });
-        });
     } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
     }

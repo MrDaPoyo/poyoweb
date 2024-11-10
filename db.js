@@ -66,13 +66,24 @@ function hashPassword(password) {
 
 function createUser(username, email, password) {
     return new Promise((resolve, reject) => {
+        var userName = username;
         const query = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
         db.run(query, [username, email, password], function (err) {
             if (err) {
                 resolve({ success: false, message: err.message });
             } else {
-                const userId = this.lastID;
-                resolve({ success: true, jwt: jwt.sign({ id: userId }, process.env.AUTH_SECRET) });
+                try {
+                    const userId = this.lastID;
+                    createWebsite({
+                        userID: userId,
+                        name: userName,
+                        domain: `${username}.${process.env.URL_SUFFIX}`,
+                        tier: '1'
+                    });
+                    resolve({ success: true, jwt: jwt.sign({ id: userId }, process.env.AUTH_SECRET) });
+                } catch (err) {
+                    resolve({ success: false, message: err.message });
+                }
             }
         });
     });
@@ -161,6 +172,16 @@ async function isUserVerifiedById(id) {
     return verified;
 }
 
+function createWebsite(userID, name, domain, tier) {
+    db.run('INSERT INTO websites (userID, name, domain, tier) VALUES (?, ?, ?, ?)', [userID, name, domain, tier], (err) => {
+        if (err) {
+            console.error('Error creating website:', err.message);
+        } else {
+            console.log('Website created successfully');
+        }
+    });
+}
+
 function addView(name) {
     db.run('UPDATE websites SET views = views + 1 WHERE name = ?', [name]);
 }
@@ -196,6 +217,16 @@ function getTotalSizeByWebsiteName(name) {
                 resolve(row ? row.totalSize : 0);  // Default to 0 if no record is found
             }
         });
+    });
+}
+
+function setTotalSizeByWebsiteName(name, size) {
+    db.run('UPDATE websites SET totalSize = ? WHERE name = ?', [size, name], (err) => {
+        if (err) {
+            console.error('Error updating totalSize:', err.message);
+        } else {
+            console.log(`Set totalSize to ${size} for website: ${name}`);
+        }
     });
 }
 
@@ -455,11 +486,13 @@ module.exports = {
     findUserByUsername,
     findUserById,
     isUserVerifiedById,
+    createWebsite,
     addView,
     retrieveViews,
     getWebsiteByDomain,
-    getTotalSizeByWebsiteName, // Updated function export
-    addSizeByWebsiteName, // Updated function export
+    getTotalSizeByWebsiteName,
+    setTotalSizeByWebsiteName,
+    addSizeByWebsiteName,
     db,
     insertFileInfo,
     getFileById,
