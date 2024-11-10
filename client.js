@@ -144,7 +144,8 @@ app.get("/auth/logout", (req, res) => {
 });
 
 app.get("/dashboard", async (req, res) => {
-  fetch(`${process.env.API_URL}file?jwt=${req.jwt}&dir=${req.query.dir}`)
+    console.log(req.jwt);
+    fetch(`${process.env.API_URL}file?jwt=${req.jwt}&dir=${req.query.dir}`)
     .then((response) => response.text())
     .then((data) => {
       res.render("dashboard", {
