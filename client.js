@@ -57,6 +57,39 @@ app.post('/auth/login', async (req, res) => {
     }
 });
 
+app.post('/auth/register', (req, res) => {
+    const { user, password, email } = req.body;
+    if ((!user) || !password || !email) {
+        res.status(400).json({ error: 'Missing required fields', success: false });
+        return;
+    } else {
+        fetch(process.env.API_URL + 'auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: user,
+                password: password,
+                email: email
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    res.cookie('auth', data.jwt, { httpOnly: true });
+                    res.status(200).json({ message: 'User registered successfully', success: data.success });
+                } else {
+                    res.status(400).json({ error: data.error, success: data.success });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                res.status(500).json({ error: 'An error occurred; ' + error });
+            });
+    }
+}
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
