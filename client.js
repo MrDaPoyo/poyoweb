@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-const notLoggedInMiddleware = (req, next) => {
+const notLoggedInMiddleware = (req, res, next) => {
     const token = req.cookies.auth;
     if (!token) {
         req.loggedIn = false;
@@ -28,8 +28,8 @@ const notLoggedInMiddleware = (req, next) => {
                 next();
             } else if (decoded) {
                 req.loggedIn = true;
-                req.user = {id: decoded.id};
-                res.redirect('/');
+                req.user = { id: decoded.id };
+                return res.redirect('/');
             } else {
                 req.loggedIn = false;
                 next();
