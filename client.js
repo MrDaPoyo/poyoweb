@@ -144,12 +144,35 @@ app.get("/auth/logout", (req, res) => {
 
 app.get("/dashboard", async (req, res) => {
   fetch(`${process.env.API_URL}file?jwt=${req.jwt}&dir=${req.query.dir}`)
-    .then((response) => response.json())
+    .then((response) => response.text())
     .then((data) => {
       res.render("dashboard", {
         title: "Dashboard",
         files: JSON.stringify(data),
       });
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      res.status(500).json({ error: "An error occurred; " + error });
+    });
+});
+
+app.post("/dashboard/upload", async (req, res) => {
+  const { file, dir } = req.body;
+  fetch(`${process.env.API_URL}file/upload`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      file: file,
+      jwt: req.jwt,
+      dir: dir,
+    }),
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      res.json(data);
     })
     .catch((error) => {
       console.error("Error:", error);

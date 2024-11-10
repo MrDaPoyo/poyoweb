@@ -1,3 +1,28 @@
-<%- include("header") %>
+<%- include("header") %> 
 <%- files %>
+<h2>Upload File</h2>
+<form action="/dashboard/upload" class="dropzone" method="POST"></form>
+<script>
+  Dropzone.autoDiscover = false;
+  var myDropzone = new Dropzone(".dropzone", {
+    paramName: "file",
+    maxFilesize: 419430400, // MB
+    uploadMultiple: false,
+    dictDefaultMessage: "Drag and drop files here or click to upload",
+    init: function () {
+      this.on("sending", function (file, xhr, formData) {
+        var dir = document.getElementById("dir").value || "/";
+        var apiKey = document.getElementById("apiKey").value;
+        formData.append("dir", dir);
+        formData.append("apiKey", apiKey);
+      });
+      this.on("success", function (file, response) {
+        console.log("File uploaded successfully");
+      });
+      this.on("error", function (file, response) {
+        console.error("File upload error");
+      });
+    },
+  });
+</script>
 <%- include("footer") %>
