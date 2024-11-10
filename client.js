@@ -145,7 +145,7 @@ app.get('/auth/logout', (req, res) => {
 
 app.get("/dashboard", (req, res) => {
     var data = fetch(`${process.env.API_URL}file?jwt=${req.jwt}&dir=${req.query.dir}`);
-    data = JSON.parse(data);
+    data = JSON.stringify(data);
 	res.render("dashboard", {title: "Dashboard", files: data});
 })
 
