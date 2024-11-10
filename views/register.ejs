@@ -101,7 +101,7 @@
                         console.log(data);
                         data.files.forEach(file => {
                             var li = document.createElement("li");
-                            li.textContent = file;
+                            li.textContent = file.name + " (" + file.size + " bytes)";
                             fileList.appendChild(li);
                         });
                     });

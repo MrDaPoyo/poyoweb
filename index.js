@@ -6,6 +6,8 @@ const fs = require('fs-extra')
 const multer = require('multer');
 require('dotenv').config();
 
+const dirWalker = require('./snippets/dirWalker');
+
 db.setupDB();
 
 const app = express();
@@ -164,10 +166,10 @@ app.get('/file/', async (req, res) => {
                 directory = path.join(directory, dir);
             }
             try {
-                const files = await fs.readdir(directory);
+                const files = await dirWalker(path.join(__dirname, 'websites/users', username), directory);
                 res.status(200).json({ files });
             } catch (error) {
-                res.status(500).json({ error: 'Path not found' });
+                res.status(500).json({ error: 'Path not found' + error });
             }
         } else {
             res.status(404).json({ error: 'User not found' });

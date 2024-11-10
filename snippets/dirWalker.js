@@ -1,5 +1,6 @@
 var fs = require("fs");
 var path = require("path");
+var db = require('./../db');
 var verifyFile = require('./verifyFile')
 
 function classifyFileType(filePath) {
@@ -23,14 +24,14 @@ function classifyFileType(filePath) {
     }
 }
 
-function readDir(basedir, dir) {
+async function readDir(basedir, dir) {
     return new Promise((resolve, reject) => {
         fs.readdir(dir, (err, files) => {
             if (err) {
                 reject(err);
             } else {
                 console.log(dir);
-                files = files.map(file => {
+                files = Promise.all(files.map(async file => {
                     const filePath = path.join(dir, file);
                     const stats = fs.statSync(filePath);
                     let type = '';
@@ -39,11 +40,12 @@ function readDir(basedir, dir) {
                     } else {
                         type = 'file';
                     }
-					if (type == 'file') {
-						var openable = verifyFile.checkEditableFile(file);
-						var kind = classifyFileType(file);
-						
-					}
+                    if (type == 'file') {
+                        var openable = verifyFile.checkEditableFile(file);
+                        var kind = classifyFileType(file);
+                        
+                    }
+                    const fileId = await db.getFileIDByPath(filePath); // Assuming getFileIdFromDatabase is a function that fetches the file ID from the database
                     return {
                         name: file,
                         filePath: path.relative(basedir, filePath).replace(file, ''),
@@ -52,13 +54,12 @@ function readDir(basedir, dir) {
                         size: stats.size,
                         createdAt: stats.birthtime,
                         modifiedAt: stats.mtime,
-                        id: stats.birthtime.getTime(),
+                        id: fileId,
                         type,
-                     	openable,
-                     	kind,
-                     };
-                    i++;
-                });
+                        openable,
+                        kind,
+                    };
+                }));
                 resolve(files);
             }
         });
