@@ -4,6 +4,7 @@ require('dotenv').config();
 const fetch = require('node-fetch');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const app = express();
 const port = 8080;
