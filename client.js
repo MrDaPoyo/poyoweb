@@ -5,12 +5,12 @@ const fetch = require('node-fetch');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
-cookieParser();
+app.use(cookieParser());
 
 const userMiddleware = async (req, res, next) => {
     const token = req.cookies.auth;
     if (!token) {
-        return res.status(401).json({ error: 'Unauthorized' });
+        return res.status(401).json({ error: 'You must log off to access this page.' });
     }
     try {
         const response = await fetch(process.env.API_URL + 'user/data', {
