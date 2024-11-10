@@ -10,7 +10,7 @@
     <header>
         <h1>PoyoWeb - <%- title %></h1>
     </header>
-    <% if (message) { %>
+    <% if (typeof message !== 'undefined' && message) { %>
         <div id="messages">
             <%- message %>
         </div>
