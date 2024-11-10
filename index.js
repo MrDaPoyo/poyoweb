@@ -23,6 +23,24 @@ app.get("/", (req, res) => {
     res.render("register");
 });
 
+async function verifyApiKey(apiKey) {
+    return new Promise((resolve, reject) => {
+        jwt.verify(apiKey, process.env.AUTH_SECRET, (err, decoded) => {
+            if (err) {
+                resolve(false);
+            } else {
+                db.findUserById(decoded.id).then((user) => {
+                    if (user) {
+                        resolve(user);
+                    } else {
+                        resolve(false);
+                    }
+                })
+            }
+        });
+    });
+}
+
 app.post('/auth/register', async (req, res) => {
     const { username, email, password } = req.body;
     if (!username || !email || !password) {
@@ -68,16 +86,15 @@ app.post('/auth/login', async (req, res) => {
 const storage = multer.diskStorage({
     destination: async function (req, file, cb) {
         const { apiKey, dir } = req.body;
-
         try {
             // Sanitize dir to prevent directory traversal
             const sanitizedDir = path.normalize(dir || '').replace(/^(\.\.(\/|\\|$))+/, '');
-            const username = (await db.findUserById(await jwt.verify(apiKey, process.env.AUTH_SECRET).id)).username;
+            const username = await (await verifyApiKey(apiKey)).username;
 
-            fs.ensureDirSync(path.join(__dirname, 'websites/users', username, sanitizedDir));
+            fs.ensureDirSync(path.join(__dirname, 'websites/users', await username, sanitizedDir));
 
             req.body.file = file;
-            cb(null, path.join(__dirname, 'websites/users', username, sanitizedDir));
+            cb(null, path.join(__dirname, 'websites/users', await username, sanitizedDir));
         } catch (error) {
             req.res.status(401).json({ error: 'Invalid API key', success: false });
         }
@@ -89,41 +106,36 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.post('/file/upload', upload.single("file"), (req, res) => {
+app.post('/file/upload', upload.single("file"), async (req, res) => {
     var { apiKey, file, dir } = req.body;
     dir = dir || '';
     dir = dir.replace(/^(\.\.(\/|\\|$))+/, '');
-    jwt.verify(apiKey, process.env.AUTH_SECRET, async (err, decoded) => {
-        if (err) {
-            console.log(err);
-            return res.status(401).json({ error: 'Invalid API key', success: false });
-        } else if (file) {
-            const userDir = path.join(__dirname, 'websites/users', (await db.findUserById(decoded.id)).username, dir || '');
-            const filePath = path.join(userDir, file.originalname);
-            const fileSize = (await fs.stat(filePath)).size;
-            var totalSize = await db.getTotalSizeByWebsiteName(await db.findUserById(decoded.id)).username + await fileSize;
-            console.log(await db.getTotalSizeByWebsiteName(await db.findUserById(decoded.id)).username);
-            if (await totalSize < process.env.USER_MAX_SIZE) {
-                const fileData = {
-                    fileName: file.originalname,
-                    fileLocation: path.join(dir, file.originalname),
-                    fileFullPath: filePath,
-                    fileSize: fileSize,
-                    status: 'active',
-                    userID: decoded.id // Assuming the decoded token contains userID
-                };
-
-                db.insertFileInfo(file.filename, fileData);
-                db.setTotalSizeByWebsiteName(await db.findUserById(decoded.id), await totalSize);
-                res.status(200).json({ message: 'File uploaded successfully', file: file });
-            } else {
-                res.status(400).json({ error: 'Not enough space for file', success: false });
-                console.log()
-            }
+    var user = await verifyApiKey(apiKey);
+    if (file) {
+        const userDir = path.join(__dirname, 'websites/users', await user.username, dir || '');
+        const filePath = path.join(userDir, file.originalname);
+        const fileSize = (await fs.stat(filePath)).size;
+        var totalSize = await db.getTotalSizeByWebsiteName(await user.username) + fileSize;
+        var fileID = db.getFileIDByPath(filePath) || null;
+        if (await totalSize < process.env.USER_MAX_SIZE) {
+            const fileData = {
+                fileName: file.originalname,
+                fileLocation: path.join(dir, file.originalname),
+                fileFullPath: filePath,
+                fileSize: fileSize,
+                status: 'active',
+                userID: await user.id // Assuming the decoded token contains userID
+            };
+            db.insertFileInfo(fileID, fileData);
+            db.setTotalSizeByWebsiteName(await db.findUserById(await user.id), await totalSize);
+            res.status(200).json({ message: 'File uploaded successfully', file: file });
         } else {
-            res.status(400).json({ error: 'No file uploaded', success: false });
+            res.status(400).json({ error: 'Not enough space for file', success: false });
+            console.log()
         }
-    });
+    } else {
+        res.status(400).json({ error: 'No file uploaded', success: false });
+    }
 });
 
 app.post('/file/removeByPath', async (req, res) => {
@@ -137,6 +149,9 @@ app.post('/file/removeByPath', async (req, res) => {
             return res.status(401).json({ error: 'Invalid API key' });
         }
         db.removeFileByID(db.getFileIDByPath(filePath));
+        var fileSize = (await fs.stat(path.join('websites/users', filePath))).size;
+        var totalSize = await db.getTotalSizeByWebsiteName(await db.findUserById(user.id).username) - await fileSize;
+        db.setTotalSizeByWebsiteName(await db.findUserById(user.id).username, await totalSize);
         fs.unlink(path.join('websites/users', filePath));
         return res.status(200).json({ message: 'File removed successfully', success: true });
 
@@ -147,20 +162,18 @@ app.post('/file/removeByPath', async (req, res) => {
 
 app.get('/file/', async (req, res) => {
     const { apiKey, dir } = req.query;
-    var user = jwt.verify(apiKey, process.env.AUTH_SECRET);
-    var userId = await user.id;
-    if (!userId) {
+    var user = await verifyApiKey(apiKey);
+    if (!user) {
         return res.status(401).json({ error: 'Invalid API key' });
     } else {
-        user = await db.findUserById(userId);
-        var username = user.username;
-        if (username) {
+        var username = await user.username;
+        if (await username) {
             var directory = path.join(__dirname, 'websites/users', username);
             if (dir) {
                 directory = path.join(directory, dir);
             }
             try {
-                const files = await dirWalker(path.join(__dirname, 'websites/users', username), directory);
+                const files = await dirWalker(path.join(__dirname, 'websites/users', await username), directory);
                 res.status(200).json({ files });
             } catch (error) {
                 res.status(500).json({ error: 'Path not found' + error });
