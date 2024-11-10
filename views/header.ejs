@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poyoweb - <%- title %></title>
     <link rel="stylesheet" href="/styles/main.css">
-    <% if (typeof jwt !== 'undefined' && jwt) { %>
-        <span id="apiKey" style="display: none;"><%- jwt %></span>
+    <% if (typeof locals.jwt !== 'undefined' && locals.jwt) { %>
+        <span id="apiKey" style="display: none;"><%- locals.jwt %></span>
     <% } %>
 </head>
 <body>
