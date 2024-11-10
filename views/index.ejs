@@ -1,7 +1,8 @@
 <%- include('header.ejs') %> 
-<% if (loggedIn) { %>
-    <h1>Welcome <%= user.username %></h1>
+<% if (locals.loggedIn) { %>
+    <h1>Welcome <%= locals.user.username %></h1>
     <a href="/auth/logout">Logout</a>
 <% } else { %>
     <a href="/auth/login">Login</a>
-<% } %> <%- include('footer.ejs') %>
+<% } %> 
+<%- include('footer.ejs') %>
