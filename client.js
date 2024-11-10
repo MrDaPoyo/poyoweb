@@ -162,21 +162,26 @@ app.get("/dashboard", async (req, res) => {
 
 app.post("/dashboard/upload", async (req, res) => {
   const { file, dir, apiKey } = req.body;
-  fetch(`${process.env.API_URL}file/upload`, {
+  data = fetch(`${process.env.API_URL}file/upload`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       file: file,
-      apiKey: apiKey,
       dir: dir,
+      apiKey: apiKey,
     }),
   })
-    .then((response) => response.text())
+    .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-      res.text(data);
+      if (data.success) {
+        res
+          .status(200)
+          .json({ message: "File uploaded successfully", success: true });
+      } else {
+        res.status(400).json({ error: data.error, success: false });
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
