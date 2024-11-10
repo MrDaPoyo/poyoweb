@@ -31,7 +31,7 @@ const notLoggedInMiddleware = (req, res, next) => {
             } else if (decoded) {
                 console.log('Decoded:', decoded);
                 res.locals.loggedIn = true;
-                res.locals.loggedIn = true;
+                res.loggedIn = true;
                 res.locals.user.id = decoded.id;
                 res.redirect('/');
             } else {
