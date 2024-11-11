@@ -3,8 +3,9 @@ const express = require("express");
 require("dotenv").config();
 const fetch = require("node-fetch");
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const jwt = require("jsonwebtoken")
+const FormData = require('form-data');
+const multer = require("multer");
 
 const app = express();
 const port = 8080;
@@ -86,6 +87,7 @@ app.post("/auth/register", notLoggedInMiddleware, (req, res) => {
       .then((data) => {
         if (data.success) {
           res.cookie("auth", data.jwt, { httpOnly: true });
+          res.locals.message("Logged In!");
           res.redirect("/");
         } else {
           res.status(400).json({ error: data.error, success: data.success });
@@ -160,43 +162,41 @@ app.get("/dashboard", async (req, res) => {
     });
 });
 
-app.post("/dashboard/upload", async (req, res) => {
-  const { file, dir, apiKey } = req.body;
-  data = fetch(`${process.env.API_URL}file/upload`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      file: file,
-      dir: dir,
-      apiKey: apiKey,
-    }),
-<<<<<<< HEAD
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        res
-          .status(200)
-          .json({ message: "File uploaded successfully", success: true });
-      } else {
-        res.status(400).json({ error: data.error, success: false });
-      }
-=======
-  });
-  data
-    .then((response) => response.text())
-    .then((data) => {
-      res.status(200).json(JSON.parse(data));
->>>>>>> 8fc4764 (fix redirect)
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      res.status(500).json({ error: "An error occurred; " + error });
-    });
-});
+const upload = multer();
 
+app.post('/dashboard/upload', upload.single('file'), async (req, res) => {
+    try {
+        const { apiKey, dir } = req.body;
+		
+        // Create FormData for the request body
+        const formData = new FormData();
+        formData.append('apiKey', apiKey);
+        formData.append('dir', dir);
+
+        // Attach the file to FormData
+        if (req.file) {
+            formData.append('file', await req.file.buffer, await req.file.originalname);
+        }
+
+        // Forward the request to the original upload endpoint
+        const response = await fetch(`${process.env.API_URL}file/upload`, {
+            method: 'POST',
+            headers: formData.getHeaders(),
+            body: await formData
+        });
+
+        // Retrieve the response data and forward it to the client
+        const responseData = response.json();
+        res.status(response.status).json(responseData);
+
+    } catch (error) {
+        console.error("Error forwarding file upload:", error.message);
+        res.status(500).json({
+            error: 'An error occurred while forwarding the file upload.',
+            success: false
+        });
+    }
+});
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
