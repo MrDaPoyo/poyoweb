@@ -292,9 +292,9 @@ app.post("/dashboard/renameFileByPath", async (req, res) => {
 app.post("/dashboard/createDir", async (req, res) => {
   const { dirName } = req.body;
   if (!dirName) {
-    return res.render(`/dashboard?dir=${req.query.dir || ""}`, { message: "Missing required fields" });
+    return res.redirect(`/dashboard?dir=${req.query.dir || ""}&message=Missing required fields`);
   } else if (dirName.includes("..")) {
-    return res.render(`/dashboard?dir=${req.query.dir || ""}`, { message: "Invalid Directory Name" });
+    return res.redirect(`/dashboard?dir=${req.query.dir || ""}&message=Invalid Directory Name`);
   }
   try {
     const response = await fetch(`${process.env.API_URL}file/createDirectory`, {
@@ -311,7 +311,7 @@ app.post("/dashboard/createDir", async (req, res) => {
     if (!response.ok) {
       const errorResponse = await response.json();
       return res
-        .render(`dashboard?dir=${req.query.dir || ""}`, { message: errorResponse.error });
+        .redirect(`/dashboard?dir=${req.query.dir || ""}&message=${errorResponse.error}`);
     }
 
     const responseData = await response.json();
