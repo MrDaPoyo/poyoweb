@@ -24,6 +24,7 @@
 		var content = editor.getValue();
 		var blob = new Blob([content], { type: 'text/plain' });
 		var formData = new FormData();
+		formData.append('apiKey', '<%= jwt %>');
 		formData.append('file', blob, 'editor-content.txt');
 
 		fetch('/dashboard/upload?dir=<%= dir %>', {
