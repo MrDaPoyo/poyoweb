@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poyoweb - <%- title %></title>
-    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/css/main.css">
     <link href='https://fonts.googleapis.com/css?family=Noto Serif' rel='stylesheet'>
 </head>
 <body>
@@ -13,14 +13,16 @@
 	     	font-family: 'Noto Serif';
 	    }
 	</style>
-	<% if (typeof locals.jwt !== 'undefined' && locals.jwt) { %>
-        <span id="apiKey" style="display: none;"><%- locals.jwt %></span>
-    <% } %>
-    <header>
-        <h1>PoyoWeb - <%- title %></h1>
-    </header>
-    <% if (typeof message !== 'undefined' && message) { %>
-        <div id="messages">
-            <%- message %>
-        </div>
-    <% } %>
+    
+	<div class="megacontainer">
+	  <div class="Header">
+		<h1>PoyoWeb - <%- title %></h1>
+	  </div>
+	  <div class="Links"></div>
+	  <div class="Stats"></div>
+	  <% if (typeof message !== 'undefined' && message) { %>
+	          <div id="Message">
+	              <%- message %>
+	          </div>
+	  <% } %>
+	<div class="Main">
