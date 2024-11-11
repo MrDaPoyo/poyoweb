@@ -10,7 +10,7 @@ router.use(async (req, res, next) => {
     const host = req.headers.host;
 
     // Define the expected domain structure
-    const expectedDomain = process.env.SUFFIX;
+    const expectedDomain = process.env.URL_SUFFIX;
     const requestedPath = req.url;
 
     // Check if the request is for the main domain
