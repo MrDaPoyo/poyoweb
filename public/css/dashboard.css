@@ -20,12 +20,12 @@
     left: -15px;
 }
 
-.file::after {
+.file:not(:last-child)::before {
     content: " ";
     position: absolute;
-    left: -15px;
-    width: 10px;
-    height: 1px;
+    width: 1px;
     background-color: black;
-    top: 12px;
+    top: 0px;
+    bottom: -3vh;
+    left: -15px;
 }
