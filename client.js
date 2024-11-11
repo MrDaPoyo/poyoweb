@@ -8,6 +8,7 @@ const { Readable } = require("stream");
 const FormData = require("form-data");
 const multer = require("multer");
 const verifyFile = require("./snippets/verifyFile");
+const path = require("path");
 
 const app = express();
 const port = 8080;
@@ -303,8 +304,7 @@ app.post("/dashboard/createDir", async (req, res) => {
       },
       body: JSON.stringify({
         apiKey: req.jwt,
-        dir: req.query.dir || "",
-        dirName: dirName,
+        dir: path.join(req.query.dir || "", dirName),
       }),
     });
 
