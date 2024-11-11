@@ -23,6 +23,7 @@
   Dropzone.autoDiscover = false;
   var myDropzone = new Dropzone(".dropzone", {
     paramName: "file",
+    webkitRelativePath: true,
     maxFilesize: 419430400, // MB
     uploadMultiple: false,
     dictDefaultMessage: "Drag and drop files here or click to upload",
@@ -36,6 +37,11 @@
       });
       this.on("error", function (file, response) {
         console.error("File upload error");
+      });
+	  this.on("complete", function (file) {
+      	  if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+	       	  window.location.reload();
+      	}
       });
     },
   });
