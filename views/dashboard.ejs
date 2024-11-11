@@ -14,7 +14,7 @@
 />
 <ul>
 <% for (let key in files.files) { %>
-  <li><%= files.files[key].name %><a href="/dashboard/deleteByPath?cleanPath=<%= files.files[key].cleanPath %>"><button>X</button></a></li>
+  <li><%= files.files[key].name %><a href="/dashboard/removeFileByPath?cleanPath=<%= files.files[key].cleanPath %>"><button>X</button></a></li>
 <% } %>
 </ul>
 <h2>Upload File</h2>
