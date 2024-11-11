@@ -4,6 +4,7 @@ require("dotenv").config();
 const fetch = require("node-fetch");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken")
+const { Readable } = require('stream');
 const FormData = require('form-data');
 const multer = require("multer");
 
@@ -167,36 +168,52 @@ const upload = multer();
 app.post('/dashboard/upload', upload.single('file'), async (req, res) => {
     try {
         const { apiKey, dir } = req.body;
-		
-        // Create FormData for the request body
-        const formData = new FormData();
-        formData.append('apiKey', apiKey);
-        formData.append('dir', dir);
 
-        // Attach the file to FormData
-        if (req.file) {
-            formData.append('file', await req.file.buffer, await req.file.originalname);
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded', success: false });
         }
 
-        // Forward the request to the original upload endpoint
+        // Create FormData
+        const formData = new FormData();
+        formData.append('apiKey', apiKey || '');
+        formData.append('dir', dir || '');
+
+        // Convert file buffer to a readable stream
+        const fileStream = new Readable();
+        fileStream.push(req.file.buffer);
+        fileStream.push(null); // End the stream
+
+        // Append file to FormData
+        formData.append('file', fileStream, {
+            filename: req.file.originalname,
+            contentType: req.file.mimetype,
+        });
+
+        // Make the request using node-fetch
         const response = await fetch(`${process.env.API_URL}file/upload`, {
             method: 'POST',
             headers: formData.getHeaders(),
-            body: await formData
+            body: formData
         });
 
-        // Retrieve the response data and forward it to the client
-        const responseData = response.json();
+        // Handle response from the forwarded request
+        if (!response.ok) {
+            const errorResponse = await response.text();
+            return res.status(response.status).json({ error: errorResponse, success: false });
+        }
+
+        const responseData = await response.json();
         res.status(response.status).json(responseData);
 
     } catch (error) {
-        console.error("Error forwarding file upload:", error.message);
+        console.error("Error in forwarding file upload:", error.message);
         res.status(500).json({
             error: 'An error occurred while forwarding the file upload.',
             success: false
         });
     }
 });
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
