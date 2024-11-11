@@ -1,0 +1,65 @@
+<%- include('header') %>
+    <h1>Privacy Policy</h1>
+    <p><em>Last updated: 6th of September, 2024</em></p>
+
+    <h2>1. Data We Collect</h2>
+    <p>We collect the following personal information from our users:</p>
+    <ul>
+        <li><strong>Usernames</strong></li>
+        <li><strong>Email addresses</strong></li>
+        <li><strong>Passwords</strong> (securely hashed)</li>
+    </ul>
+
+    <h2>2. How We Collect Your Data</h2>
+    <p>We collect data directly from users through:</p>
+    <ul>
+        <li><strong>User forms</strong>: When you sign up for our services or update your account.</li>
+        <li><strong>Patreon</strong>: When managing payments via your Patreon account.</li>
+    </ul>
+    <p>We do not collect any sensitive personal data.</p>
+
+    <h2>3. Why We Collect Your Data</h2>
+    <p>We collect personal data for the following purposes:</p>
+    <ul>
+        <li><strong>Account management</strong>: To create, manage, and recover user accounts.</li>
+        <li><strong>Communication</strong>: To send account-related notifications, including password recovery emails.</li>
+        <li><strong>Compliance</strong>: To meet legal obligations and ensure the security of our platform.</li>
+    </ul>
+
+    <h2>4. Third-Party Services</h2>
+    <p>We work with the following third-party services:</p>
+    <ul>
+        <li><strong>Patreon</strong>: To manage payments. Please review their <a href="https://www.patreon.com/legal" target="_blank">Privacy Policy</a> for details on how they handle your data.</li>
+        <li><strong>Cloudflare</strong>: Used for security and performance optimization, without direct access to your personal data.</li>
+    </ul>
+
+    <h2>5. Cookies</h2>
+    <p>We use <strong>functional cookies</strong> to enhance your experience on The Poyoweb. These cookies help maintain the core functionality of the website.</p>
+    <p>You can manage or disable cookies via your browser settings, but doing so may affect your ability to use our services.</p>
+
+    <h2>6. Data Security and Retention</h2>
+    <p>Your data is stored on our servers, and we use use hashing to protect the passwords. Emails and Usernames remain unhashed. We retain your data indefinitely unless you request its deletion.</p>
+
+    <h2>7. Your Rights Under GDPR</h2>
+    <p>As a user, you have the following rights regarding your personal data:</p>
+    <ul>
+        <li><strong>Access</strong>: You can request access to the personal data we hold about you.</li>
+        <li><strong>Rectification</strong>: You can request corrections to any inaccuracies in your data.</li>
+        <li><strong>Deletion</strong>: You can request that we delete your personal data, although this may restrict your access to our services.</li>
+        <li><strong>Withdrawal of Consent</strong>: You may withdraw consent for the processing of your data by contacting us.</li>
+    </ul>
+    <p>To exercise any of these rights, please contact us at <a href="mailto:poyo@poyo.study">poyo@poyo.study</a>.</p>
+
+    <h2>8. Data Sharing</h2>
+    <p>We may share your data in compliance with legal obligations, such as responding to legal requests or protecting our rights. We do not sell or share your data for commercial purposes.</p>
+
+    <h2>9. Data Transfers</h2>
+    <p>We do not transfer your personal data outside the European Economic Area (EEA).</p>
+
+    <h2>10. Services for Minors</h2>
+    <p>Our services are not intended for individuals under the age of 16. We do not knowingly collect personal data from minors without parental consent.</p>
+
+    <h2>11. How We Collect Consent</h2>
+    <p>We collect only the minimum necessary data to provide our services. By using The Poyoweb, you agree to this Privacy Policy and consent to our processing of your personal data.</p>
+    <p>If you have any questions or concerns about how we handle your data, please contact us at <a href="mailto:poyo@poyo.study">poyo@poyo.study</a>.</p>
+<%- include('footer') %>

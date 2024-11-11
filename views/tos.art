@@ -1,0 +1,54 @@
+<%- include('header') %>
+    <h1>Terms of Service</h1>
+    <h2 id="1-introduction">1. Introduction</h2>
+    <p>Welcome to The Poyoweb, also known as &quot;PoyoWeb&quot;. By using our services, you agree to comply with
+        and be bound by the following terms and conditions. If you do not agree with our Terms of Service, you will
+        be restricted from accessing The PoyoWeb.</p>
+    <h2 id="2-your-privacy-rights">2. Your Privacy Rights</h2>
+    <p>We are committed to protecting your privacy in accordance with the General Data Protection Regulation (GDPR).
+        By using The Poyoweb, you consent to the collection, use, and storage of your data in line with our Privacy
+        Policy, which outlines how we process personal information and protect your rights under the GDPR. You may
+        request access, rectification, or deletion of your personal data at any time. For detailed information,
+        please refer to our <a href="/privacy">Privacy Policy</a>.</p>
+    <h2 id="3-prohibited-content">3. Prohibited Content</h2>
+    <p>You are not permitted to use our hosting services to store, share, or distribute any of the following:</p>
+    <ul>
+        <li><strong>NSFW Material</strong>: No adult content, including but not limited to pornography or obscene
+            material.</li>
+        <li><strong>Hate Speech</strong>: Any content that promotes violence, discrimination, or hatred based on
+            race, ethnicity, gender, religion, or any other protected characteristics.</li>
+        <li><strong>Illegal Activity</strong>: Content that violates any laws or regulations in the countres of Spain and/or Finland
+            is strictly prohibited.</li>
+        <li><strong>Service Disruption</strong>: No attempts to break or disrupt our service, website, or other
+            people’s websites.</li>
+        <li><strong>No Spam</strong>: Spamming of any kind is not allowed.</li>
+        <li><strong>No Malware</strong>: Phishing sites, viruses, or any other malicious code is strictly
+            prohibited.</li>
+        <li><strong>No Piracy</strong>: No hosting of pirated or cracked software.</li>
+        <li><strong>No Impersonation</strong>: Impersonating individuals or entities may result in immediate
+            suspension or banning.</li>
+        <li><strong>No Copyright Infringement</strong>: You may only host content that you own or have the legal
+            right to use. Unauthorized use of copyrighted material is not permitted.</li>
+    </ul>
+    <h2 id="4-no-guarantee-of-uptime">4. No Guarantee of Uptime</h2>
+    <p>While we strive to provide reliable hosting services, we cannot guarantee uninterrupted uptime. Outages or
+        downtime may occur due to maintenance, technical issues, or unforeseen circumstances.</p>
+    <h2 id="5-termination-of-service">5. Termination of Service</h2>
+    <p>We reserve the right to suspend or terminate your access to our hosting services at any time, without notice,
+        for any violation of these Terms of Service.</p>
+    <h2 id="6-no-guarantee-of-indefinite-service">6. No Guarantee of Indefinite Service</h2>
+    <p>We make no guarantees that our hosting service will be available indefinitely. We reserve the right to
+        discontinue our services at any time, always with prior notice.</p>
+    <h2 id="7-payments-and-billing">7. Payments and Billing</h2>
+    <p>Currently we don't accept payments of any kind. However, you can contribute to the project by joining the <a href="https://discord.gg/p5Vc9kz4ph">Discord</a> or contributing to the <a href="https://github.com/mrdapoyo/poyoweb-node">GitHub</a></p>
+    <h2 id="8-limitation-of-liability">8. Limitation of Liability</h2>
+    <p>The Poyoweb shall not be held liable for any damages or losses arising from the use or inability to use our
+        services, including but not limited to service outages, loss of data, or unauthorized access.</p>
+    <h2 id="9-changes-to-these-terms">9. Changes to These Terms</h2>
+    <p>We reserve the right to update or modify these Terms of Service at any time without prior notice. It is your
+        responsibility to review the terms regularly.</p>
+    <h2 id="10-contact-information">10. Contact Information</h2>
+    <p>If you have any questions regarding these terms, please contact us at poyo@poyo.study or via the <a href="https://discord.gg/p5Vc9kz4ph">Discord</a>.</p>
+    <hr>
+    <p><em>Last updated: 10th of October, 2024</em></p>
+<%- include('footer') %>

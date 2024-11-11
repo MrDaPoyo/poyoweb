@@ -66,6 +66,14 @@ app.get("/", (req, res) => {
   res.render("index", { title: "Home" });
 });
 
+app.get("/privacy", (req, res) => {
+  res.render("privacy", { title: "Privacy Policy" });
+});
+
+app.get("/tos", (req, res) => {
+  res.render("tos", { title: "Terms Of Service" });
+});
+
 app.post("/auth/register", notLoggedInMiddleware, (req, res) => {
   const { username, password, email } = req.body;
   if (!username || !password || !email) {
