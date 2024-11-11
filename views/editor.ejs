@@ -12,11 +12,9 @@
 	<textarea id="editor"><%= file.contents %></textarea>
 </form>
 <script>
-	var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
-		lineNumbers: true,
-		mode: CodeMirror.findModeByFileName('<%= file.name %>').mode
-	});
-	CodeMirror.autoLoadMode(editor, CodeMirror.findModeByFileName('<%= file.name %>').mode);
+  var editor = CodeMirror.fromTextArea(myTextarea, {
+    lineNumbers: true
+  });
 </script>
 </form>
 <%- include('footer') %>
