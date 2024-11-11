@@ -64,6 +64,11 @@ app.get("/", (req, res) => {
   res.render("index", { title: "Home" });
 });
 
+
+app.use((req, res, next) => {
+  res.status(404).sendFile(path.join(__dirname, 'public', 'errors', 'minecraft404_overworld.png'));
+});
+
 app.post("/auth/register", notLoggedInMiddleware, (req, res) => {
   const { username, password, email } = req.body;
   if (!username || !password || !email) {
