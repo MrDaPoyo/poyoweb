@@ -99,6 +99,13 @@ const storage = multer.diskStorage({
             req.res.status(401).json({ error: 'Invalid API key', success: false });
         }
     },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    },
+});
+
+const upload = multer({ 
+    storage: storage,
     fileFilter: async function (req, file, cb) {
         try {
             const isValid = await verifyFile.checkFileName(file.originalname);
@@ -111,12 +118,7 @@ const storage = multer.diskStorage({
             cb(new Error('Error verifying file name'), false);
         }
     },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    },
-});
-
-const upload = multer({ storage: storage });
+ });
 
 app.post('/file/upload', upload.single("file"), async (req, res) => {
     var { apiKey, dir } = req.body;
