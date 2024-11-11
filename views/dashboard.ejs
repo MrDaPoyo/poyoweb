@@ -59,21 +59,12 @@
       <button>Delete</button>
     </a>
     <% if (files.files[key].type == "file") { %>
-<<<<<<< HEAD
     	<a onclick="rename('<%= files.files[key].cleanPath %>')">
       		<button>Rename</button>
     	</a>
     	<% if (files.files[key].openable == true) { %>
     		<a href="/editor?file=<%= files.files[key].cleanPath %>"><button>Edit</button></a>
     	<% } %>
-=======
-    <a onclick="rename('<%= files.files[key].cleanPath %>')">
-      <button>Rename</button>
-    </a>
-    <% if (files.files[key].openable) { %>
-    <a href="/editor?file=<%= files.files[key].cleanPath %>&apiKey=<%- jwt || '' %>">
-      <button>Edit</button>
->>>>>>> ae256db (editor)
     <% } else {%>
     <a href="/dashboard?dir=<%- dir %>/<%- files.files[key].cleanPath %>">
       <button>Travel</button>
