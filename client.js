@@ -292,9 +292,9 @@ app.post("/dashboard/renameFileByPath", async (req, res) => {
 app.post("/dashboard/createDir", async (req, res) => {
   const { dirName } = req.body;
   if (!dirName) {
-    return res.status(400).json({ error: "Missing required fields" });
+    return res.render(`/dashboard?dir=${req.query.dir || ""}`, { message: "Missing required fields" });
   } else if (dirName.includes("..")) {
-    return res.status(400).json({ error: "Invalid directory name" });
+    return res.render(`/dashboard?dir=${req.query.dir || ""}`, { message: "Invalid Directory Name" });
   }
   try {
     const response = await fetch(`${process.env.API_URL}file/createDirectory`, {
