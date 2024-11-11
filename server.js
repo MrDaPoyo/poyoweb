@@ -278,7 +278,7 @@ app.get('/file/retrieve', async (req, res) => {
     } else {
         var username = await user.username;
         if (await username) {
-            var filePath = path.join(__dirname, 'websites/users', username, file);
+            var filePath = path.join('websites/users', username, file);
             filePath = filePath.replace(/^(\.\.(\/|\\|$))+/, '');
             try {
                 if (!fs.existsSync(filePath)) {
