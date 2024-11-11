@@ -251,7 +251,7 @@ app.post('/file/createDirectory', async (req, res) => {
             var directory = path.join(__dirname, 'websites/users', username, dir);
             directory = directory.replace(/^(\.\.(\/|\\|$))+/, '');
             try {
-                fs.mkdirSync(directory);
+                await fs.mkdir(directory, { recursive: true });
                 res.status(200).json({ message: 'Directory created successfully', success: true });
             } catch (error) {
                 res.status(500).json({ error: 'Error creating directory: ' + error });
