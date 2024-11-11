@@ -18,7 +18,14 @@
 	  <div class="Header">
 		<h1>PoyoWeb - <%- title %></h1>
 	  </div>
-	  <div class="Links"></div>
+	  <div class="Links">
+	    <h2>Links</h2>
+	    <a href="<%= url %>">Home</a>
+		<% if (loggedIn) { %>
+			<a href="/dashboard">Dashboard</a>
+			<a href="/auth/logout">Logout</a>
+		<% } %>
+	  </div>
 	  <div class="Stats"></div>
 	  <% if (typeof message !== 'undefined' && message) { %>
 	          <div id="Message">

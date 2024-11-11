@@ -71,6 +71,18 @@ html, body , .megacontainer {
 	overflow-x: hidden;
 }
 
+.Links h2 {
+	position: absolute;
+	top: 2vh;
+	left: 2vh;
+}
+
+.megacontainer .Links {
+	flex-direction: column;
+	align-items: space-around;
+	justify-content: center;
+}
+
 .megacontainer *:after {
   position: absolute;
   top: 0;

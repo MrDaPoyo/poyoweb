@@ -17,6 +17,7 @@ const checkAuthMiddleware = (req, res, next) => {
   const token = req.cookies.auth;
   req.jwt = token;
   res.locals.jwt = token;
+  res.locals.url = process.env.URL_ENTIRE;
 
   if (!token) {
     res.locals.loggedIn = false;
