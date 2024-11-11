@@ -86,7 +86,7 @@ app.post("/auth/register", notLoggedInMiddleware, (req, res) => {
       .then((data) => {
         if (data.success) {
           res.cookie("auth", data.jwt, { httpOnly: true });
-          res.redirect("index", { message: data.message, title: "Home" });
+          res.redirect("/");
         } else {
           res.status(400).json({ error: data.error, success: data.success });
         }
@@ -172,6 +172,7 @@ app.post("/dashboard/upload", async (req, res) => {
       dir: dir,
       apiKey: apiKey,
     }),
+<<<<<<< HEAD
   })
     .then((response) => response.json())
     .then((data) => {
@@ -182,6 +183,13 @@ app.post("/dashboard/upload", async (req, res) => {
       } else {
         res.status(400).json({ error: data.error, success: false });
       }
+=======
+  });
+  data
+    .then((response) => response.text())
+    .then((data) => {
+      res.status(200).json(JSON.parse(data));
+>>>>>>> 8fc4764 (fix redirect)
     })
     .catch((error) => {
       console.error("Error:", error);
