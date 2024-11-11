@@ -15,15 +15,15 @@
     position: absolute;
     width: 1px;
     background-color: black;
-    top: 5px;
-    bottom: -12px;
-    left: 10px;
+    top: 0px;
+    bottom: -3vh;
+    left: -15px;
 }
 
 .file::after {
     content: " ";
     position: absolute;
-    left: 10px;
+    left: -15px;
     width: 10px;
     height: 1px;
     background-color: black;
