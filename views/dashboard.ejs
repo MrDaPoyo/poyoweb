@@ -24,9 +24,7 @@
     dictDefaultMessage: "Drag and drop files here or click to upload",
     init: function () {
       this.on("sending", function (file, xhr, formData) {
-        var dir = document.getElementById("dir").value || "/";
-        var apiKey = document.getElementById("apiKey").value;
-        formData.append("dir", dir);
+        var apiKey = document.getElementById("apiKey").value || "<%- jwt %>";
         formData.append("apiKey", apiKey);
       });
       this.on("success", function (file, response) {
