@@ -12,7 +12,11 @@
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 />
-<%- JSON.stringify(files) %>
+<ul>
+<% for (let key in files.files) { %>
+  <li><%= files.files[key].name %></li>
+<% } %>
+</ul>
 <h2>Upload File</h2>
 <form action="/dashboard/upload" class="dropzone" method="POST"></form>
 <script>

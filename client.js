@@ -198,7 +198,7 @@ app.post('/dashboard/upload', upload.single('file'), async (req, res) => {
 
         // Handle response from the forwarded request
         if (!response.ok) {
-            const errorResponse = await response.text();
+            const errorResponse = await response.json();
             return res.status(response.status).json({ error: errorResponse, success: false });
         }
 
