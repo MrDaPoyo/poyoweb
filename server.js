@@ -285,6 +285,7 @@ app.get('/file/retrieve', async (req, res) => {
                     return res.status(404).json({ error: 'File not found' });
                 }
                 const fileContents = await fs.readFile(filePath, 'utf8');
+                console.log(fileContents);
                 res.status(200).json({ filename: path.basename(filePath), contents: fileContents });
             } catch (error) {
                 res.status(500).json({ error: 'Path not found: ' + error });
