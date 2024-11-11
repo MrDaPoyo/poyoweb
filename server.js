@@ -270,6 +270,31 @@ app.post('/file/createDirectory', async (req, res) => {
     }
 });
 
+app.get('/file/retrieve', async (req, res) => {
+    const { apiKey, file } = req.query;
+    var user = await verifyApiKey(apiKey);
+    if (!user) {
+        return res.status(401).json({ error: 'Invalid API key' });
+    } else {
+        var username = await user.username;
+        if (await username) {
+            var filePath = path.join(__dirname, 'websites/users', username, file);
+            filePath = filePath.replace(/^(\.\.(\/|\\|$))+/, '');
+            try {
+                if (!fs.existsSync(filePath)) {
+                    return res.status(404).json({ error: 'File not found' });
+                }
+                const fileContents = await fs.readFile(filePath, 'utf8');
+                res.status(200).json({ filename: path.basename(filePath), contents: fileContents });
+            } catch (error) {
+                res.status(500).json({ error: 'Path not found: ' + error });
+            }
+        } else {
+            res.status(404).json({ error: 'User not found' });
+        }
+    }
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`PoyoWeb! API running at ${process.env.API_URL}:${port}`);

@@ -35,26 +35,20 @@ const checkAuthMiddleware = (req, res, next) => {
 };
 
 const notLoggedInMiddleware = (req, res, next) => {
-  const token = req.cookies.auth;
-  if (!token) {
-    res.locals.loggedIn = false;
-    next();
+  if (res.locals.loggedIn) {
+    res.redirect("/");
   } else {
-    jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
-      if (err) {
-        res.locals.loggedIn = false;
-        next();
-      } else if (decoded) {
-        res.locals.loggedIn = true;
-        user = { id: decoded.id };
-        return res.redirect("/");
-      } else {
-        res.locals.loggedIn = false;
-        next();
-      }
-    });
+    next();
   }
 };
+
+const loggedInMiddleware = (req, res, next) => {
+  if (!res.locals.loggedIn) {
+    res.redirect("/auth/login");
+  } else {
+    next();
+  }
+}
 
 app.use(cookieParser());
 app.use(require("./domains"));
@@ -149,7 +143,7 @@ app.get("/auth/logout", (req, res) => {
   res.redirect("/");
 });
 
-app.get("/dashboard", async (req, res) => {
+app.get("/dashboard", loggedInMiddleware, async (req, res) => {
   fetch(
     `${process.env.API_URL}file?apiKey=${req.jwt}&dir=${req.query.dir || ""}`
   )
@@ -336,6 +330,11 @@ app.post("/dashboard/createDir", async (req, res) => {
     console.error("Error:", error);
     res.status(500).json({ error: "An error occurred; " + error });
   }
+});
+
+app.get("/editor", loggedInMiddleware, (req, res) => {
+  const data = fetch(`${process.env.API_URL}file/retrieve?apiKey=${req.jwt}&file=${req.query.file}`);
+  res.render("editor", { title: "Editor - " + data.filename, file: data });
 });
 
 app.listen(port, () => {
