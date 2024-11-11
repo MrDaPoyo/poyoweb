@@ -26,6 +26,7 @@
         }
       };
       xhr.send(JSON.stringify({ cleanPath: cleanPath, newName: newName, apiKey: apiKey }));
+      window.location.reload();
     } else {
       alert("Invalid name, aborting.");
     }
