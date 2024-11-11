@@ -38,7 +38,6 @@
   <input type="submit" value="Create" />
 </form>
 <h2>File List</h2>
-<%- JSON.stringify(files) %>
 <ul>
 <% for (let key in files.files) { %>
   <li><%= files.files[key].name %>
