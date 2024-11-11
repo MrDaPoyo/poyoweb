@@ -38,14 +38,22 @@
   <input type="submit" value="Create" />
 </form>
 <h2>File List</h2>
+<%- JSON.stringify(files) %>
 <ul>
 <% for (let key in files.files) { %>
   <li><%= files.files[key].name %>
     <a href="/dashboard/removeFileByPath?cleanPath=<%= files.files[key].cleanPath %>&dir=<%- dir || '' %>">
       <button>Delete</button>
     </a>
-    <a onclick="rename('<%= files.files[key].cleanPath %>')">
-      <button>Rename</button>
+    <% if (files.files[key].type == "file") { %>
+    	<a onclick="rename('<%= files.files[key].cleanPath %>')">
+      		<button>Rename</button>
+      	</a>
+    <% } else {%>
+    	<a href="/dashboard?dir=<%- dir %>/<%- files.files[key].cleanPath %>">
+    	    <button>Travel</button>
+    	</a>
+    <% } %>
   </li>
 <% } %>
 </ul>
