@@ -154,13 +154,21 @@ app.get("/dashboard", async (req, res) => {
   )
     .then((response) => response.text())
     .then((data) => {
-      res.render("dashboard", {
-        title: "Dashboard",
-        files: JSON.parse(data),
-        dir: req.query.dir || "",
-        pastDir: req.query.dir ? path.resolve(req.query.dir, "..") : "",
-        isRoot: req.query.dir == "" || req.query.dir == "/" || req.query.dir == "." || req.query.dir == "./",
-      });
+      if (!data.error) {
+        res.render("dashboard", {
+          title: "Dashboard",
+          files: JSON.parse(data),
+          dir: req.query.dir || "",
+          pastDir: req.query.dir ? path.resolve(req.query.dir, "..") : "",
+          isRoot:
+            req.query.dir == "" ||
+            req.query.dir == "/" ||
+            req.query.dir == "." ||
+            req.query.dir == "./",
+        });
+      } else {
+        res.status(400).json({ error: data.error });
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -294,9 +302,13 @@ app.post("/dashboard/renameFileByPath", async (req, res) => {
 app.post("/dashboard/createDir", async (req, res) => {
   const { dirName } = req.body;
   if (!dirName) {
-    return res.redirect(`/dashboard?dir=${req.query.dir || ""}&message=Missing required fields`);
+    return res.redirect(
+      `/dashboard?dir=${req.query.dir || ""}&message=Missing required fields`
+    );
   } else if (dirName.includes("..")) {
-    return res.redirect(`/dashboard?dir=${req.query.dir || ""}&message=Invalid Directory Name`);
+    return res.redirect(
+      `/dashboard?dir=${req.query.dir || ""}&message=Invalid Directory Name`
+    );
   }
   try {
     const response = await fetch(`${process.env.API_URL}file/createDirectory`, {
@@ -312,8 +324,9 @@ app.post("/dashboard/createDir", async (req, res) => {
 
     if (!response.ok) {
       const errorResponse = await response.json();
-      return res
-        .redirect(`/dashboard?dir=${req.query.dir || ""}&message=${errorResponse.error}`);
+      return res.redirect(
+        `/dashboard?dir=${req.query.dir || ""}&message=${errorResponse.error}`
+      );
     }
 
     const responseData = await response.json();
