@@ -108,7 +108,7 @@ const storage = multer.diskStorage({
         req.res
           .status(400)
           .json({ error: "Invalid file name", success: false });
-        cb(null, false);
+        return cb(null, false);
       } else {
         const sanitizedDir = path
           .normalize(dir || "")
@@ -126,6 +126,7 @@ const storage = multer.diskStorage({
       }
     } catch (error) {
       req.res.status(401).json({ error: "Invalid API key", success: false });
+      return cb(null, false);
     }
   },
   filename: function (req, file, cb) {
