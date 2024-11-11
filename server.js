@@ -6,7 +6,9 @@ const fs = require('fs-extra')
 const multer = require('multer');
 require('dotenv').config();
 
+const verifyFile = require('./snippets/verifyFile');
 const dirWalker = require('./snippets/dirWalker');
+const { verify } = require('crypto');
 
 db.setupDB();
 
@@ -110,7 +112,7 @@ app.post('/file/upload', upload.single("file"), async (req, res) => {
     dir = dir || '';
     dir = dir.replace(/^(\.\.(\/|\\|$))+/, '');
     var user = await verifyApiKey(apiKey);
-    if (file && file.originalname && file.size) {
+    if (file && file.originalname && file.size && verifyFile.checkFileName(file.originalname)) {
         var fullPath = path.join(__dirname, 'websites/users', await user.username, dir || '');
         var filePath = path.join(fullPath, file.originalname);
         var resolvedPath = path.resolve(filePath);
