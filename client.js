@@ -57,6 +57,7 @@ const notLoggedInMiddleware = (req, res, next) => {
 };
 
 app.use(cookieParser());
+app.use(require("./domains"));
 app.use(checkAuthMiddleware);
 
 app.set("view engine", "ejs");
