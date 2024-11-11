@@ -26,7 +26,7 @@
 		var formData = new FormData();
 		formData.append('file', blob, 'editor-content.txt');
 
-		fetch('/dashboard/uploads?dir=<%= dir %>', {
+		fetch('/dashboard/upload?dir=<%= dir %>', {
 			method: 'POST',
 			body: formData
 		}).then(response => {
