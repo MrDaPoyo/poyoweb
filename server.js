@@ -109,7 +109,6 @@ const storage = multer.diskStorage({
           .status(400)
           .json({ error: "Invalid file name", success: false });
         cb(null, false);
-        return;
       } else {
         const sanitizedDir = path
           .normalize(dir || "")
