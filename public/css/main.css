@@ -60,9 +60,15 @@ html, body , .megacontainer {
   padding: 2vh;
 }
 
+.megacontainer > div :first-child {
+    margin: 0 !important;
+}
+
 .megacontainer .Main {
 	padding: 2vh;
 	display: block;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .megacontainer *:after {
