@@ -51,10 +51,10 @@
   		<button>Go Back</button>
 	</a>
 <% } %>
-<ul>
+<ul class="dashboard-container">
   <% for (let key in files.files) { %>
-  <li>
-    <%= files.files[key].name %>
+  <li class="file-container">
+    <span class="file"><%= files.files[key].name %></span>
     <a href="/dashboard/removeFileByPath?cleanPath=<%= files.files[key].cleanPath %>&dir=<%- dir || '' %>">
       <button>Delete</button>
     </a>

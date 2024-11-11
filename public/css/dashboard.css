@@ -1,3 +1,15 @@
+.file-container {
+	position: relative;
+}
+
+.file {
+	margin: 0;
+	position: relative;
+}
+.file > * {
+	margin: 0;
+}
+
 .file::before {
     content: " ";
     position: absolute;
