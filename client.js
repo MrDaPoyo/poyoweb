@@ -3,9 +3,9 @@ const express = require("express");
 require("dotenv").config();
 const fetch = require("node-fetch");
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken")
-const { Readable } = require('stream');
-const FormData = require('form-data');
+const jwt = require("jsonwebtoken");
+const { Readable } = require("stream");
+const FormData = require("form-data");
 const multer = require("multer");
 
 const app = express();
@@ -166,53 +166,56 @@ app.get("/dashboard", async (req, res) => {
 
 const upload = multer();
 
-app.post('/dashboard/upload', upload.single('file'), async (req, res) => {
-    try {
-        const { apiKey, dir } = req.body;
+app.post("/dashboard/upload", upload.single("file"), async (req, res) => {
+  try {
+    const { apiKey, dir } = req.body;
 
-        if (!req.file) {
-            return res.status(400).json({ error: 'No file uploaded', success: false });
-        }
-
-        // Create FormData
-        const formData = new FormData();
-        formData.append('apiKey', apiKey || '');
-        formData.append('dir', dir || '');
-
-        // Convert file buffer to a readable stream
-        const fileStream = new Readable();
-        fileStream.push(req.file.buffer);
-        fileStream.push(null); // End the stream
-
-        // Append file to FormData
-        formData.append('file', fileStream, {
-            filename: req.file.originalname,
-            contentType: req.file.mimetype,
-        });
-
-        // Make the request using node-fetch
-        const response = await fetch(`${process.env.API_URL}file/upload`, {
-            method: 'POST',
-            headers: formData.getHeaders(),
-            body: formData
-        });
-
-        // Handle response from the forwarded request
-        if (!response.ok) {
-            const errorResponse = await response.json();
-            return res.status(response.status).json({ error: errorResponse, success: false });
-        }
-
-        const responseData = await response.json();
-        res.status(response.status).json(responseData);
-
-    } catch (error) {
-        console.error("Error in forwarding file upload:", error.message);
-        res.status(500).json({
-            error: 'An error occurred while forwarding the file upload.',
-            success: false
-        });
+    if (!req.file) {
+      return res
+        .status(400)
+        .json({ error: "No file uploaded", success: false });
     }
+
+    // Create FormData
+    const formData = new FormData();
+    formData.append("apiKey", apiKey || "");
+    formData.append("dir", dir || "");
+
+    // Convert file buffer to a readable stream
+    const fileStream = new Readable();
+    fileStream.push(req.file.buffer);
+    fileStream.push(null); // End the stream
+
+    // Append file to FormData
+    formData.append("file", fileStream, {
+      filename: req.file.originalname,
+      contentType: req.file.mimetype,
+    });
+
+    // Make the request using node-fetch
+    const response = await fetch(`${process.env.API_URL}file/upload`, {
+      method: "POST",
+      headers: formData.getHeaders(),
+      body: formData,
+    });
+
+    // Handle response from the forwarded request
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      return res
+        .status(response.status)
+        .json({ error: errorResponse, success: false });
+    }
+
+    const responseData = await response.json();
+    res.status(response.status).json(responseData);
+  } catch (error) {
+    console.error("Error in forwarding file upload:", error.message);
+    res.status(500).json({
+      error: "An error occurred while forwarding the file upload.",
+      success: false,
+    });
+  }
 });
 
 app.get("/dashboard/removeFileByPath", async (req, res) => {
@@ -220,9 +223,9 @@ app.get("/dashboard/removeFileByPath", async (req, res) => {
 
   try {
     const response = await fetch(`${process.env.API_URL}file/removeByPath`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         apiKey: req.jwt,
@@ -232,12 +235,52 @@ app.get("/dashboard/removeFileByPath", async (req, res) => {
 
     if (!response.ok) {
       const errorResponse = await response.json();
-      return res.status(response.status).json({ error: errorResponse, success: false });
+      return res
+        .status(response.status)
+        .json({ error: errorResponse, success: false });
     }
 
     const responseData = await response.json();
     res.redirect("/dashboard?dir=" + req.query.dir || "");
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "An error occurred; " + error });
+  }
+});
 
+app.post("/dashboard/renameFileByPath", async (req, res) => {
+  const { cleanPath, newName } = req.body;
+  if (!cleanPath || !newName) {
+    return res.status(400).json({ error: "Missing required fields" });
+  } else if (cleanPath.includes("..") || newName.includes("..")) {
+    return res.status(400).json({ error: "Invalid file path" });
+  } else if (cleanPath === newName) {
+    return res.status(400).json({ error: "New name is the same as the old" });
+  } else if (!verifyFile.checkFileName(newName) && newName !== "") {
+    return res.status(400).json({ error: "Invalid file name" });
+  }
+  try {
+    const response = await fetch(`${process.env.API_URL}file/renameByPath`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        apiKey: req.jwt,
+        file: cleanPath,
+        newName: newName,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      return res
+        .status(response.status)
+        .json({ error: errorResponse, success: false });
+    }
+
+    const responseData = await response.json();
+    res.redirect("/dashboard?dir=" + req.query.dir || "");
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "An error occurred; " + error });

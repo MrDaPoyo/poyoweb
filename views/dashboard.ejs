@@ -12,9 +12,34 @@
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 />
+<script>
+  function rename(cleanPath) {
+    var newName = prompt("Enter new name");
+    if (newName) {
+      var apiKey = document.getElementById("apiKey").value || "<%- jwt %>";
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", `/dashboard/renameFileByPath`, true);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          window.location.reload();
+        }
+      };
+      xhr.send(JSON.stringify({ cleanPath: cleanPath, newName: newName, apiKey: apiKey }));
+    } else {
+      alert("Invalid name, aborting.");
+    }
+  }
+</script>
 <ul>
 <% for (let key in files.files) { %>
-  <li><%= files.files[key].name %><a href="/dashboard/removeFileByPath?cleanPath=<%= files.files[key].cleanPath %>&dir=<%- dir || '' %>"><button>X</button></a></li>
+  <li><%= files.files[key].name %>
+    <a href="/dashboard/removeFileByPath?cleanPath=<%= files.files[key].cleanPath %>&dir=<%- dir || '' %>">
+      <button>Delete</button>
+    </a>
+    <a onclick="rename('<%= files.files[key].cleanPath %>')">
+      <button>Rename</button>
+  </li>
 <% } %>
 </ul>
 <h2>Upload File</h2>
