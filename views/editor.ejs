@@ -10,12 +10,35 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/meta.min.js" integrity="sha512-/2x+sfL5ERHfoViXm/UncFBzaD54f2bkjEui6w2IheEUafG2gcHJv3gQ4VDIqNr+LuApQwpnsjjrEMXI43nPzg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <form>
 	<textarea id="editor"><%= file.contents %></textarea>
+	<button type="submit">Save</button>
 </form>
 <script>
-	  var editorTextArea = document.getElementById('editor');
-  var editor = CodeMirror.fromTextArea(editorTextArea, {
-    lineNumbers: true
-  });
+	var editorTextArea = document.getElementById('editor');
+	var editor = CodeMirror.fromTextArea(editorTextArea, {
+    	lineNumbers: true
+ 	});
 </script>
-</form>
+<script>
+	document.querySelector('form').addEventListener('submit', function(event) {
+		event.preventDefault();
+		var content = editor.getValue();
+		var blob = new Blob([content], { type: 'text/plain' });
+		var formData = new FormData();
+		formData.append('file', blob, 'editor-content.txt');
+
+		fetch('/dashboard/uploads?dir=<%= dir %>', {
+			method: 'POST',
+			body: formData
+		}).then(response => {
+			if (response.ok) {
+				alert('File uploaded successfully.');
+			} else {
+				alert('File upload failed.');
+			}
+		}).catch(error => {
+			console.error('Error:', error);
+			alert('File upload failed.');
+		});
+	});
+</script>
 <%- include('footer') %>

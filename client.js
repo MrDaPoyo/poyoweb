@@ -334,9 +334,10 @@ app.post("/dashboard/createDir", async (req, res) => {
 
 app.get("/editor", loggedInMiddleware, async (req, res) => {
   try {
+    const dir = path.dirname(req.query.file);
     const response = await fetch(`${process.env.API_URL}file/retrieve?apiKey=${req.jwt}&file=${req.query.file}`);
     const data = await response.json();
-    res.render("editor", { title: "Editor - " + data.filename, file: data });
+    res.render("editor", { title: "Editor => " + data.filename, file: data, dir: dir });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "An error occurred; " + error });
