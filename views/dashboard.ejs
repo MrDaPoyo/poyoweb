@@ -59,9 +59,12 @@
       <button>Delete</button>
     </a>
     <% if (files.files[key].type == "file") { %>
-    <a onclick="rename('<%= files.files[key].cleanPath %>')">
-      <button>Rename</button>
-    </a>
+    	<a onclick="rename('<%= files.files[key].cleanPath %>')">
+      		<button>Rename</button>
+    	</a>
+    	<% if (files.files[key].openable == true) { %>
+    		<a href="/editor?file=<%= files.files[key].cleanPath %>"><button>Edit</button></a>
+    	<% } %>
     <% } else {%>
     <a href="/dashboard?dir=<%- dir %>/<%- files.files[key].cleanPath %>">
       <button>Travel</button>
