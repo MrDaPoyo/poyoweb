@@ -1,3 +1,11 @@
 <%- include('header') %>
-<%- JSON.stringify(file) %>
+<style>
+	textarea {
+		height: 50vh;
+		width: 50vw;
+	}
+</style>
+<form>
+<textarea><%= file.contents %></textarea>
+</form>
 <%- include('footer') %>
