@@ -154,10 +154,11 @@ app.get("/dashboard", async (req, res) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      if (!data.error) {
+      var answer = JSON.parse(data) 
+      if (!d.error) {
         res.render("dashboard", {
           title: "Dashboard",
-          files: JSON.parse(data),
+          files: data,
           dir: req.query.dir || "",
           pastDir: req.query.dir ? path.resolve(req.query.dir, "..") : "",
           isRoot:
