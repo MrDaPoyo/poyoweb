@@ -18,6 +18,7 @@ const checkAuthMiddleware = (req, res, next) => {
   req.jwt = token;
   res.locals.jwt = token;
   res.locals.url = process.env.URL_ENTIRE;
+  res.locals.message = req.query.message;
 
   if (!token) {
     res.locals.loggedIn = false;
@@ -126,7 +127,7 @@ app.post("/auth/login", notLoggedInMiddleware, async (req, res) => {
       if (data.success) {
         res.cookie("auth", data.jwt, { httpOnly: true });
         res.locals.loggedIn = true;
-        res.redirect("/");
+        res.redirect("/?message=Successfully Registered!");
       } else {
         res.clearCookie("auth");
         res.locals.loggedIn = false;

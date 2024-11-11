@@ -26,9 +26,12 @@
 			<a href="/auth/logout">Logout</a>
 		<% } %>
 	  </div>
-	  <div class="Stats"></div>
+	  <div class="Stats">
+		<h2>Stats</h2>
+		<p>Empty for now!</p>
+	  </div>
 	  <% if (typeof message !== 'undefined' && message) { %>
-	          <div id="Message">
+	          <div class="Message">
 	              <%- message %>
 	          </div>
 	  <% } %>
