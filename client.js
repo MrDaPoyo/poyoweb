@@ -155,6 +155,7 @@ app.get("/dashboard", async (req, res) => {
       res.render("dashboard", {
         title: "Dashboard",
         files: JSON.parse(data),
+        dir: req.query.dir || "",
       });
     })
     .catch((error) => {
