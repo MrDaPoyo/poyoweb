@@ -49,9 +49,7 @@
   <% for (let key in files.files) { %>
   <li>
     <%= files.files[key].name %>
-    <a
-      href="/dashboard/removeFileByPath?cleanPath=<%= files.files[key].cleanPath %>&dir=<%- dir || '' %>"
-    >
+    <a href="/dashboard/removeFileByPath?cleanPath=<%= files.files[key].cleanPath %>&dir=<%- dir || '' %>">
       <button>Delete</button>
     </a>
     <% if (files.files[key].type == "file") { %>
@@ -64,6 +62,7 @@
     </a>
     <% } %>
   </li>
+  <hr>
   <% } %>
 </ul>
 <% if (files.files && files.files.length < 1) { %>

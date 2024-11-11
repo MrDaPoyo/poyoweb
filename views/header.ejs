@@ -8,6 +8,11 @@
     <link href='https://fonts.googleapis.com/css?family=Noto Serif' rel='stylesheet'>
 </head>
 <body>
+	<style>
+	   	* {
+	     	font-family: 'Noto Serif';
+	    }
+	</style>
 	<% if (typeof locals.jwt !== 'undefined' && locals.jwt) { %>
         <span id="apiKey" style="display: none;"><%- locals.jwt %></span>
     <% } %>
