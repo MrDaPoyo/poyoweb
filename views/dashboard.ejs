@@ -25,7 +25,13 @@
           window.location.reload();
         }
       };
-      xhr.send(JSON.stringify({ cleanPath: cleanPath, newName: newName, apiKey: apiKey }));
+      xhr.send(
+        JSON.stringify({
+          cleanPath: cleanPath,
+          newName: newName,
+          apiKey: apiKey,
+        })
+      );
       window.location.reload();
     } else {
       alert("Invalid name, aborting.");
@@ -40,25 +46,28 @@
 </form>
 <h2>File List</h2>
 <ul>
-<% for (let key in files.files) { %>
-  <li><%= files.files[key].name %>
-    <a href="/dashboard/removeFileByPath?cleanPath=<%= files.files[key].cleanPath %>&dir=<%- dir || '' %>">
+  <% for (let key in files.files) { %>
+  <li>
+    <%= files.files[key].name %>
+    <a
+      href="/dashboard/removeFileByPath?cleanPath=<%= files.files[key].cleanPath %>&dir=<%- dir || '' %>"
+    >
       <button>Delete</button>
     </a>
     <% if (files.files[key].type == "file") { %>
-    	<a onclick="rename('<%= files.files[key].cleanPath %>')">
-      		<button>Rename</button>
-      	</a>
+    <a onclick="rename('<%= files.files[key].cleanPath %>')">
+      <button>Rename</button>
+    </a>
     <% } else {%>
-    	<a href="/dashboard?dir=<%- dir %>/<%- files.files[key].cleanPath %>">
-    	    <button>Travel</button>
-    	</a>
+    <a href="/dashboard?dir=<%- dir %>/<%- files.files[key].cleanPath %>">
+      <button>Travel</button>
+    </a>
     <% } %>
   </li>
-<% } %>
+  <% } %>
 </ul>
-<% if (files.files.length < 1) { %>
-	<p>No Files</p>
+<% if (files.files && files.files.length < 1) { %>
+<p>No Files</p>
 <% } %>
 <h2>Upload File</h2>
 <form action="/dashboard/upload" class="dropzone" method="POST"></form>
@@ -81,10 +90,13 @@
       this.on("error", function (file, response) {
         console.error("File upload error");
       });
-	  this.on("complete", function (file) {
-      	  if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-	       	  window.location.reload();
-      	}
+      this.on("complete", function (file) {
+        if (
+          this.getUploadingFiles().length === 0 &&
+          this.getQueuedFiles().length === 0
+        ) {
+          window.location.reload();
+        }
       });
     },
   });
