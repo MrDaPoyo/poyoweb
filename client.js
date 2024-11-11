@@ -321,7 +321,7 @@ app.post("/dashboard/createDir", async (req, res) => {
     console.error("Error:", error);
     res.status(500).json({ error: "An error occurred; " + error });
   }
-}
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
