@@ -5,7 +5,13 @@
     --cloudblue: #87b5dd;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 body {
+	padding: 0;	
+	margin: 0;
 	background: linear-gradient(-45deg, var(--primary) 25%, var(--cloudblue) 25%, var(--cloudblue) 50%, var(--primary) 50%, var(--primary) 75%, var(--cloudblue) 75%);
 	background-size: 40px 40px; /* Adjust the size of the stripes */
 	animation: slide 5s linear infinite; /* Animation to slide the stripes */
@@ -118,5 +124,36 @@ html, body , .megacontainer {
   display: grid;
   align-items: center;
   justify-content: center;
+}
+
+@media screen and (max-width: 500px) {
+	.megacontainer {  
+  	grid-template-areas:
+    	"Header Header Header Header Header Header"
+    	"Message Message Message Message Message Message"
+    	"Links Links Links Links Links Links"
+    	"Main Main Main Main Main Main"
+    	"Main Main Main Main Main Main"
+    	"Main Main Main Main Main Main"
+    	"Main Main Main Main Main Main"
+    	"Footer Footer Footer Footer Footer Footer";
+	}
+	.megacontainer .Stats {
+		display: none;
+	}
+}
+
+@media screen and (min-width: 501px) and (max-width: 800px) {
+	.megacontainer {  
+  	grid-template-areas:
+    	"Header Header Header Header Header Header"
+    	"Message Message Message Message Message Message"
+    	"Links Main Main Main Main Main"
+    	"Links Main Main Main Main Main"
+    	"Links Main Main Main Main Main"
+    	"Stats Main Main Main Main Main"
+    	"Stats Main Main Main Main Main"
+    	"Footer Footer Footer Footer Footer Footer";
+	}
 }
 
