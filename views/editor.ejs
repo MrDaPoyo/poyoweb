@@ -1,4 +1,5 @@
 <%- include('header') %>
+<%- JSON.stringify(file) %>
 <style>
 	textarea {
 		height: 50vh;
@@ -25,7 +26,7 @@
 		var blob = new Blob([content], { type: 'text/plain' });
 		var formData = new FormData();
 		formData.append('apiKey', '<%= jwt %>');
-		formData.append('file', blob, 'editor-content.txt');
+		formData.append('file', blob, ');
 
 		fetch('/dashboard/upload?dir=<%= dir %>', {
 			method: 'POST',
