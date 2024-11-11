@@ -204,7 +204,15 @@ app.post('/file/removeByPath', async (req, res) => {
         var fileSize = (await fs.stat(path.join('websites/users', filePath))).size;
         var totalSize = await db.getTotalSizeByWebsiteName(await db.findUserById(user.id).username) - await fileSize;
         db.setTotalSizeByWebsiteName(await db.findUserById(user.id).username, await totalSize);
-        fs.unlink(path.join('websites/users', filePath));
+        if (!fs.existsSync(path.join('websites/users', filePath))) {
+            return res.status(404).json({ error: 'File not found', success: false });
+        }
+        const stats = await fs.stat(path.join('websites/users', filePath));
+        if (stats.isDirectory()) {
+            await fs.remove(path.join('websites/users', filePath));
+        } else {
+            await fs.unlink(path.join('websites/users', filePath));
+        }
         return res.status(200).json({ message: 'File removed successfully', success: true });
 
     } catch (error) {
