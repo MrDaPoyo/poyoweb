@@ -152,7 +152,7 @@ app.get("/dashboard", async (req, res) => {
   fetch(
     `${process.env.API_URL}file?apiKey=${req.jwt}&dir=${req.query.dir || ""}`
   )
-    .then((response) => response.text())
+    .then((response) => response.json())
     .then((data) => {
       if (!data.error) {
         res.render("dashboard", {
