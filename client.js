@@ -154,8 +154,7 @@ app.get("/dashboard", async (req, res) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      var answer = JSON.parse(data) 
-      if (!d.error) {
+      if (!data.error) {
         res.render("dashboard", {
           title: "Dashboard",
           files: data,
