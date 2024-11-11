@@ -214,6 +214,35 @@ app.post('/dashboard/upload', upload.single('file'), async (req, res) => {
     }
 });
 
+app.get("/dashboard/removeFileByPath", async (req, res) => {
+  const { cleanPath } = req.query;
+
+  try {
+    const response = await fetch(`${process.env.API_URL}file/removeByPath`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        apiKey: req.jwt,
+        file: cleanPath,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      return res.status(response.status).json({ error: errorResponse, success: false });
+    }
+
+    const responseData = await response.json();
+    res.redirect("/dashboard?dir=" + req.query.dir || "");
+
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "An error occurred; " + error });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
