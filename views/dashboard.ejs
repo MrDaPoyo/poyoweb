@@ -31,6 +31,12 @@
     }
   }
 </script>
+<h3>Create a new directory</h3>
+<form action="/dashboard/createDir" method="POST">
+  <input type="hidden" name="dir" value="<%- dir || '' %>" />
+  <input type="text" name="newDir" placeholder="Directory name" />
+  <input type="submit" value="Create" />
+</form>
 <ul>
 <% for (let key in files.files) { %>
   <li><%= files.files[key].name %>

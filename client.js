@@ -288,6 +288,41 @@ app.post("/dashboard/renameFileByPath", async (req, res) => {
   }
 });
 
+app.post("/dashboard/createDir", async (req, res) => {
+  const { dirName } = req.body;
+  if (!dirName) {
+    return res.status(400).json({ error: "Missing required fields" });
+  } else if (dirName.includes("..")) {
+    return res.status(400).json({ error: "Invalid directory name" });
+  }
+  try {
+    const response = await fetch(`${process.env.API_URL}file/createDirectory`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        apiKey: req.jwt,
+        dir: req.query.dir || "",
+        dirName: dirName,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      return res
+        .status(response.status)
+        .json({ error: errorResponse, success: false });
+    }
+
+    const responseData = await response.json();
+    res.redirect("/dashboard?dir=" + req.query.dir || "");
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "An error occurred; " + error });
+  }
+}
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
