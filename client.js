@@ -158,6 +158,8 @@ app.get("/dashboard", async (req, res) => {
         title: "Dashboard",
         files: JSON.parse(data),
         dir: req.query.dir || "",
+        pastDir: req.query.dir ? path.resolve(req.query.dir, "..") : "",
+        isRoot: req.query.dir == "" || req.query.dir == "/" || req.query.dir == "." || req.query.dir == "./",
       });
     })
     .catch((error) => {
