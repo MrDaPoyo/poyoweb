@@ -1,7 +1,30 @@
-.megacontainer {  display: grid;
+:root {
+    --primary: #F8F3F6;
+    --secondary: #2a1501;
+    --tertiary: #a26666;
+    --cloudblue: #87b5dd;
+}
+
+body {
+	background: linear-gradient(-45deg, var(--primary) 25%, var(--cloudblue) 25%, var(--cloudblue) 50%, var(--primary) 50%, var(--primary) 75%, var(--cloudblue) 75%);
+	background-size: 40px 40px; /* Adjust the size of the stripes */
+	animation: slide 5s linear infinite; /* Animation to slide the stripes */
+}
+
+@keyframes slide {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 40px 0px; /* Match background-size for smooth movement */
+  }
+}
+
+.megacontainer {  
+  display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1.5fr 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  gap: 0px 0px;
+  gap: 1vh;
   grid-auto-flow: row;
   grid-template-areas:
     ". Header Header Header Header ."
@@ -52,7 +75,7 @@ html, body , .megacontainer {
 /* For presentation only, no need to copy the code below */
 
 .megacontainer div {
-  border: 1px solid red;
+  background-color: var(--primary);
   position: relative;
   display: flex;
   align-items: center;
@@ -71,7 +94,7 @@ html, body , .megacontainer {
 	overflow-x: hidden;
 }
 
-.Links h2 {
+.megacontainer div h2:first-child {
 	position: absolute;
 	top: 2vh;
 	left: 2vh;
