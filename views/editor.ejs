@@ -12,7 +12,8 @@
 	<textarea id="editor"><%= file.contents %></textarea>
 </form>
 <script>
-  var editor = CodeMirror.fromTextArea(myTextarea, {
+	  var editorTextArea = document.getElementById('editor');
+  var editor = CodeMirror.fromTextArea(editorTextArea, {
     lineNumbers: true
   });
 </script>
