@@ -56,6 +56,9 @@
   </li>
 <% } %>
 </ul>
+<% if (files.files.length < 1) { %>
+	<p>No Files</p>
+<% } %>
 <h2>Upload File</h2>
 <form action="/dashboard/upload" class="dropzone" method="POST"></form>
 <script>
