@@ -311,8 +311,7 @@ app.post("/dashboard/createDir", async (req, res) => {
     if (!response.ok) {
       const errorResponse = await response.json();
       return res
-        .status(response.status)
-        .json({ error: errorResponse, success: false });
+        .render(`dashboard?dir=${req.query.dir || ""}`, { message: errorResponse.error });
     }
 
     const responseData = await response.json();
