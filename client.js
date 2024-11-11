@@ -282,7 +282,7 @@ app.post("/dashboard/renameFileByPath", async (req, res) => {
     }
 
     const responseData = await response.json();
-    res.redirect("/dashboard?dir=" + req.query.dir || "");
+    res.redirect("/dashboard?dir=" + (req.query.dir || ""));
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "An error occurred; " + error });
