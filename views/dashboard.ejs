@@ -46,10 +46,10 @@
 </form>
 <h2>File List</h2>
 <% if (!isRoot) { %>
-<a href="/dashboard?dir=<%- pastDir %>">
-  <button>Go Back</button>
-</a>
-
+	<a href="/dashboard?dir=<%- pastDir %>">
+  		<button>Go Back</button>
+	</a>
+<% } %>
 <ul>
   <% for (let key in files.files) { %>
   <li>
