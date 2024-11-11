@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const { Readable } = require("stream");
 const FormData = require("form-data");
 const multer = require("multer");
+const verifyFile = require("./snippets/verifyFile");
 
 const app = express();
 const port = 8080;
