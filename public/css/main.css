@@ -122,8 +122,7 @@ body {
 }
 
 button, input[type="submit"] {
-  padding: 10px 20px;
-  font-size: 16px;
+  padding:5px 10px;
   font-weight: bold;
   color: #ffffff;
   border: 2px solid #039BE5;
@@ -145,6 +144,11 @@ button, input[type="submit"] {
   transition: all 0.2s ease;
 }
 
+.link-container button {
+	padding: 10px 20px;
+	font-size: 16px;
+}
+
 button:hover, input[type="submit"] {
   background: linear-gradient(
     to bottom,
@@ -164,7 +168,7 @@ form {
   gap: 15px;
 }
 input {
-  padding: 10px 20px;
+  padding: 5px 10px;
   font-size: 16px;
   color: var(--input-text-color);
   background-color: var(--input-background);
