@@ -11,13 +11,14 @@
 
 body {
 	padding: 0;	
-	margin: 2vh;
-	background: linear-gradient(-45deg, var(--primary) 25%, var(--cloudblue) 25%, var(--cloudblue) 50%, var(--primary) 50%, var(--primary) 75%, var(--cloudblue) 75%);
-	background-size: 40px 40px; /* Adjust the size of the stripes */
+	margin: 2vh 10vw;
+	height: 100%;
+	background-image: url('backgrounds/clouds-compressed.webp')
 	animation: slide 5s linear infinite; /* Animation to slide the stripes */
 }
 .megacontainer {
 	background-color: rgba(255,255,255,0.5);
+	height: 100%;
 }
 
 @keyframes slide {
