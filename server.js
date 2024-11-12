@@ -39,10 +39,30 @@ async function verifyApiKey(apiKey) {
     });
 }
 
+const userBlacklist = ["social", "poyoweb", "www","admin","poyo","mrdapoyo", "reporter", "weblink", "oreneta", "neocities", "dapoyo", "bitch", "newrubix", "api", "blog", "official"]
+
+function checkUsername(username) {
+    const regex = /^[a-zA-Z0-9]+$/;
+    if (username.length > 20) {
+        return 'Username must have at max 20 characters';
+    } else if (!regex.test(username)) {
+        return 'Username must contain only letters and numbers';
+    } else if (userBlacklist.includes(username)) {
+        return 'Username is blacklisted, try again with another different username';
+    } else {
+        return true;
+    }
+}
+
 app.post('/auth/register', async (req, res) => {
-    const { username, email, password } = req.body;
+    var { username, email, password } = req.body;
+    username = username.toLowerCase();
+    var usernameTest = checkUsername(username);
+    if (!usernameTest) {
+    	res.status(400).json({error: usernameTest, success: false});
+    }
     if (!username || !email || !password) {
-        res.status(400).json({ error: 'Missing required fields' });
+        res.status(400).json({ error: 'Missing required fields', success: false});
         return;
     } else if (password.length > 7) {
         try {
