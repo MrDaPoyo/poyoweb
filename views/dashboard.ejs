@@ -89,9 +89,10 @@
     dictDefaultMessage: "Drag and drop files here or click to upload",
     init: function () {
       this.on("sending", function (file, xhr, formData) {
-        var apiKey = document.getElementById("apiKey").value || "<%- jwt %>";
+        var apiKey = "<%- jwt %>";
+        var dir = "<%- dir || '' %>"
         formData.append("apiKey", apiKey);
-        formData.append("dir", "<%- dir || '' %>");
+        formData.append("dir", dir);
       });
       this.on("success", function (file, response) {
         console.log("File uploaded successfully");
