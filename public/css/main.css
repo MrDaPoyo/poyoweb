@@ -49,6 +49,7 @@ body {
 	    var(--lightblue),
 	    var(--babyblue)
 	  );
+	outline: 2px outset var(--brightteal);
 }
 
 .container {
@@ -67,16 +68,6 @@ body {
 .header-container {
 	position: relative;
 	background-color: var(--skyblue);
-}
-.header-container::after {
-	content: "";
-    position: absolute;
-    height: 25px;
-    width: 100%;
-    background-image: url("../misc/triangle-down.webp");
-    bottom: 0;
-    left: 2px;
-    transform: translateY(100%);    
 }
 
 .footer-container {
@@ -103,23 +94,27 @@ body {
 
 .link-container  {
     position: relative;
-    margin-right: 25px;
 	background-color: var(--skyblue);
 	flex-direction: column;
 	gap: 10px;
 }
-.link-container::after {
+.main-container::before {
 	content: "";
     position: absolute;
     width: 25px;
     height: 100%;
     background-image: url("../misc/triangle-right.webp");
     top: 0;
-    right: 2px;
-    transform: translateX(100%);
+    left: 0;
 }
 .main-container {
-	padding-top: 25px;
+	border-top: 1px dotted var(--babyblue); 
+	width: 100%;
+	position: relative;
+	padding-left: 25px;
+}
+.main-container > *:first-child {
+	margin: 0;
 }
 
 button, input[type="submit"] {

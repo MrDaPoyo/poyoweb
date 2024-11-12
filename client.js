@@ -159,6 +159,7 @@ app.get("/dashboard", loggedInMiddleware, async (req, res) => {
   )
     .then((response) => response.json())
     .then((data) => {
+      if (!req.query.dir) {var dirName = "";}
       if (!data.error) {
         res.render("dashboard", {
           title: "Dashboard",
@@ -166,10 +167,10 @@ app.get("/dashboard", loggedInMiddleware, async (req, res) => {
           dir: req.query.dir || "",
           pastDir: req.query.dir ? path.resolve(req.query.dir, "..") : "",
           isRoot:
-            req.query.dir == "" ||
-            req.query.dir == "/" ||
-            req.query.dir == "." ||
-            req.query.dir == "./",
+            dirName == "" ||
+            dirName == "/" ||
+            dirName == "." ||
+            dirName == "./",
         });
       } else {
         res.status(400).json({ error: data.error });
