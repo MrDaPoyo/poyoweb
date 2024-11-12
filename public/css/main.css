@@ -41,7 +41,7 @@ body {
 }
 .megacontainer {
 	position: relative;
-	background-color: var(--frost);
+	background-color: var(--input);
 	height: 100%;
 	gap: 5px;
 }
@@ -75,7 +75,7 @@ body {
     position: absolute;
     width: 25px;
     height: 100%;
-    background-image: url("../misc/triangle.webp");
+    background-image: url("../misc/triangle-right.webp");
     top: 0;
     right: 0.5px;
     transform: translateX(100%);
