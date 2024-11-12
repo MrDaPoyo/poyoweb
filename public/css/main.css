@@ -35,13 +35,13 @@
 
 body {
 	padding: 0;	
-	margin: 2vh 10vw;
-	height: 100%;
+	margin: 2vh 10vw 0 10vw;
+	min-height: 100%;
 	background-image: url('../backgrounds/clouds-compressed.webp');
 }
 .megacontainer {
 	position: relative;
-	height: 100%;
+	min-height: 100%;
 	gap: 5px;
 	background: linear-gradient(
 	    to bottom right,
@@ -82,7 +82,24 @@ body {
 .footer-container {
 	align-items: center;
 	justify-content: center;
+	flex-direction: column;
+	background: linear-gradient(
+	    to bottom,
+	    var(--skyblue),
+	    var(--lightblue),
+	    var(--babyblue)
+	  );
+	  color: #37474F; /* Darker text color for readability on the lighter background */
+	  padding: 20px;
+	  text-align: center;
+	}
+
+.footer-links {
+	width: 25vw;
+	display: flex;
+	justify-content: space-around;
 }
+
 .link-container  {
     position: relative;
     margin-right: 25px;
