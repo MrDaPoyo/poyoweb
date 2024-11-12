@@ -11,10 +11,13 @@
 
 body {
 	padding: 0;	
-	margin: 0;
+	margin: 2vh;
 	background: linear-gradient(-45deg, var(--primary) 25%, var(--cloudblue) 25%, var(--cloudblue) 50%, var(--primary) 50%, var(--primary) 75%, var(--cloudblue) 75%);
 	background-size: 40px 40px; /* Adjust the size of the stripes */
 	animation: slide 5s linear infinite; /* Animation to slide the stripes */
+}
+.megacontainer {
+	background-color: rgba(255,255,255,0.5);
 }
 
 @keyframes slide {
@@ -25,135 +28,3 @@ body {
     background-position: 40px 0px; /* Match background-size for smooth movement */
   }
 }
-
-.megacontainer {  
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1.5fr 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  gap: 1vh;
-  grid-auto-flow: row;
-  grid-template-areas:
-    ". Header Header Header Header ."
-    ". Message Message Message Message ."
-    ". Links Main Main Main ."
-    ". Links Main Main Main ."
-    ". Links Main Main Main ."
-    ". Stats Main Main Main ."
-    ". Stats Main Main Main ."
-    ". Footer Footer Footer Footer .";
-}
-
-.Main { grid-area: Main; }
-
-.Header {  display: grid;
-  grid-auto-columns: 1fr;
-  gap: 9% 2%;
-  grid-auto-flow: row;
-  grid-area: Header;
-}
-
-.Links {  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-  gap: 2% 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "."
-    "."
-    "."
-    "."
-    ".";
-  grid-area: Links;
-}
-
-.Stats { grid-area: Stats; }
-
-.Footer { grid-area: Footer; }
-
-.Message { grid-area: Message; }
-
-
-html, body , .megacontainer {
-  height: 100%;
-  margin: 0;
-}
-
-/* For presentation only, no need to copy the code below */
-
-.megacontainer div {
-  background-color: var(--primary);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2vh;
-}
-
-.megacontainer > div :first-child {
-    margin: 0 !important;
-}
-
-.megacontainer .Main {
-	padding: 2vh;
-	display: block;
-	overflow-y: scroll;
-	overflow-x: hidden;
-}
-
-.megacontainer div:first-child {
-	position: absolute;
-	top: 1vh;
-	left: 1vh;
-}
-
-.megacontainer .Links, .Stats {
-	flex-direction: column;
-	align-items: space-around;
-	justify-content: center;
-}
-.megacontainer .Header:first-child, .megacontainer .Message:first-child {
-	position: relative;
-}
-
-.megacontainer *:after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-}
-
-@media screen and (max-width: 500px) {
-	.megacontainer {  
-  	grid-template-areas:
-    	"Header Header Header Header Header Header"
-    	"Message Message Message Message Message Message"
-    	"Links Links Links Links Links Links"
-    	"Main Main Main Main Main Main"
-    	"Main Main Main Main Main Main"
-    	"Main Main Main Main Main Main"
-    	"Main Main Main Main Main Main"
-    	"Footer Footer Footer Footer Footer Footer";
-	}
-	.megacontainer .Stats {
-		display: none;
-	}
-}
-
-@media screen and (min-width: 501px) and (max-width: 800px) {
-	.megacontainer {  
-  	grid-template-areas:
-    	"Header Header Header Header Header Header"
-    	"Message Message Message Message Message Message"
-    	"Links Main Main Main Main Main"
-    	"Links Main Main Main Main Main"
-    	"Links Main Main Main Main Main"
-    	"Stats Main Main Main Main Main"
-    	"Stats Main Main Main Main Main"
-    	"Footer Footer Footer Footer Footer Footer";
-	}
-}
-

@@ -135,7 +135,7 @@ app.post("/auth/login", notLoggedInMiddleware, async (req, res) => {
       if (data.success) {
         res.cookie("auth", data.jwt, { httpOnly: true });
         res.locals.loggedIn = true;
-        res.redirect("/?message=Successfully Registered!");
+        res.redirect("/?message=Successfully Logged In!");
       } else {
         res.clearCookie("auth");
         res.locals.loggedIn = false;
