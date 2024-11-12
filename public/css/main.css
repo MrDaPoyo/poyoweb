@@ -42,6 +42,7 @@ body {
 .megacontainer {
 	background-color: rgba(255,255,255,0.5);
 	height: 100%;
+	gap: 5px;
 }
 
 .container {
@@ -62,8 +63,19 @@ body {
 	justify-content: center;
 }
 .link-container  {
+	background-color: #E0F7FA;
 	flex-direction: column;
 	gap: 10px;
+}
+.link-container::after {
+	content: "";
+    position: absolute;
+    width: 25px;
+    height: 100%;
+    background-image: url("/misc/triangle.webp");
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
 }
 
 button, input[type="submit"] {
