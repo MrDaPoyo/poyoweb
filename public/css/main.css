@@ -23,8 +23,16 @@ body {
 .container {
 	padding: 2vh;
 }
+.container > *:first-child {
+	margin: 0;
+}
 
 .row-container {
 	display: flex;
 	flex-direction: row;
+}
+.footer-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
