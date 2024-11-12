@@ -80,6 +80,7 @@ body {
 }
 
 .footer-container {
+	border-top: 1px solid var(--cobalt);
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
