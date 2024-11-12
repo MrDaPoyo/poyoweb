@@ -40,6 +40,7 @@ body {
 	background-image: url('../backgrounds/clouds-compressed.webp');
 }
 .megacontainer {
+	position: relative;
 	background-color: rgba(255,255,255,0.5);
 	height: 100%;
 	gap: 5px;
@@ -63,6 +64,8 @@ body {
 	justify-content: center;
 }
 .link-container  {
+    position: relative;
+    margin-right: 25px;
 	background-color: #E0F7FA;
 	flex-direction: column;
 	gap: 10px;
@@ -72,9 +75,9 @@ body {
     position: absolute;
     width: 25px;
     height: 100%;
-    background-image: url("/misc/triangle.webp");
+    background-image: url("../misc/triangle.webp");
     top: 0;
-    right: 0;
+    right: 0.5px;
     transform: translateX(100%);
 }
 
