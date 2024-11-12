@@ -3,6 +3,30 @@
     --secondary: #2a1501;
     --tertiary: #a26666;
     --cloudblue: #87b5dd;
+	--skyblue: #E0F7FA;
+	--iceblue: #E0F7FA;
+	--lightblue: #B3E5FC;
+	--babyblue: #81D4FA;
+	--seafoam: #4FC3F7;
+	--softblue: #81D4FA;
+	--aqua: #B3E5FC;
+	--frost: #E1F5FE;
+	--ocean: #29B6F6;
+	--linkblue: #039BE5;
+	--deepblue: #0288D1;
+	--mintblue: #B2EBF2;
+	--cloudgray: #B0BEC5;
+	--stormblue: #546E7A;
+	--midnightblue: #37474F;
+	--slateblue: #455A64;
+	--mistgray: #B0BEC5;
+	--cobalt: #0277BD;
+	--brightteal: #80DEEA;
+	--gradientblue: linear-gradient(#E0F7FA, #B3E5FC);
+	--input-background: #E0F7FA;
+  	--input-border: #039BE5;
+  	--input-shadow: rgba(0, 0, 0, 0.2);
+  	--input-text-color: #37474F;	
 }
 
 * {
@@ -39,4 +63,89 @@ body {
 }
 .link-container  {
 	flex-direction: column;
+}
+
+:root {
+  --skyblue: #E0F7FA;
+--iceblue: #E0F7FA;
+--lightblue: #B3E5FC;
+--babyblue: #81D4FA;
+--seafoam: #4FC3F7;
+--softblue: #81D4FA;
+--aqua: #B3E5FC;
+--frost: #E1F5FE;
+--ocean: #29B6F6;
+--linkblue: #039BE5;
+--deepblue: #0288D1;
+--mintblue: #B2EBF2;
+--cloudgray: #B0BEC5;
+--stormblue: #546E7A;
+--midnightblue: #37474F;
+--slateblue: #455A64;
+--mistgray: #B0BEC5;
+--cobalt: #0277BD;
+--brightteal: #80DEEA;
+--gradientblue: linear-gradient(#E0F7FA, #B3E5FC);
+
+}
+
+button, input[type="submit"] {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  border: 2px solid #039BE5;
+  border-radius: 8px;
+  background: linear-gradient(
+    to bottom,
+    var(--skyblue),
+    var(--lightblue),
+    var(--babyblue),
+    var(--deepblue)
+  );
+  box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.5),
+              inset -2px -2px 5px rgba(0, 0, 0, 0.3),
+              3px 3px 6px rgba(0, 0, 0, 0.4);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover, input[type="submit"] {
+  background: linear-gradient(
+    to bottom,
+    var(--lightblue),
+    var(--babyblue),
+    var(--deepblue),
+    var(--skyblue)
+  );
+}
+
+button:active, input[type="submit"] {
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+              inset -2px -2px 5px rgba(255, 255, 255, 0.2);
+}
+
+form {
+  gap: 15px;
+}
+input {
+  padding: 8px 15px;
+  font-size: 14px;
+  color: var(--input-text-color);
+  background-color: var(--input-background);
+  border: 2px solid var(--input-border);
+  border-radius: 8px;
+  box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.5),
+              inset -2px -2px 4px rgba(0, 0, 0, 0.1),
+              3px 3px 6px var(--input-shadow);
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  background-color: #B3E5FC;
+  box-shadow: inset 1px 1px 4px rgba(255, 255, 255, 0.7),
+              inset -1px -1px 4px rgba(0, 0, 0, 0.2),
+              3px 3px 6px var(--input-shadow);
 }

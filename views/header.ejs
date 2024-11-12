@@ -26,12 +26,12 @@
 	  <div class="row-container">
 	  <div class="container link-container">
 	  	<h2>Links</h2>
-	    <a href="<%= url %>">Home</a>
+	    <a href="<%= url %>"><button>Home</button></a>
 		<% if (loggedIn) { %>
-			<a href="/dashboard">Dashboard</a>
-			<a href="/auth/logout">Logout</a>
+			<a href="/dashboard"><button>Dashboard</button></a>
+			<a href="/auth/logout"><button>Logout</button></a>
 		<% } else { %>
-			<a href="/auth/login">Log In</a>
+			<a href="/auth/login"><button>Log In</button></a>
 		<% } %>
 	 </div>
 	<div class="container main-container">	 
