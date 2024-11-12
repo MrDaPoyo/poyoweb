@@ -15,14 +15,16 @@
 	</style>
     
 	<div class="megacontainer">
-	  <header class="Header">
+	  <header class="container header-container">
 		<h1>PoyoWeb <%- title %></h1>
 		<% if (typeof message !== 'undefined' && message) { %>
-			<div class="Message">
+			<div class="message-container">
 				<%- message %>
 			</div>
 		<% } %>
 	  </header>
+	  <div class="row-container">
+	  <div class="container link-container">
 	  	<h2>Links</h2>
 	    <a href="<%= url %>">Home</a>
 		<% if (loggedIn) { %>
@@ -31,4 +33,5 @@
 		<% } else { %>
 			<a href="/auth/login">Log In</a>
 		<% } %>
-	  
+	 </div>
+	<div class="container main-container">	  
