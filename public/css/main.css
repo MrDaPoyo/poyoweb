@@ -13,7 +13,7 @@ body {
 	padding: 0;	
 	margin: 2vh 10vw;
 	height: 100%;
-	background-image: url('backgrounds/clouds-compressed.webp')
+	background-image: url('../backgrounds/clouds-compressed.webp')
 	animation: slide 5s linear infinite; /* Animation to slide the stripes */
 }
 .megacontainer {
