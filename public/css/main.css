@@ -22,6 +22,7 @@
 	--mistgray: #B0BEC5;
 	--cobalt: #0277BD;
 	--brightteal: #80DEEA;
+	--warning: orange;
 	--gradientblue: linear-gradient(#E0F7FA, #B3E5FC);
 	--input-background: #E0F7FA;
   	--input-border: #039BE5;
@@ -115,6 +116,13 @@ body {
 }
 .main-container > *:first-child {
 	margin: 0;
+}
+
+.message-container {
+	background-color: orange;
+	width: 100%;
+	padding: 1vh;
+	margin-top: 1vh;
 }
 
 button, input[type="submit"] {
