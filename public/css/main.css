@@ -94,6 +94,11 @@ body {
 	justify-content: space-around;
 }
 
+.hidden-link {
+	text-decoration: none;
+	color: transparent;
+}
+
 .link-container  {
     position: relative;
 	background-color: var(--skyblue);
