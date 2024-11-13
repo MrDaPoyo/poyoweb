@@ -105,8 +105,8 @@ app.post('/auth/login', async (req, res) => {
 });
 
 
-app.get('/auth/verify/:token', (req, res) => {
-    const { token } = req.params;
+app.get('/auth/verify', (req, res) => {
+    const { token } = req.query;
 
     // Verifying the JWT token 
     jwt.verify(token, process.env.AUTH_SECRET, function (err, decoded) {

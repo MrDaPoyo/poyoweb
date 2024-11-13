@@ -174,7 +174,7 @@ app.get('/auth/verify/:token', async (req, res) => {
 
   try {
     // Forward the request to the verification endpoint
-    const response = await fetch(`${process.env.API_URL}auth/verify/${token}`, {
+    const response = await fetch(`${process.env.API_URL}auth/verify?token=${token}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
