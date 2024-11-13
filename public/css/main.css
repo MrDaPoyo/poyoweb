@@ -72,6 +72,9 @@ body {
 	background: var(--skyblue);
 	width: 100%;
 }
+.header-container .space-between  {
+	align-items: end;
+}
 .space-between {
 	display: flex;
 	justify-content: space-between;
