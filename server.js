@@ -115,7 +115,7 @@ app.get('/auth/verify/:token', (req, res) => {
             res.status(401).json({error: "Email verification failed, possibly the link is invalid or expired", success: false});
         }
         else {
-            db.db.run('UPDATE users SET verified = true  WHERE email = ?', [decoded.email], (err) => {
+            db.db.run('UPDATE users SET verified = 1  WHERE id = ?', [decoded.id], (err) => {
                 if (err) {
                     console.error(err.message);
                     res.status(400).json({error: "Email verification failed, possibly the link is invalid or expired", success: false});

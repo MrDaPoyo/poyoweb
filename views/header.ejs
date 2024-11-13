@@ -23,6 +23,7 @@
 			<div class="right">
 				<% if (typeof user !== 'undefined' && user) { %>
 					<p>Welcome, <strong><%= user.username %></strong>.</p>
+					<%- user.verified %>
 				<% } %>
 			</div>
 		</div>
