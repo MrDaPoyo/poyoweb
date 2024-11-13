@@ -9,6 +9,7 @@ require('dotenv').config();
 const verifyFile = require('./snippets/verifyFile');
 const dirWalker = require('./snippets/dirWalker');
 const { verify } = require('crypto');
+const mailer = require('./mailer');
 
 db.setupDB();
 
@@ -71,6 +72,7 @@ app.post('/auth/register', async (req, res) => {
 
             if (result.success) {
                 fs.mkdir(path.join(__dirname, 'websites/users', username), { recursive: true });
+                mailer.sendVerificationEmail(result.jwt, email);
                 res.status(201).json({ message: 'User registered successfully', jwt: result.jwt, success: result.success });
             } else {
                 res.status(400).json({ error: result.message, success: result.success });
@@ -100,6 +102,35 @@ app.post('/auth/login', async (req, res) => {
             res.status(500).json({ error: JSON.parse(error) });
         }
     }
+});
+
+
+app.get('/auth/verify/:token', (req, res) => {
+    const { token } = req.params;
+
+    // Verifying the JWT token 
+    jwt.verify(token, process.env.AUTH_SECRET, function (err, decoded) {
+        if (err) {
+            console.log(err);
+            res.status(401).json({error: "Email verification failed, possibly the link is invalid or expired", success: false});
+        }
+        else {
+            db.db.run('UPDATE users SET verified = true  WHERE email = ?', [decoded.email], (err) => {
+                if (err) {
+                    console.error(err.message);
+                    res.status(400).json({error: "Email verification failed, possibly the link is invalid or expired", success: false});
+                } else {
+                    var newToken = jwt.sign(
+                        { username: decoded.username, email: decoded.email, verified: 1 },
+                        process.env.TOKEN_KEY,
+                        { expiresIn: "30d" }
+                    );
+                    res.status(200).json({ token: newToken, message: "Successfully Verified!", success: true });
+                }
+            });
+
+        }
+    });
 });
 
 const storage = multer.diskStorage({

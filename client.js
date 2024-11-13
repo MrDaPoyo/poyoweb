@@ -153,6 +153,32 @@ app.get("/auth/logout", (req, res) => {
   res.redirect("/");
 });
 
+app.get('/auth/verify/:token', async (req, res) => {
+  const { token } = req.params;
+
+  try {
+    // Forward the request to the verification endpoint
+    const response = await fetch(`http://localhost:3000/auth/verify/${token}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+    	res.render("index?message="+await data.message);
+    } else {
+    	res.render("index?message="+await data.error);
+    }
+  } catch (err) {
+  	res.render("index?message=An unexpected Error has happened.")
+  }
+});
+
+
+    
 app.get("/dashboard", loggedInMiddleware, async (req, res) => {
   fetch(
     `${process.env.API_URL}file?apiKey=${req.jwt}&dir=${req.query.dir || ""}`
