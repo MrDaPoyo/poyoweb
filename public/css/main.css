@@ -39,7 +39,7 @@ body {
 	margin: 2vh 10vw 0 10vw;
 	min-height: 100%;
 	/* background-image: url('../backgrounds/clouds-compressed.webp'); */
-	background-image: url("../backgrounds/cloud-tile-color.jpg"); 
+	background-image: url("../backgrounds/cloud-tile-color.jpeg"); 
 }
 .megacontainer {
 	position: relative;
