@@ -306,14 +306,15 @@ app.post("/dashboard/renameFileByPath", async (req, res) => {
 });
 
 app.post("/dashboard/createDir", async (req, res) => {
-  const { dirName } = req.body;
+  var { dirName, dir } = req.body;
+  dir = dir || "";
   if (!dirName) {
     return res.redirect(
-      `/dashboard?dir=${req.query.dir || ""}&message=Missing required fields`
+      `/dashboard?dir=${dir || ""}&message=Missing required fields`
     );
   } else if (dirName.includes("..")) {
     return res.redirect(
-      `/dashboard?dir=${req.query.dir || ""}&message=Invalid Directory Name`
+      `/dashboard?dir=${dir || ""}&message=Invalid Directory Name`
     );
   }
   try {
@@ -325,18 +326,19 @@ app.post("/dashboard/createDir", async (req, res) => {
       body: JSON.stringify({
         apiKey: req.jwt,
         dir: path.join(req.query.dir || "", dirName),
+        baseDir: dir,
       }),
     });
 
     if (!response.ok) {
       const errorResponse = await response.json();
       return res.redirect(
-        `/dashboard?dir=${req.query.dir || ""}&message=${errorResponse.error}`
+        `/dashboard?dir=${dir || ""}&message=${errorResponse.error}`
       );
     }
 
     const responseData = await response.json();
-    res.redirect("/dashboard?dir=" + req.query.dir || "");
+    res.redirect("/dashboard?dir=" + dir || "");
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "An error occurred; " + error });

@@ -269,14 +269,14 @@ app.get('/file/', async (req, res) => {
 });
 
 app.post('/file/createDirectory', async (req, res) => {
-    const { apiKey, dir } = req.body;
+    const { apiKey, dir, baseDir } = req.body;
     var user = await verifyApiKey(apiKey);
     if (!user) {
         return res.status(401).json({ error: 'Invalid API key' });
     } else {
         var username = await user.username;
         if (await username) {
-            var directory = path.join(__dirname, 'websites/users', username, dir);
+            var directory = path.join(__dirname, 'websites/users', username, baseDir, dir);
             directory = directory.replace(/^(\.\.(\/|\\|$))+/, '');
             try {
                 await fs.mkdir(directory, { recursive: true });
