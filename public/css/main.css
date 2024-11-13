@@ -38,7 +38,8 @@ body {
 	padding: 0;	
 	margin: 2vh 10vw 0 10vw;
 	min-height: 100%;
-	background-image: url('../backgrounds/clouds-compressed.webp');
+	/* background-image: url('../backgrounds/clouds-compressed.webp'); */
+	background-image: url("../backgrounds/cloud-tile.jpeg"); 
 }
 .megacontainer {
 	position: relative;
@@ -68,7 +69,7 @@ body {
 }
 .header-container {
 	position: relative;
-	background-color: var(--skyblue);
+	background: var(--skyblue) ;
 }
 
 .footer-container {
