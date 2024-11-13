@@ -39,7 +39,7 @@ async function verifyApiKey(apiKey) {
     });
 }
 
-const userBlacklist = ["social", "poyoweb", "www","admin","poyo","mrdapoyo", "reporter", "weblink", "oreneta", "neocities", "dapoyo", "bitch", "newrubix", "api", "blog", "official"]
+const userBlacklist = ["social", "faq", "poyoweb", "www","admin","poyo","mrdapoyo", "reporter", "weblink", "oreneta", "neocities", "dapoyo", "bitch", "newrubix", "api", "blog", "official"]
 
 function checkUsername(username) {
     const regex = /^[a-zA-Z0-9]+$/;
