@@ -122,7 +122,7 @@ app.get('/auth/verify/:token', (req, res) => {
                 } else {
                     var newToken = jwt.sign(
                         { username: decoded.username, email: decoded.email, verified: 1 },
-                        process.env.TOKEN_KEY,
+                        process.env.AUTH_SECRET,
                         { expiresIn: "30d" }
                     );
                     res.status(200).json({ token: newToken, message: "Successfully Verified!", success: true });
