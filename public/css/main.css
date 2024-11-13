@@ -141,6 +141,9 @@ body {
 	align-items: end;
 	justify-content: end;
 }
+.login-carl h3 {
+	margin: 0;
+}
 
 button, input[type="submit"] {
     background-color: #AEE3FC;
