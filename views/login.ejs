@@ -1,4 +1,5 @@
 <%- include('header.ejs') %>
+<div class="row-container login-page">
     <div class="login-container">
         <h2>Login</h2>
         <form action="/auth/login" method="POST">
@@ -10,9 +11,7 @@
             </div>
             <button type="submit">Login</button>
         </form>
-    </div>
-    <div class="login-container">
-    <h2>Register</h2>
+        <h2>Register</h2>
     <form action="/auth/register" method="POST">
         <div class="form-group">
             <input type="text" id="username" name="username" placeholder="Username" required>
@@ -28,6 +27,11 @@
         </div>
         <button type="submit">Register</button>
     </form>
+    </div>
+    <div class="login-container login-carl">
+		<img src="/carl/carl-minecraft.png">
+		<h3>The beggining of a new adventure</h3>    	
+    </div>
     </div>
 </body>
 
