@@ -9,6 +9,7 @@ const FormData = require("form-data");
 const multer = require("multer");
 const verifyFile = require("./snippets/verifyFile");
 const path = require("path");
+const db = require("./db");
 
 const app = express();
 const port = 8080;
@@ -29,8 +30,15 @@ const checkAuthMiddleware = (req, res, next) => {
     if (err) {
       res.locals.loggedIn = false;
     } else {
-      res.locals.loggedIn = true;
-      res.locals.user = { id: decoded.id };
+      user = db.findUserById(decoded.id)
+      if (!user) {
+      	res.clearCookie("auth");
+        res.redirect("/?message=Invalid auth cookie");
+      } else {
+      	res.locals.loggedIn = true;
+      	res.locals.user = user;
+      	req.user = user;
+      }
     }
     next();
   });
@@ -50,6 +58,14 @@ const loggedInMiddleware = (req, res, next) => {
   } else {
     next();
   }
+}
+
+const verifiedMiddleware = (req, res, next) => {
+	if (req.user.verified == 1) {
+		next();
+	} else {
+		res.redirect("/?message=You need to be verified in order to access this page! :P");
+	}
 }
 
 app.use(cookieParser());
@@ -180,7 +196,7 @@ app.get('/auth/verify/:token', async (req, res) => {
 
 
     
-app.get("/dashboard", loggedInMiddleware, async (req, res) => {
+app.get("/dashboard", loggedInMiddleware, verifiedMiddleware, async (req, res) => {
   fetch(
     `${process.env.API_URL}file?apiKey=${req.jwt}&dir=${req.query.dir || ""}`
   )
