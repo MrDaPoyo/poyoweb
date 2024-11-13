@@ -158,7 +158,7 @@ app.get('/auth/verify/:token', async (req, res) => {
 
   try {
     // Forward the request to the verification endpoint
-    const response = await fetch(`http://localhost:3000/auth/verify/${token}`, {
+    const response = await fetch(`${process.env.API_URL}auth/verify/${token}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -168,12 +168,13 @@ app.get('/auth/verify/:token', async (req, res) => {
     const data = await response.json();
 
     if (response.ok && data.success) {
-    	res.render("index?message="+await data.message);
+    	res.redirect("/?message="+await data.message);
     } else {
-    	res.render("index?message="+await data.error);
+    	res.redirect("/?message="+await data.error);
     }
   } catch (err) {
-  	res.render("index?message=An unexpected Error has happened.")
+  	console.log(err);
+  	res.redirect("/?message=An unexpected Error has happened.")
   }
 });
 
