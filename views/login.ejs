@@ -15,19 +15,20 @@
         <h2>Register</h2>
     <form action="/auth/register" method="POST">
         <div class="form-group">
-            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="text" id="username" name="username" placeholder="Username" required><span class="mandatory">*</span>
         </div>
         <div class="form-group">
-            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="email" id="email" name="email" placeholder="Email" required><span class="mandatory">*</span>
         </div>
         <div class="form-group">
-            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="password" id="password" name="password" placeholder="Password" required><span class="mandatory">*</span>
         </div>
         <div class="form-group">
-            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password"  required>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password"  required><span class="mandatory">*</span>
         </div>
         <button type="submit">Register</button>
     </form>
+    <span class="mandatory">* => Obligatory</span>
     </div>
     <div class="login-container login-carl">
     	<a class="hidden-link">
