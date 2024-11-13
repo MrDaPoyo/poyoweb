@@ -125,6 +125,14 @@ body {
 	padding: 1vh;
 	margin-top: 1vh;
 }
+
+.login-container form {
+	gap: 3px;
+	display: flex;
+	flex-direction: column;
+	justify-content: right;
+	width: fit-content;
+}
 button, input[type="submit"] {
     background-color: #AEE3FC;
     color: black;
