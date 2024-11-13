@@ -16,12 +16,19 @@
     
 	<div class="megacontainer">
 	  <header class="container header-container">
-		<h1>PoyoWeb - <%- title %></h1>
-		<% if (typeof message !== 'undefined' && message) { %>
-			<div class="message-container">
-				<%- message %>
+		<div class="space-between row-container">
+			<div class="left">
+				<h1>PoyoWeb - <%- title %></h1>
 			</div>
-		<% } %>
+			<div class="right">
+				<p>Welcome, <strong><%= user.username %></strong>.</p>
+			</div>
+			<% if (typeof message !== 'undefined' && message) { %>
+				<div class="message-container">
+					<%- message %>
+				</div>
+			<% } %>
+		</div>
 	  </header>
 	  <div class="row-container">
 	  <div class="container link-container">

@@ -26,18 +26,18 @@ const checkAuthMiddleware = (req, res, next) => {
     return next();
   }
 
-  jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.AUTH_SECRET, async (err, decoded) => {
     if (err) {
       res.locals.loggedIn = false;
     } else {
-      user = db.findUserById(decoded.id)
+      var user = await db.findUserById(await decoded.id)
       if (!user) {
       	res.clearCookie("auth");
         res.redirect("/?message=Invalid auth cookie");
       } else {
       	res.locals.loggedIn = true;
-      	res.locals.user = user;
-      	req.user = user;
+      	res.locals.user = await user;
+      	req.user = await user;
       }
     }
     next();
