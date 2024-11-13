@@ -110,7 +110,7 @@ body {
     left: 0;
 }
 .main-container {
-	border-top: 1px dotted var(--babyblue); 
+	border-top: 2px solid var(--brightteal); 
 	width: 100%;
 	position: relative;
 	padding-left: 25px;
