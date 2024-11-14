@@ -332,7 +332,6 @@ function getFileIDByPath(filePath) {
             if (row) {
                 resolve(row.id);  // Return the file ID if found
             } else {
-                console.log(`No file found with path: ${filePath}`);
                 resolve(null);  // Return null if no file was found
             }
         });
