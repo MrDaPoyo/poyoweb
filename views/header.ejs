@@ -23,6 +23,10 @@
 			<div class="right">
 				<% if (typeof user !== 'undefined' && user) { %>
 					<p>Welcome, <strong><%= user.username %></strong>.</p>
+					<a href="/auth/logout">Logout</a>
+				<% } else { %>
+					<p>Please identify yourself, <strong>Guest</strong>.</p>
+					<a href="/auth/login">Login/Register</a>
 				<% } %>
 			</div>
 		</div>
@@ -36,13 +40,5 @@
 	  <div class="container link-container">
 	  	<h2>Links</h2>
 	    <a href="<%= url %>"><button>Home</button></a>
-		<% if (loggedIn) { %>
-			<a href="/dashboard"><button>Dashboard</button></a>
-			<h2 style="margin: 0;">Auth</h2>
-			<a href="/auth/logout"><button>Logout</button></a>
-		<% } else { %>
-			<h2 style="margin: 0;">Auth</h2>
-			<a href="/auth/login"><button>Log In</button></a>
-		<% } %>
 	 </div>
 	<div class="container main-container">

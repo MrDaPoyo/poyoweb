@@ -1,3 +1,4 @@
+
 :root {
     --primary: #F8F3F6;
     --secondary: #2a1501;
@@ -137,7 +138,17 @@ body {
 	padding: 1vh;
 	margin-top: 1vh;
 }
-
+.right {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	flex-direction: column;
+	justify-content: flex-end; /* Aligns items to the right */
+	gap: -1px; /* Adds space between items */
+}
+.right * {
+	margin: 0;	
+}
 .login-container form {
 	gap: 3px;
 	display: flex;
