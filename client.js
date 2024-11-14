@@ -90,7 +90,7 @@ app.get("/tos", (req, res) => {
   res.render("tos", { title: "Terms Of Service" });
 });
 
-app.get("/settings", (req, res) => {
+app.get("/settings", loggedInMiddleware, verifiedMiddleware, (req, res) => {
 	res.render("settings", { title: "User/Website Settings" });
 });
 

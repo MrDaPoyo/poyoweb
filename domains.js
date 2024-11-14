@@ -12,16 +12,19 @@ router.use(async (req, res, next) => {
     // Define the expected domain structure
     const expectedDomain = process.env.URL_SUFFIX;
     const requestedPath = req.url;
-
     // Check if the request is for the main domain
     if (host === expectedDomain) {
         // For requests to the main domain, continue to the next middleware
         res.locals.isPoyoweb = true;
         return next();
     } else {
-try {        // Subdomain logic
+	try {        // Subdomain logic
         res.locals.isPoyoweb = false;
-        const subdomain = host.split('.')[0]; // Extract the subdomain from the host
+        website = await startDB.getWebsiteByDomain(host);
+        if (!website) {
+        	return res.status(404).send("Website not found, please make sure your domain has been correctly linked.");
+        }
+        const subdomain = website.name; // Extract the subdomain from the host
         const subdomainPath = path.join(__dirname, 'websites/users/', subdomain); // Directory path for subdomain
 
         // Increment view count for the subdomain
