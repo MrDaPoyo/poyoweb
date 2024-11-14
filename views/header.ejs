@@ -40,5 +40,8 @@
 	  <div class="container link-container">
 	  	<h2>Links</h2>
 	    <a href="<%= url %>"><button>Home</button></a>
+	    <% if (loggedIn) { %>
+	    	<a href="/dashboard"><button>Dashboard</button></a>
+	    <% } %>
 	 </div>
 	<div class="container main-container">
