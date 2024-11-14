@@ -90,6 +90,10 @@ app.get("/tos", (req, res) => {
   res.render("tos", { title: "Terms Of Service" });
 });
 
+app.get("/settings", (req, res) => {
+	res.render("settings", { title: "User/Website Settings" });
+});
+
 app.post("/auth/register", notLoggedInMiddleware, (req, res) => {
   const { username, password, email } = req.body;
   if (!username || !password || !email) {
