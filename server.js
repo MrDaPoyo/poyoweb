@@ -241,33 +241,44 @@ app.post('/file/renameByPath', async (req, res) => {
     }
 });
 
-app.post('/file/removeByPath', async (req, res) => {
-    const { apiKey, file } = req.body;
+
+app.post('/file/renameByPath', async (req, res) => {
+    const { apiKey, file, newName } = req.body;
 
     try {
-        // Verify API key
-        const user = jwt.verify(apiKey, process.env.AUTH_SECRET);
-        var filePath = path.join((await db.findUserById(user.id)).username, file);
+        const user = await verifyApiKey(apiKey);
         if (!user) {
             return res.status(401).json({ error: 'Invalid API key' });
         }
-        db.removeFileByID(db.getFileIDByPath(filePath));
-        var fileSize = (await fs.stat(path.join('websites/users', filePath))).size;
-        var totalSize = await db.getTotalSizeByWebsiteName(await db.findUserById(user.id).username) - await fileSize;
-        db.setTotalSizeByWebsiteName(await db.findUserById(user.id).username, await totalSize);
-        if (!fs.existsSync(path.join('websites/users', filePath))) {
+
+        const userDirectory = path.join('websites/users', user.username);
+
+        // Ensure no directory traversal is possible by normalizing paths
+        const sanitizedFilePath = path.normalize(path.join(userDirectory, file));
+        const sanitizedNewFilePath = path.normalize(path.join(userDirectory, newName));
+
+        // Check if the resolved paths are still within the intended directory
+        if (!sanitizedFilePath.startsWith(userDirectory) || !sanitizedNewFilePath.startsWith(userDirectory)) {
+            return res.status(400).json({ error: 'Invalid file path', success: false });
+        }
+
+        if (!await fs.pathExists(sanitizedFilePath)) {
             return res.status(404).json({ error: 'File not found', success: false });
         }
-        const stats = await fs.stat(path.join('websites/users', filePath));
-        if (stats.isDirectory()) {
-            await fs.remove(path.join('websites/users', filePath));
-        } else {
-            await fs.unlink(path.join('websites/users', filePath));
-        }
-        return res.status(200).json({ message: 'File removed successfully', success: true });
+
+        // Update the database with the new file information
+        db.insertFileInfo(
+            db.getFileIDByPath(file),
+            { fileLocation: sanitizedNewFilePath, fileName: newName, fileFullPath: sanitizedNewFilePath, userID: user.id }
+        );
+
+        // Rename the file
+        await fs.rename(sanitizedFilePath, sanitizedNewFilePath);
+        return res.status(200).json({ message: 'File renamed successfully', success: true });
 
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Error renaming file:', error);
+        return res.status(500).json({ error: 'Internal server error', success: false });
     }
 });
 

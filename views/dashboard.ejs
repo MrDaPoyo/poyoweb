@@ -17,7 +17,7 @@
   function rename(cleanPath) {
     var newName = prompt("Enter new name");
     if (newName) {
-      var apiKey = document.getElementById("apiKey").value || "<%- jwt %>";
+      var apiKey = "<%- jwt %>";
       var xhr = new XMLHttpRequest();
       xhr.open("POST", `/dashboard/renameFileByPath`, true);
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
