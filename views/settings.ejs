@@ -10,7 +10,8 @@
 </ol>
 <a href="#linkdomain" class="hidden-link"><h3 margin-bottom="0">Link Your Domain</h3></a>
 <form action="/settings/linkDomain" method="POST" class="row-container">
-	<input type="text" placeholder="yourdomain.com">
+	<input type="hidden" name="jwt" value="<%= jwt %>">
+	<input type="text" name="domain" placeholder="yourdomain.com">
 	<input type="submit">
 </form>
 <%- include("footer.ejs") %>
