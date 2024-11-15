@@ -20,6 +20,7 @@ const checkAuthMiddleware = (req, res, next) => {
   res.locals.jwt = token;
   res.locals.url = process.env.URL_ENTIRE;
   res.locals.message = req.query.message || undefined;
+  res.locals.ip = process.env.SERVER_IP;
 
   if (!token) {
     res.locals.loggedIn = false;

@@ -106,6 +106,9 @@ body {
 	text-decoration: none;
 	color: transparent;
 }
+.no-margin {
+	margin: 0;
+}
 
 .link-container  {
     position: relative;
@@ -237,3 +240,11 @@ input:focus {
               inset -1px -1px 4px rgba(0, 0, 0, 0.2),
               3px 3px 6px var(--input-shadow);
 }
+
+code {
+  background-color: #eee;
+  border-radius: 3px;
+  font-family: courier, monospace;
+  padding: 0 3px;
+}
+
