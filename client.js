@@ -123,9 +123,8 @@ app.post("/settings/linkDomain", verifiedMiddleware, loggedInMiddleware, async (
 		        if (data.success) {
 		          res.locals.message = "Linked Domain!";
 		          res.redirect("/settings?message=Domain successfully linked!#linkdomain");
-		        } else {
-
-		          res.redirect("/settings/#linkdomain?message=" + await data.error);
+		        } else {                                                                                                                                                                                                                      
+		          res.redirect("/settings/?message=" + await data.error+"#linkdomain");
 		        }
 		      })
 		      .catch((error) => {

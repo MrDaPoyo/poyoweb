@@ -371,8 +371,13 @@ app.post("/settings/linkDomain", async (req, res) => {
 	if (!user) {
 		return res.status(403).json({error: "Invalid user", success: false});
 	}
-	db.db.run('UPDATE websites SET domain = ?  WHERE userID = ?', [domain, user.id]);
-	return res.status(200).json({message:"Domain updated!", success: true});
+	db.db.run('UPDATE websites SET domain = ?  WHERE userID = ?', [domain, user.id], (err) => {
+		if (!err) {
+			return res.status(200).json({message:"Domain updated!", success: true});
+		} else {
+			return res.status(403).json({error: "Domain is taken!", success: false});
+		}
+	});
 });
 
 // Start the server
