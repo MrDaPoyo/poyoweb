@@ -40,7 +40,7 @@ async function verifyApiKey(apiKey) {
     });
 }
 
-const userBlacklist = ["social", "faq", "poyoweb", "www","admin","poyo","mrdapoyo", "reporter", "weblink", "oreneta", "neocities", "dapoyo", "bitch", "newrubix", "api", "blog", "official"]
+const userBlacklist = ["dns", "social", "faq", "poyoweb", "www","admin","poyo","mrdapoyo", "reporter", "weblink", "oreneta", "neocities", "dapoyo", "bitch", "newrubix", "api", "blog", "official"]
 
 function checkUsername(username) {
     const regex = /^[a-zA-Z0-9]+$/;
@@ -370,6 +370,9 @@ app.post("/settings/linkDomain", async (req, res) => {
 	var user = await verifyApiKey(apiKey);
 	if (!user) {
 		return res.status(403).json({error: "Invalid user", success: false});
+	}
+	if (domain.includes(process.env.URL.SUFFIX) && !domain == user.username + process.env.URL_SUFFIX)  {
+		return res.status(403).json({error: "DONT YOU TRY STEAL ANYONE ELSE'S USERNAME", success: false});
 	}
 	db.db.run('UPDATE websites SET domain = ?  WHERE userID = ?', [domain, user.id], (err) => {
 		if (!err) {
