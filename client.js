@@ -95,6 +95,38 @@ app.get("/settings", loggedInMiddleware, verifiedMiddleware, (req, res) => {
 	res.render("settings", { title: "User/Website Settings" });
 });
 
+app.post("/settings/linkDomain", verifiedMiddleware, loggedInMiddleware, async (req, res) => {
+	const {jwt, domain} = req.body;
+	if (!jwt || !domain) {
+		return res.status(403).send("Uncomplete form");
+	} else {
+		await fetch(process.env.API_URL + "settings/linkDomain", {
+		      method: "POST",
+		      headers: {
+		        "Content-Type": "application/json",
+		      },
+		      body: JSON.stringify({
+		        username: req.user.username,
+		        jwt: jwt,
+		        domain: domain
+		      }),
+		    })
+		      .then((response) => {console.log(response.text()); response.json();})
+		      .then(async (data) => {
+		        if (await data.success) {
+		          res.locals.message = "Linked Domain!";
+		          res.redirect("/settings#linkdomain");
+		        } else {
+		          res.status(400).json({ error: await data.error, success: await data.success });
+		        }
+		      })
+		      .catch((error) => {
+		        console.error("Error:", error);
+		        res.status(500).json({ error: "An error occurred; " + error });
+		      });
+		  }	
+	});
+
 app.post("/auth/register", notLoggedInMiddleware, (req, res) => {
   const { username, password, email } = req.body;
   if (!username || !password || !email) {

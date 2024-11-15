@@ -358,6 +358,20 @@ app.get('/file/retrieve', async (req, res) => {
     }
 });
 
+app.get("/settings/linkDomain", async (req, res) => {
+	const { apiKey, domain } = req.body;
+	if (!apiKey || !domain) {
+		return res.status(403).json({error: "Missing fields", success: false});
+	}
+	const domainRegex = /^(?!.*https)(?!.*@)[a-zA-Z0-9-]{1,63}(\.[a-zA-Z]{2,})+$/;
+	if (!domainRegex.test(domain)) {
+		return res.status(403).json({error:"Invalid domain, make sure to not include 'HTTPS://'s or '@'s", success: false});
+	}
+	var user = await verifyApiKey(apiKey);
+	db.db.run('UPDATE users SET verified = 1  WHERE id = ?', [domain]);
+	return res.status(200).json({message:"Domain updated!", success: true});
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`PoyoWeb! API running at ${process.env.API_URL}:${port}`);
