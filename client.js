@@ -111,9 +111,9 @@ app.post("/settings/linkDomain", verifiedMiddleware, loggedInMiddleware, async (
 		        domain: domain
 		      }),
 		    })
-		      .then((response) => {console.log(response.text()); response.json();})
+		      .then((response) => response.json())
 		      .then(async (data) => {
-		        if (await data.success) {
+		        if (data.success) {
 		          res.locals.message = "Linked Domain!";
 		          res.redirect("/settings#linkdomain");
 		        } else {

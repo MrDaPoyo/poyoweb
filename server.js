@@ -368,7 +368,8 @@ app.get("/settings/linkDomain", async (req, res) => {
 		return res.status(403).json({error:"Invalid domain, make sure to not include 'HTTPS://'s or '@'s", success: false});
 	}
 	var user = await verifyApiKey(apiKey);
-	db.db.run('UPDATE users SET verified = 1  WHERE id = ?', [domain]);
+	if
+	db.db.run('UPDATE websites SET domain = ?  WHERE userID = ?', [domain, user.id]);
 	return res.status(200).json({message:"Domain updated!", success: true});
 });
 
