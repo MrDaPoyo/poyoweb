@@ -31,7 +31,7 @@ const checkAuthMiddleware = (req, res, next) => {
     if (err) {
       res.locals.loggedIn = false;
     } else {
-      var user = await db.findUserById(await decoded.id)
+      var user = await db.findUserById(await decoded.id);
       if (!user) {
       	res.clearCookie("auth");
         res.redirect("/?message=Invalid auth cookie");
@@ -44,6 +44,14 @@ const checkAuthMiddleware = (req, res, next) => {
     next();
   });
 };
+
+const websiteInfoMiddleware = async (req, res, next) => {
+	var website = await db.getWebsiteByUserId(req.user.id);
+	if (website) {
+		res.locals.websiteData = await website;
+	}
+	next();
+}
 
 const notLoggedInMiddleware = (req, res, next) => {
   if (res.locals.loggedIn) {
@@ -91,7 +99,7 @@ app.get("/tos", (req, res) => {
   res.render("tos", { title: "Terms Of Service" });
 });
 
-app.get("/settings", loggedInMiddleware, verifiedMiddleware, (req, res) => {
+app.get("/settings", loggedInMiddleware, verifiedMiddleware, websiteInfoMiddleware, (req, res) => {
 	res.render("settings", { title: "User/Website Settings" });
 });
 
