@@ -358,7 +358,7 @@ app.get('/file/retrieve', async (req, res) => {
     }
 });
 
-app.get("/settings/linkDomain", async (req, res) => {
+app.post("/settings/linkDomain", async (req, res) => {
 	const { apiKey, domain } = req.body;
 	if (!apiKey || !domain) {
 		return res.status(403).json({error: "Missing fields", success: false});
@@ -368,7 +368,9 @@ app.get("/settings/linkDomain", async (req, res) => {
 		return res.status(403).json({error:"Invalid domain, make sure to not include 'HTTPS://'s or '@'s", success: false});
 	}
 	var user = await verifyApiKey(apiKey);
-	if
+	if (!user) {
+		return res.status(403).json({error: "Invalid user", success: false});
+	}
 	db.db.run('UPDATE websites SET domain = ?  WHERE userID = ?', [domain, user.id]);
 	return res.status(200).json({message:"Domain updated!", success: true});
 });

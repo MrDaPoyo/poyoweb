@@ -19,7 +19,7 @@ const checkAuthMiddleware = (req, res, next) => {
   req.jwt = token;
   res.locals.jwt = token;
   res.locals.url = process.env.URL_ENTIRE;
-  res.locals.message = req.query.message || undefined;
+  res.locals.message = req.query.message || res.locals.message ||  undefined;
   res.locals.ip = process.env.SERVER_IP;
 
   if (!token) {
@@ -106,8 +106,7 @@ app.post("/settings/linkDomain", verifiedMiddleware, loggedInMiddleware, async (
 		        "Content-Type": "application/json",
 		      },
 		      body: JSON.stringify({
-		        username: req.user.username,
-		        jwt: jwt,
+		      	apiKey: jwt,
 		        domain: domain
 		      }),
 		    })
@@ -115,9 +114,10 @@ app.post("/settings/linkDomain", verifiedMiddleware, loggedInMiddleware, async (
 		      .then(async (data) => {
 		        if (data.success) {
 		          res.locals.message = "Linked Domain!";
-		          res.redirect("/settings#linkdomain");
+		          res.redirect("/settings?message=Domain successfully linked!#linkdomain");
 		        } else {
-		          res.status(400).json({ error: await data.error, success: await data.success });
+
+		          res.redirect("/settings/#linkdomain?message=" + await data.error);
 		        }
 		      })
 		      .catch((error) => {
