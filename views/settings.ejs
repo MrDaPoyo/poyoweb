@@ -1,6 +1,6 @@
 <%- include("header.ejs") %>
 <h2>Settings</h2>
-<h3 class="no-margin">Custom Domain</h3>
+<a href="#customdomain" class="hidden-link"><h3 class="no-margin">Custom Domain</h3></a>
 <p class="no-margin">Setup your very own domain! Don't worry, it's free of charge.</p>
 <ol>
 	<li>First, register your domain in any registrar of your choice</li>
@@ -8,7 +8,7 @@
 	<li>Then link your custom domain to the PoyoWeb using the input below</li>
 	<li>And voilá! It's done. You might need to wait up to 40 hours for the DNS changes to globally propagate</li>
 </ol>
-<h3 margin-bottom="0">Link Your Domain</h3>
+<a href="#linkdomain" class="hidden-link"><h3 margin-bottom="0">Link Your Domain</h3></a>
 <form action="/settings/linkDomain" method="POST" class="row-container">
 	<input type="text" placeholder="yourdomain.com">
 	<input type="submit">

@@ -104,7 +104,7 @@ body {
 
 .hidden-link {
 	text-decoration: none;
-	color: transparent;
+	color: inherit;
 }
 .no-margin {
 	margin: 0;
