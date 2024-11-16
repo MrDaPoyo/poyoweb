@@ -381,13 +381,13 @@ app.post("/settings/linkDomain", async (req, res) => {
 	if (!user) {
 		return res.status(403).json({error: "Invalid user", success: false});
 	}
-	if (domain.includes(process.env.URL.SUFFIX) && !domain == user.username + process.env.URL_SUFFIX)  {
+	if (domain.includes(process.env.URL_SUFFIX) && !domain == user.username + process.env.URL_SUFFIX)  {
 		return res.status(403).json({error: "DONT YOU TRY STEAL ANYONE ELSE'S USERNAME", success: false});
 	}
 	if (!checkDomain(domain)) {
-		return res.status(403.json({error: "Reserved domain", success: false}));
+		return res.status(403).json({error: "Reserved domain", success: false});
 	}
-	db.db.run('UPDATE websites SET domain = ?  WHERE userID = ?', [domain, user.id], (err) => {
+	db.db.run('UPDATE websites SET domain = ?  WHERE userID = ?', [domain, user.id], async (err) => {
 		if (!err) {
 			proxy.updateProxyDomains(await db.getAllDomains());
 			return res.status(200).json({message:"Domain updated!", success: true});
