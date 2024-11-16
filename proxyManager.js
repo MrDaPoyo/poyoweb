@@ -5,7 +5,7 @@ require('dotenv').config();
 const NPM_API_BASE = process.env.PROXY_URL; // Replace with your NPM API domain
 const NPM_AUTH = {
   identity: process.env.PROXY_EMAIL, // Replace with your NPM admin email
-  secret: process.env.PROXY_PASSWORD,     // Replace with your NPM admin password
+  secret: process.env.PROXY_PASSWORD, // Replace with your NPM admin password
 };
 
 let jwtToken = null;
@@ -23,7 +23,7 @@ async function authenticate() {
     }
 
     const data = await response.json();
-    jwtToken = await data.token;
+    jwtToken = data.token; // Use data.token to get the JWT
     console.log('Authenticated successfully.');
   } catch (error) {
     console.error('Authentication error:', error.message);
@@ -38,6 +38,9 @@ async function updateProxyHost(hostID, payload) {
     if (!jwtToken) {
       await authenticate();
     }
+
+    console.log('Payload being sent:', payload); // Debugging log
+
     const response = await fetch(`${NPM_API_BASE}/nginx/proxy-hosts/${hostID}`, {
       method: 'PUT',
       headers: {
@@ -46,10 +49,14 @@ async function updateProxyHost(hostID, payload) {
       },
       body: JSON.stringify(payload),
     });
-	
+
     if (!response.ok) {
-	  console.log(await response.json());
-      throw new Error(`Failed to update proxy host: ${response.statusText}`);
+      const errorDetails = await response.json();
+      throw new Error(
+        `Failed to update proxy host: ${response.statusText} - ${JSON.stringify(
+          errorDetails
+        )}`
+      );
     }
 
     const data = await response.json();
@@ -62,45 +69,35 @@ async function updateProxyHost(hostID, payload) {
 }
 
 async function updateDomains() {
-	try {
-	    await authenticate();
-	
-	    const hostID = 1; // Replace with the ID of the proxy host to update
-	    const payload = {
-	      domain_names: ["example.com", "www.example.com"],
-	      forward_scheme: "http",
-	      forward_host: "192.168.1.245",
-	      forward_port: 80,
-	      certificate_id: 0, // Assuming no SSL certificate is configured
-	      ssl_forced: false, // Set true to force HTTPS
-	      hsts_enabled: false,
-	      hsts_subdomains: false,
-	      http2_support: false,
-	      block_exploits: true,
-	      caching_enabled: false,
-	      allow_websocket_upgrade: true,
-	      access_list_id: 0, // Set to the ID of any access list you want to use
-	      advanced_config: "", // Custom Nginx config if needed
-	      enabled: true,
-	      meta: {},
-	      locations: [
-	        {
-	          id: 1,
-	          path: "/",
-	          forward_scheme: "http",
-	          forward_host: "192.168.1.245",
-	          forward_port: 80,
-	          forward_path: "",
-	          advanced_config: "",
-	        },
-	      ],
-	    };
-	
-	    const updatedHost = await updateProxyHost(hostID, payload);
-	    console.log("Proxy host updated successfully:", await updatedHost);
-	} catch (error) {
-		console.error("Error in main:", error);
-	}
+  try {
+    await authenticate();
+
+    const hostID = 10; // Replace with the ID of the proxy host to update
+    const payload = {
+      domain_names: ['example.com'],
+      forward_scheme: 'http',
+      forward_host: '127.0.0.1',
+      forward_port: 8080,
+      certificate_id: 0, // Assuming no SSL certificate is configured
+      ssl_forced: false, // false for no SSL
+      hsts_enabled: false,
+      hsts_subdomains: false,
+      http2_support: false,
+      block_exploits: false,
+      caching_enabled: false,
+      allow_websocket_upgrade: false,
+      access_list_id: 0, // Set to the ID of any access list you want to use
+      advanced_config: '', // Custom Nginx config if needed
+      enabled: true,
+      meta: { nginx_online: true, nginx_err: null },
+      locations: [], // Empty array instead of null
+    };
+
+    const updatedHost = await updateProxyHost(hostID, payload);
+    console.log('Proxy host updated successfully:', updatedHost);
+  } catch (error) {
+    console.error('Error in main:', error);
+  }
 }
 
 updateDomains();
