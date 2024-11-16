@@ -41,6 +41,7 @@ async function verifyApiKey(apiKey) {
 }
 
 const userBlacklist = ["dns", "social", "faq", "poyoweb", "www","admin","poyo","mrdapoyo", "reporter", "weblink", "oreneta", "neocities", "dapoyo", "bitch", "newrubix", "api", "blog", "official"]
+const domainBlacklist = ["poyoweb.me"];
 
 function checkUsername(username) {
     const regex = /^[a-zA-Z0-9]+$/;
@@ -53,6 +54,14 @@ function checkUsername(username) {
     } else {
         return true;
     }
+}
+function checkDomain(inputString) {
+  for (const blacklistedUser of domainBlacklist) {
+    if (inputString.includes(blacklistedUser)) {
+      return false;
+    }
+  }
+  return true;
 }
 
 app.post('/auth/register', async (req, res) => {
@@ -373,6 +382,9 @@ app.post("/settings/linkDomain", async (req, res) => {
 	}
 	if (domain.includes(process.env.URL.SUFFIX) && !domain == user.username + process.env.URL_SUFFIX)  {
 		return res.status(403).json({error: "DONT YOU TRY STEAL ANYONE ELSE'S USERNAME", success: false});
+	}
+	if (!checkDomain(domain)) {
+		return res.status(403.json({error: "Reserved domain", success: false}));
 	}
 	db.db.run('UPDATE websites SET domain = ?  WHERE userID = ?', [domain, user.id], (err) => {
 		if (!err) {

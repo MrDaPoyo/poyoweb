@@ -23,7 +23,7 @@ async function authenticate() {
     }
 
     const data = await response.json();
-    jwtToken = data.token;
+    jwtToken = await data.token;
     console.log('Authenticated successfully.');
   } catch (error) {
     console.error('Authentication error:', error.message);
@@ -38,18 +38,17 @@ async function updateProxyHost(hostID, payload) {
     if (!jwtToken) {
       await authenticate();
     }
-
     const response = await fetch(`${NPM_API_BASE}/nginx/proxy-hosts/${hostID}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `BearerAuth ${jwtToken}`,
+        Authorization: `Bearer ${jwtToken}`,
       },
       body: JSON.stringify(payload),
     });
 	
     if (!response.ok) {
-    	console.log(response);
+	  console.log(await response.json());
       throw new Error(`Failed to update proxy host: ${response.statusText}`);
     }
 
@@ -64,35 +63,20 @@ async function updateProxyHost(hostID, payload) {
 
 // Example usage
 (async function main() {
-  const hostID = 2; // Replace with the ID of the proxy host to update
+  const hostID = 1; // Replace with the ID of the proxy host to update
   const payload = {
-    domain_names: ["1CHl-$_-okWOI-6OxVkoz2hfM[JeP3M3["],
-    forward_scheme: "http",
-    forward_host: "string",
-    forward_port: 1,
-    certificate_id: 0,
-    ssl_forced: true,
-    hsts_enabled: true,
-    hsts_subdomains: true,
+    domain_names: ["test.test.com"],
+	forward_scheme: "http",
+    forward_host: "192.168.1.245",
+    forward_port: 80,
+    certificate_id: 1,
+    ssl_forced: false,
     http2_support: true,
     block_exploits: true,
-    caching_enabled: true,
+    caching_enabled: false,
     allow_websocket_upgrade: true,
     access_list_id: 0,
-    advanced_config: "string",
     enabled: true,
-    meta: {},
-    locations: [
-      {
-        id: 0,
-        path: "string",
-        forward_scheme: "http",
-        forward_host: "string",
-        forward_port: 1,
-        forward_path: "string",
-        advanced_config: "string",
-      },
-    ],
   };
 
   try {
