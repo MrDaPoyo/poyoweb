@@ -9,6 +9,9 @@ const NPM_AUTH = {
 };
 
 let jwtToken = null;
+var forwardHostname = "192.168.1.245";
+var forwardPort = 80;	
+var forwardSSLCert = 5;
 
 // Function to authenticate and get a JWT token
 async function authenticate() {
@@ -39,8 +42,6 @@ async function updateProxyHost(hostID, payload) {
       await authenticate();
     }
 
-    console.log('Payload being sent:', payload); // Debugging log
-
     const response = await fetch(`${NPM_API_BASE}/nginx/proxy-hosts/${hostID}`, {
       method: 'PUT',
       headers: {
@@ -60,7 +61,6 @@ async function updateProxyHost(hostID, payload) {
     }
 
     const data = await response.json();
-    console.log(`Proxy host ${hostID} updated successfully:`, data);
     return data;
   } catch (error) {
     console.error(`Error updating proxy host ${hostID}:`, error.message);
@@ -76,16 +76,16 @@ async function updateDomains() {
     const payload = {
       domain_names: ['test.poyo.study'],
       forward_scheme: 'http',
-      forward_host: '127.0.0.1',
-      forward_port: 8080,
-      certificate_id: 0, // Assuming no SSL certificate is configured
+      forward_host: forwardHostname,
+      forward_port: forwardPort,
+      certificate_id: forwardSSLCert, // Assuming no SSL certificate is configured
       ssl_forced: false, // false for no SSL
       hsts_enabled: false,
       hsts_subdomains: false,
-      http2_support: false,
-      block_exploits: false,
+      http2_support: true,
+      block_exploits: true,
       caching_enabled: false,
-      allow_websocket_upgrade: false,
+      allow_websocket_upgrade: true,
       access_list_id: 0, // Set to the ID of any access list you want to use
       advanced_config: '', // Custom Nginx config if needed
       enabled: true,
