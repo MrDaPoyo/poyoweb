@@ -74,7 +74,7 @@ async function updateDomains() {
 
     const hostID = 10; // Replace with the ID of the proxy host to update
     const payload = {
-      domain_names: ['example.com'],
+      domain_names: ['test.poyo.study'],
       forward_scheme: 'http',
       forward_host: '127.0.0.1',
       forward_port: 8080,
