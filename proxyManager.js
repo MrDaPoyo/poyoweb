@@ -61,28 +61,46 @@ async function updateProxyHost(hostID, payload) {
   }
 }
 
-// Example usage
-(async function main() {
-  const hostID = 1; // Replace with the ID of the proxy host to update
-  const payload = {
-    domain_names: ["test.test.com"],
-	forward_scheme: "http",
-    forward_host: "192.168.1.245",
-    forward_port: 80,
-    certificate_id: 1,
-    ssl_forced: false,
-    http2_support: true,
-    block_exploits: true,
-    caching_enabled: false,
-    allow_websocket_upgrade: true,
-    access_list_id: 0,
-    enabled: true,
-  };
+async function updateDomains() {
+	try {
+	    await authenticate();
+	
+	    const hostID = 1; // Replace with the ID of the proxy host to update
+	    const payload = {
+	      domain_names: ["example.com", "www.example.com"],
+	      forward_scheme: "http",
+	      forward_host: "192.168.1.245",
+	      forward_port: 80,
+	      certificate_id: 0, // Assuming no SSL certificate is configured
+	      ssl_forced: false, // Set true to force HTTPS
+	      hsts_enabled: false,
+	      hsts_subdomains: false,
+	      http2_support: false,
+	      block_exploits: true,
+	      caching_enabled: false,
+	      allow_websocket_upgrade: true,
+	      access_list_id: 0, // Set to the ID of any access list you want to use
+	      advanced_config: "", // Custom Nginx config if needed
+	      enabled: true,
+	      meta: {},
+	      locations: [
+	        {
+	          id: 1,
+	          path: "/",
+	          forward_scheme: "http",
+	          forward_host: "192.168.1.245",
+	          forward_port: 80,
+	          forward_path: "",
+	          advanced_config: "",
+	        },
+	      ],
+	    };
+	
+	    const updatedHost = await updateProxyHost(hostID, payload);
+	    console.log("Proxy host updated successfully:", await updatedHost);
+	} catch (error) {
+		console.error("Error in main:", error);
+	}
+}
 
-  try {
-    const result = await updateProxyHost(hostID, payload);
-    console.log('Update result:', result);
-  } catch (error) {
-    console.error('Error in main:', error);
-  }
-})();
+updateDomains();
