@@ -43,7 +43,7 @@ async function updateProxyHost(hostID, payload) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${jwtToken}`,
+        Authorization: `BearerAuth ${jwtToken}`,
       },
       body: JSON.stringify(payload),
     });
