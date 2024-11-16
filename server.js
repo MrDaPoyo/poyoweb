@@ -10,6 +10,7 @@ const verifyFile = require('./snippets/verifyFile');
 const dirWalker = require('./snippets/dirWalker');
 const { verify } = require('crypto');
 const mailer = require('./mailer');
+const proxy = require("./proxyManager");
 
 db.setupDB();
 
@@ -388,6 +389,7 @@ app.post("/settings/linkDomain", async (req, res) => {
 	}
 	db.db.run('UPDATE websites SET domain = ?  WHERE userID = ?', [domain, user.id], (err) => {
 		if (!err) {
+			proxy.updateProxyDomains(await db.getAllDomains());
 			return res.status(200).json({message:"Domain updated!", success: true});
 		} else {
 			return res.status(403).json({error: "Domain is taken!", success: false});

@@ -127,10 +127,18 @@ function readUsers() {
 }
 
 function getAllDomains() {
-	db.all('SELECT domain FROM websites', async (err, rows) => {
-        return rows;
+    return new Promise((resolve, reject) => {
+        db.all('SELECT domain FROM websites', (err, rows) => {
+            if (err) {
+                reject(err);  // Reject the promise in case of an error
+            } else {
+                const domains = rows.map(row => row.domain);  // Extract domains into a list
+                resolve(domains);  // Resolve the promise with the list of domains
+            }
+        });
     });
 }
+
 
 function findUserById(id) {
     return new Promise((resolve, reject) => {

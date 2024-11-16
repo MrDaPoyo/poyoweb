@@ -100,4 +100,13 @@ async function updateProxyDomains(domains = []) {
   }
 }
 
+const db = require("./db");
+async function run() {
+	domains = await db.getAllDomains();
+	console.log(await domains);
+	updateProxyDomains(await domains);
+}
+
+run();
+
 module.exports = { updateProxyDomains };
