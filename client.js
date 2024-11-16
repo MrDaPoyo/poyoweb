@@ -345,10 +345,8 @@ app.get("/dashboard/removeFileByPath", async (req, res) => {
     });
 
     if (!response.ok) {
-      const errorResponse = await response.json();
-      return res
-        .status(response.status)
-        .json({ error: errorResponse, success: false });
+      const errorResponse = await response.text();
+      return res.status(response.status).json({ error: await errorResponse, success: false });
     }
 
     const responseData = await response.json();
