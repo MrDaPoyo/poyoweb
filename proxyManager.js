@@ -68,13 +68,13 @@ async function updateProxyHost(hostID, payload) {
   }
 }
 
-async function updateDomains() {
+async function updateProxyDomains(domains = []) {
   try {
     await authenticate();
 
     const hostID = 10; // Replace with the ID of the proxy host to update
     const payload = {
-      domain_names: ['test.poyo.study'],
+      domain_names: domains,
       forward_scheme: 'http',
       forward_host: forwardHostname,
       forward_port: forwardPort,
@@ -94,10 +94,10 @@ async function updateDomains() {
     };
 
     const updatedHost = await updateProxyHost(hostID, payload);
-    console.log('Proxy host updated successfully:', updatedHost);
+    console.log('Proxy host updated successfully');
   } catch (error) {
     console.error('Error in main:', error);
   }
 }
 
-updateDomains();
+module.exports = { updateProxyDomains };
