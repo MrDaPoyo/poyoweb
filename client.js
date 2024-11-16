@@ -140,6 +140,36 @@ app.post("/settings/linkDomain", verifiedMiddleware, loggedInMiddleware, async (
 		  }	
 	});
 
+app.post("/settings/resetDomain", verifiedMiddleware, loggedInMiddleware, async (req, res) => {
+	const {jwt} = req.body;
+	if (!jwt) {
+		return res.status(403).send("Missing auth token");
+	} else {
+		await fetch(process.env.API_URL + "settings/resetDomain", {
+		      method: "POST",
+		      headers: {
+		        "Content-Type": "application/json",
+		      },
+		      body: JSON.stringify({
+		      	apiKey: jwt,
+		      }),
+		    })
+		      .then((response) => response.json())
+		      .then(async (data) => {
+		        if (data.success) {
+		          res.redirect("/settings?message=Domain successfully resetted!#linkdomain");
+		        } else {                                                                                                                                                                                                                      
+		          res.redirect("/settings/?message=" + await data.error+"#linkdomain");
+		        }
+		      })
+		      .catch((error) => {
+		        console.error("Error:", error);
+		        res.status(500).json({ error: "An error occurred; " + error });
+		      });
+		  }	
+	});
+
+
 app.post("/auth/register", notLoggedInMiddleware, (req, res) => {
   const { username, password, email } = req.body;
   if (!username || !password || !email) {

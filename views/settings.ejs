@@ -14,4 +14,9 @@
 	<input type="text" name="domain" value="<%= websiteData.domain %>" placeholder="yourdomain.com">
 	<input type="submit">
 </form>
+<form action="/settings/resetDomain" method="POST" class="row-container">
+	<input type="hidden" name="jwt" value="<%= jwt %>">
+	<p>Reset your domain to the default PoyoWeb subdomain.</p>
+	<input type="submit" value="Reset">
+</form>
 <%- include("footer.ejs") %>

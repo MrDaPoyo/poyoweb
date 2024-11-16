@@ -408,6 +408,23 @@ app.post("/settings/linkDomain", async (req, res) => {
 	});
 });
 
+app.post("/settings/resetDomain", async (req, res) => {
+	const { apiKey } = req.body;
+	if (!apiKey) {
+		return res.status(403).json({error: "Missing fields", success: false});
+	}
+	const user = await verifyApiKey(apiKey);
+	db.db.run('UPDATE websites SET domain = ?  WHERE userID = ?', [await (await user.username+"."+process.env.URL_SUFFIX), await user.id], async (err) => {
+		if (!err) {
+			proxy.updateProxyDomains(await db.getAllDomains());
+			return res.status(200).json({message:"Domain Restored!", success: true});
+		} else {
+			return res.status(500).json({error: "Internal Error", success: false});
+		}
+	});
+});
+
+
 // Start the server
 app.listen(port, () => {
     console.log(`PoyoWeb! API running at ${process.env.API_URL}:${port}`);
