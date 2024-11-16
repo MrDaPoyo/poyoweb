@@ -126,6 +126,12 @@ function readUsers() {
     });
 }
 
+function getAllDomains() {
+	db.all('SELECT domain FROM websites', async (err, rows) => {
+        return rows;
+    });
+}
+
 function findUserById(id) {
     return new Promise((resolve, reject) => {
         db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {
@@ -506,6 +512,7 @@ module.exports = {
     removeFileByID,
     getAllUserNames,
     getAllFilesByUserId,
+    getAllDomains,
     createApiKey,
     verifyApiKey,
     createUser,
