@@ -72,11 +72,14 @@ app.post('/auth/register', async (req, res) => {
     username = username.toLowerCase();
     var usernameTest = checkUsername(username);
     if (!usernameTest) {
-    	res.status(400).json({error: usernameTest, success: false});
+    	return res.status(400).json({error: usernameTest, success: false});
     }
     if (!username || !email || !password) {
         res.status(400).json({ error: 'Missing required fields', success: false});
         return;
+    } 
+    if (process.env.CONFIG_MAX_USERS < db.getUserCount()) {
+    	return res.status(400).json({ error: 'Max user capacity reached', success: false})
     } else if (password.length > 7) {
         try {
             const hashedPassword = await db.hashPassword(password);

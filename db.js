@@ -126,6 +126,18 @@ function readUsers() {
     });
 }
 
+function getUserCount() {
+    return new Promise((resolve, reject) => {
+        db.get('SELECT COUNT(*) AS count FROM users', (err, row) => {
+            if (err) {
+                reject(err);  // Reject the promise in case of an error
+            } else {
+                resolve(row.count);  // Resolve the promise with the count value
+            }
+        });
+    });
+}
+
 function getAllDomains() {
     return new Promise((resolve, reject) => {
         db.all('SELECT domain FROM websites', (err, rows) => {
@@ -500,6 +512,7 @@ function closeDB() {
 module.exports = {
     setupDB,
     readUsers,
+    getUserCount,
     findUserByEmail,
     findUserByUsername,
     findUserById,
