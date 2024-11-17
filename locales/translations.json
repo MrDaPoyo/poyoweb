@@ -1,7 +1,8 @@
 {
   "en": {
     "index": {
-      "greeting": "Welcome to our site!"
+      "aboutus": "What's the PoyoWeb?",
+      "aboutuscorpus": "The PoyoWeb is a free, open-source web host made by a group of teenagers(<a href='https://poyo.study'>Poyo</a> and many collaborators) who weren't happy with the absurd pricing of other webhosts. It's run by the community and sustained by donations. The PoyoWeb will(it's very WIP) also have many, MANY perks. Some of them will be:"
     },
     "common": {
       "goodbye": "Goodbye!"
