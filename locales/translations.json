@@ -17,11 +17,20 @@
     }
   },
   "es": {
-    "index": {
-      "greeting": "¡Bienvenido a nuestro sitio!"
-    },
-    "common": {
-      "goodbye": "¡Adiós!"
+	"index": {
+      "aboutus": "Que es la PoyoWeb?",
+      "aboutuscorpus": "La PoyoWeb es un hosting de paginas web gratuito, open-source hecho por un grupo de adolescentes(<a href='https://poyo.study'>Poyo</a> y varios colaboradores) que estaban descontenos con los precios absurdos de otros proveedores de hosting. Esta controlada por la comunidad y se mantiene a base de donaciones. La PoyoWeb tendrá muchas ventajas, algunas de las cuales serán:",
+		"perksList": [
+        "Free custom domains",
+        "500 megabytes of storage",
+        "Cute interactive Dashboard",
+        "Clouds",
+        "A fully integrated web editor for your files",
+        "SSH access to your files",
+        "A super duper cool API for you to use GitHub Actions with",
+        "AI Scrapers and Crawlers are blocked from the entire PoyoWeb, including YOUR site! That means your assets will be safe and sound!",
+        "A very cheap 2$/€ tier with all the things you'd expect from a hosting provider"
+      ]
     }
   }
 }
