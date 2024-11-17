@@ -2,19 +2,19 @@
   "en": {
     "index": {
       "aboutus": "What's the PoyoWeb?",
-      "aboutuscorpus": "The PoyoWeb is a free, open-source web host made by a group of teenagers(<a href='https://poyo.study'>Poyo</a> and many collaborators) who weren't happy with the absurd pricing of other webhosts. It's run by the community and sustained by donations. The PoyoWeb will(it's very WIP) also have many, MANY perks. Some of them will be:"
-	  "perkslist": [
-	  	"Free custom domains",
-	  	"500 megabytes of storage",
-	  	"Cute interactive Dashboard",
-	  	"Clouds",
-	  	"A fully integrated web editor for your files",
-	  	"SSH access to your files",
-	  	"A super duper cool API for you to use GitHub Actions with",
-	  	"AI Scrapers and Crawlers are blocked from the entire PoyoWeb, including YOUR site! That means your assets will be safe and round!",
-	  	"A very cheap 2$/€ tier with all the things you'd expect from a hosting provider.",
-	  ]
-    },
+      "aboutuscorpus": "The PoyoWeb is a free, open-source web host made by a group of teenagers(<a href='https://poyo.study'>Poyo</a> and many collaborators) who weren't happy with the absurd pricing of other webhosts. It's run by the community and sustained by donations. The PoyoWeb will(it's very WIP) also have many, MANY perks. Some of them will be:",
+		"perksList": [
+        "Free custom domains",
+        "500 megabytes of storage",
+        "Cute interactive Dashboard",
+        "Clouds",
+        "A fully integrated web editor for your files",
+        "SSH access to your files",
+        "A super duper cool API for you to use GitHub Actions with",
+        "AI Scrapers and Crawlers are blocked from the entire PoyoWeb, including YOUR site! That means your assets will be safe and sound!",
+        "A very cheap 2$/€ tier with all the things you'd expect from a hosting provider"
+      ]
+    }
   },
   "es": {
     "index": {
