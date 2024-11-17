@@ -1,0 +1,18 @@
+{
+  "en": {
+    "index": {
+      "greeting": "Welcome to our site!"
+    },
+    "common": {
+      "goodbye": "Goodbye!"
+    }
+  },
+  "es": {
+    "index": {
+      "greeting": "¡Bienvenido a nuestro sitio!"
+    },
+    "common": {
+      "goodbye": "¡Adiós!"
+    }
+  }
+}

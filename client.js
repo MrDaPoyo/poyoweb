@@ -10,6 +10,7 @@ const multer = require("multer");
 const verifyFile = require("./snippets/verifyFile");
 const path = require("path");
 const db = require("./db");
+const l18n = require("./l18n");
 
 const app = express();
 const port = 8080;
@@ -81,6 +82,7 @@ const verifiedMiddleware = (req, res, next) => {
 app.use(cookieParser());
 app.use(require("./domains"));
 app.use(checkAuthMiddleware);
+app.use(l18n);
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -90,6 +92,10 @@ app.use(express.static("public"));
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" });
+});
+
+app.get("/test", (req, res) => {
+	res.render("test", {title: "test"});
 });
 
 app.get("/privacy", (req, res) => {
