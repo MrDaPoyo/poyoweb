@@ -78,7 +78,7 @@ app.post('/auth/register', async (req, res) => {
         res.status(400).json({ error: 'Missing required fields', success: false});
         return;
     } 
-    if (process.env.CONFIG_MAX_USERS < db.getUserCount()) {
+    if (process.env.CONFIG_MAX_USERS < await db.getUserCount()) {
     	return res.status(400).json({ error: 'Max user capacity reached', success: false})
     } else if (password.length > 7) {
         try {
