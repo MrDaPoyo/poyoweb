@@ -52,6 +52,8 @@ function checkUsername(username) {
         return 'Username must contain only letters and numbers';
     } else if (userBlacklist.includes(username)) {
         return 'Username is blacklisted, try again with another different username';
+    } else if (username.includes(" ")) {
+    	return 'Username must not contain spaces';
     } else {
         return true;
     }
