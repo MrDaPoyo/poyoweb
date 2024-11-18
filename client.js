@@ -110,6 +110,9 @@ app.get("/donate", (req, res) => {
   res.render("donate", { title: "Donate!" });
 });
 
+app.get("/credits", (req, res) => {
+  res.render("credits", { title: "Credits and partners" });
+});
 
 app.get("/settings", loggedInMiddleware, verifiedMiddleware, websiteInfoMiddleware, (req, res) => {
 	res.render("settings", { title: "User/Website Settings" });
