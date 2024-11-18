@@ -10,7 +10,6 @@ const verifyFile = require('./snippets/verifyFile');
 const dirWalker = require('./snippets/dirWalker');
 const { verify } = require('crypto');
 const mailer = require('./mailer');
-const proxy = require("./proxyManager");
 
 db.setupDB();
 

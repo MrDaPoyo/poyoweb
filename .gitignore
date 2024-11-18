@@ -2,3 +2,4 @@ node_modules/
 poyoweb.db
 .env
 websites/users/*
+nginx/ssl/*
