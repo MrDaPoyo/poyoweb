@@ -427,18 +427,15 @@ app.post("/settings/resetDomain", async (req, res) => {
 	});
 });
 
-app.post('/ssl/generate-cert', async (req, res) => {
-    const { domain, email } = req.body;
-
+async function generateSSLCert(domain, email) {
     if (!domain || !email) {
         return res.status(400).json({ error: 'Domain and email are required' });
     }
-
     try {
         // Check if the certificate already exists
         const certPath = `/etc/letsencrypt/live/${domain}`;
         if (await fs.pathExists(certPath)) {
-            return res.status(200).json({ message: 'Certificate already exists', certPath });
+            return { message: 'Certificate already exists', path: certPath, success: true };
         }
 
         // Run Certbot to generate the SSL certificate
@@ -446,18 +443,16 @@ app.post('/ssl/generate-cert', async (req, res) => {
         exec(cmd, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error generating certificate: ${stderr}`);
-                return res.status(500).json({ error: 'Failed to generate certificate', details: stderr });
+                return {message: 'Error generating certificate', success: false }
             }
 
             console.log(stdout);
-            res.status(200).json({ message: 'Certificate generated successfully', certPath });
+            return {message: 'Certificate generated successfully', path: certPath, success: true };
         });
     } catch (error) {
         console.error(`Unexpected error: ${error.message}`);
-        res.status(500).json({ error: 'Unexpected server error', details: error.message });
     }
-});
-
+}
 // Start the server
 app.listen(port, () => {
     console.log(`PoyoWeb! API running at ${process.env.API_URL}:${port}`);
