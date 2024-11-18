@@ -405,6 +405,7 @@ app.post("/settings/linkDomain", async (req, res) => {
 	}
 	db.db.run('UPDATE websites SET domain = ?  WHERE userID = ?', [domain, user.id], async (err) => {
 		if (!err) {
+			generateSSLCert(domain, user.email);
 			return res.status(200).json({message:"Domain updated!", success: true});
 		} else {
 			return res.status(403).json({error: "Domain is taken!", success: false});
