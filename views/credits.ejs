@@ -1,9 +1,16 @@
 <%- include("header.ejs") %>
 <h2>The Poyoweb's Contributors and Partners</h2>
 <p>The PoyoWeb is a community driven project, slowly built thanks to the efforts of many people. Here are some of the most notable contributors, and the partners who make the PoyoWeb possible.</p> 
+<h3 class="no-margin">Contributors</h3>
 <ul>
 <% t("credits.contributors").forEach(perk => { %>                                                                                                                                  
 	<li><%- perk %></li>                                                                                                                                       
+<% }); %>
+</ul> 
+<h3 class="no-margin">Partners</h3>
+<ul>
+<% t("credits.partners").forEach(partner => { %>                                                                                                                                  
+	<li><%- partner %></li>                                                                                                                                       
 <% }); %>
 </ul> 
 <%- include("footer.ejs") %>

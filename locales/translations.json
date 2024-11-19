@@ -17,7 +17,20 @@
     },
     "credits": {
       "contributors": [
-        "Poyo! - The creator of the PoyoWeb. Handled most of the code and organizes the PoyoWeb. <a href='https://poyo.study'>poyo.study</a>"
+        "Poyo! - The creator of the PoyoWeb. Handled most of the code and organizes the PoyoWeb. <a href='https://poyo.study'>Poyo.study</a>",
+        "Semputernal - Hosted the PoyoWeb for a while and also gave super important advice. <a href='https://limbank.org'>Limbank.org</a>",
+        "Matic - Hosts the PoyoWeb and provides feedback. He's also translating the PoyoWeb to Slovenian. <a href='https://maticboncina.si'>Maticboncina.si</a>",
+        "BSOD - Great tester who helped fix many bugs and also gave lotsa ideas on the visuals.",
+        "Mechagic - Main artist of the PoyoWeb, carried most of the art of the PoyoWeb and designed the third iteration of the PoyoWeb's layout.",
+        "April - Cofounder of the PoyoWeb, helped write the first iteration of the PoyoWeb in PHP.",
+        "Xobyte - Avid JS coder that helped fix many bugs.",
+        "Pushfoo - Freelancer that helped with the PoyoWeb's security.",
+        "Memecompanies - memecompanies, AKA moosyu. Keeps the discord alive and helped with file uploads.",
+        "Jon - Great friend who helped with the art and thinking process of lots of stuff."
+      ],
+	  "partners": [
+      	"Limbank.org - FOSS organisation that hosts open-source projects. Managed by Sempu. <a href='https://limbank.org'>Limbank.org</a>",
+      	"Noxity.io - Hosting provider that currently is the infrastructure of the PoyoWeb. Managed by Matic. <a href='https://limbank.org'>Limbank.org</a>"
       ]
     }
   },
@@ -39,7 +52,19 @@
     },
     "credits": {
       "contributors": [
-        "¡Poyo! - El creador de la PoyoWeb. Responsable de la mayoría del código y de la organización de la PoyoWeb. <a href='https://poyo.study'>poyo.study</a>"
+        "¡Poyo! - El creador de la PoyoWeb. Responsable de la mayoría del código y de la organización de la PoyoWeb. <a href='https://poyo.study'>poyo.study</a>",
+        "Semputernal - Hospedó la PoyoWeb por un tiempo y también dio consejos súper importantes. <a href='https://limbank.org'>Limbank.org</a>",
+        "BSOD - Gran tester que ayudó a arreglar muchos bugs y también dio muchas ideas sobre los visuales.",
+        "Mechagic - Artista principal de la PoyoWeb, realizó la mayor parte del arte y diseñó la tercera iteración del diseño de la PoyoWeb.",
+        "April - Cofundadora de la PoyoWeb, ayudó a escribir la primera versión de la PoyoWeb en PHP.",
+        "Xobyte - Entusiasta programador de JS que ayudó a solucionar muchos errores.",
+        "Pushfoo - Freelancer que ayudó con la seguridad de la PoyoWeb.",
+        "Memecompanies - memecompanies, también conocido como moosyu. Mantiene vivo el Discord y ayudó con las subidas de archivos.",
+        "Jon - Gran amigo que ayudó con el arte de la PoyoWeb."
+      ],
+      "partners": [
+        "Limbank.org - Organización que hostea projectos open-source, entre ellos la PoyoWeb. <a href='https://limbank.org'>Limbank.org</a>",
+        "Noxity.io - Hosting actual de la PoyoWeb, manejado por Matic. <a href='https://noxity.io'>Noxity.io</a>"
       ]
     }
   }
