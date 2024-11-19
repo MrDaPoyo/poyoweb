@@ -248,3 +248,100 @@ code {
   padding: 0 3px;
 }
 
+@media (max-width: 768px) {
+	.main-container::before {
+		display: none;
+	}
+  body {
+    margin: 0;
+    padding: 0 2.5vw;
+  }
+
+  .megacontainer {
+    gap: 10px;
+    outline: none; /* Remove the outline for a cleaner mobile look */
+  }
+
+  .container {
+    padding: 1vh;
+  }
+  
+
+  .row-container {
+    flex-direction: column; /* Stack rows vertically */
+    gap: 10px; /* Add spacing between stacked items */
+  }
+
+  .header-container {
+    text-align: center; /* Center header content for better alignment */
+    padding: 10px;
+  }
+
+  .footer-container {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .footer-links {
+    width: 100%;
+    flex-direction: column; /* Stack footer links vertically */
+    gap: 10px; /* Add spacing between links */
+  }
+
+  .main-container {
+    padding-left: 10px; /* Reduce padding for smaller screens */
+    border-top: none; /* Simplify the design for mobile */
+  }
+
+  .main-container::before {
+    width: 15px; /* Adjust the triangle size */
+  }
+
+  .message-container {
+    font-size: 14px; /* Reduce font size for better readability */
+    padding: 1vh;
+  }
+
+  .link-container {
+    gap: 5px;
+    padding: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .link-container h2 {
+  	display: none;
+  }
+
+  .login-container form {
+    align-items: center; /* Center-align the form */
+    width: 100%;
+  }
+
+  .login-carl {
+    align-items: center;
+    text-align: center;
+  }
+
+  button,
+  input[type="submit"] {
+    font-size: 0.9rem; /* Adjust font size for smaller buttons */
+    padding: 5px 10px;
+  }
+
+  input {
+    font-size: 14px; /* Reduce font size for inputs */
+  }
+
+  form {
+    gap: 10px; /* Reduce spacing between form elements */
+  }
+
+  .form-group {
+    flex-direction: column; /* Stack form inputs vertically */
+  }
+
+  code {
+    font-size: 12px; /* Adjust font size for code snippets */
+  }
+}
