@@ -28,9 +28,14 @@
         "Memecompanies - memecompanies, AKA moosyu. Keeps the discord alive and helped with file uploads.",
         "Jon - Great friend who helped with the art and thinking process of lots of stuff."
       ],
-	  "partners": [
-      	"Limbank.org - FOSS organisation that hosts open-source projects. Managed by Sempu. <a href='https://limbank.org'>Limbank.org</a>",
-      	"Noxity.io - Hosting provider that currently is the infrastructure of the PoyoWeb. Managed by Matic. <a href='https://noxity.io'>Noxity.io</a>"
+      "partners": [
+        "Limbank.org - FOSS organisation that hosts open-source projects. Managed by Sempu. <a href='https://limbank.org'>Limbank.org</a>",
+        "Noxity.io - Hosting provider that currently is the infrastructure of the PoyoWeb. Managed by Matic. <a href='https://noxity.io'>Noxity.io</a>"
+      ],
+      "donators": [
+        "Avrumy - <a href='https://lungers.com'>Lungers.com</a>",
+        "Semputernal - <a href='https://limbank.org'>Limbank.org</a>",
+        "Gustaf"
       ]
     }
   },
@@ -54,6 +59,7 @@
       "contributors": [
         "¡Poyo! - El creador de la PoyoWeb. Responsable de la mayoría del código y de la organización de la PoyoWeb. <a href='https://poyo.study'>poyo.study</a>",
         "Semputernal - Hospedó la PoyoWeb por un tiempo y también dio consejos súper importantes. <a href='https://limbank.org'>Limbank.org</a>",
+        "Matic - Hostea la PoyoWeb y proporciona feedback. También está traduciendo la PoyoWeb al esloveno. <a href='https://maticboncina.si'>Maticboncina.si</a>",
         "BSOD - Gran tester que ayudó a arreglar muchos bugs y también dio muchas ideas sobre los visuales.",
         "Mechagic - Artista principal de la PoyoWeb, realizó la mayor parte del arte y diseñó la tercera iteración del diseño de la PoyoWeb.",
         "April - Cofundadora de la PoyoWeb, ayudó a escribir la primera versión de la PoyoWeb en PHP.",
@@ -63,8 +69,13 @@
         "Jon - Gran amigo que ayudó con el arte de la PoyoWeb."
       ],
       "partners": [
-        "Limbank.org - Organización que hostea projectos open-source, entre ellos la PoyoWeb. <a href='https://limbank.org'>Limbank.org</a>",
+        "Limbank.org - Organización que hostea proyectos open-source, entre ellos la PoyoWeb. <a href='https://limbank.org'>Limbank.org</a>",
         "Noxity.io - Hosting actual de la PoyoWeb, manejado por Matic. <a href='https://noxity.io'>Noxity.io</a>"
+      ],
+      "donators": [
+        "Avrumy - <a href='https://lungers.com'>Lungers.com</a>",
+        "Semputernal - <a href='https://limbank.org'>Limbank.org</a>",
+        "Gustaf"
       ]
     }
   }

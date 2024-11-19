@@ -13,4 +13,10 @@
 	<li><%- partner %></li>                                                                                                                                       
 <% }); %>
 </ul> 
+<h3 class="no-margin">Donators</h3>
+<ul>
+<% t("credits.donators").forEach(donator => { %>                                                                                                                                  
+	<li><%- donator %></li>                                                                                                                                       
+<% }); %>
+</ul> 
 <%- include("footer.ejs") %>
