@@ -111,7 +111,7 @@ app.get("/donate", (req, res) => {
 });
 
 app.get("/credits", (req, res) => {
-  res.render("credits", { title: "Credits and partners" });
+  res.render("credits", { title: "Credits, partners and donors" });
 });
 
 app.get("/settings", loggedInMiddleware, verifiedMiddleware, websiteInfoMiddleware, (req, res) => {
