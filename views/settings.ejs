@@ -19,4 +19,31 @@
 	<p>Reset your domain to the default PoyoWeb subdomain.</p>
 	<input type="submit" value="Reset">
 </form>
+<script>
+async function removeAccount(jwt, userId) {
+  try {
+    const response = await fetch('/settings/deleteUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId, jwt }), // Replace with the expected payload
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    console.log('User deleted successfully:', result);
+    return location.reload();
+  } catch (error) {
+    console.error('Failed to delete user:', error);
+    throw error;
+  }
+}
+</script>
+<a href="#removeaccount" class="hidden-link"><h3 class="no-margin">Remove account</h3></a>
+<p class="no-margin">BEWARE! if you delete your account, all of your data will be gone, including your website. Please think very carefully about this before removing your account.</p>
+<button class="red-button" id="deleteAccount" onclick="removeAccount('<%= jwt %>', <%= user.id %>);" style="background-color: red; color: white;">DELETE</button>
 <%- include("footer.ejs") %>

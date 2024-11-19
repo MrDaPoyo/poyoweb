@@ -12,7 +12,7 @@ function checkFileName(name) {
     for (let i = 0; i < VALID_EXTENSIONS.length; i++) {
         if (name.endsWith(VALID_EXTENSIONS[i])) {
             console.log('Valid extension found:', VALID_EXTENSIONS[i]);
-            return true;
+            return name.replace(/[^a-zA-Z0-9_-]/g, "");
         }
     }
     return false;
@@ -24,7 +24,7 @@ function checkCreatableFile(name) {
     for (let i = 0; i < VALID_EDITABLE_EXTENSIONS.length; i++) {
         if (name.endsWith(VALID_EDITABLE_EXTENSIONS[i])) {
             console.log('Valid extension found:', VALID_EDITABLE_EXTENSIONS[i]);
-            return true;
+            return name.replace(/[^a-zA-Z0-9_-]/g, "");
         }
     }
     return false;
@@ -36,7 +36,7 @@ function checkEditableFile(name) {
     for (let i = 0; i < VALID_EDITABLE_EXTENSIONS.length; i++) {
         if (name.endsWith(VALID_EDITABLE_EXTENSIONS[i])) {
             console.log('Valid extension found:', VALID_EDITABLE_EXTENSIONS[i]);
-            return true;
+            return name.replace(/[^a-zA-Z0-9_-]/g, "");
         }
     }
     return false;

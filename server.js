@@ -149,6 +149,32 @@ app.get('/auth/verify', (req, res) => {
     });
 });
 
+app.post('/auth/removeAccount', async (req, res) => {
+	try {
+		const {jwt, userId} = req.body;
+		if (!jwt || !userId) {
+			res.status(400).json({error: "Error deleting user; Missing fields", success: false});
+		}
+		var user = await verifyApiKey(jwt);
+		if (user) {
+			db.db.run('DELETE FROM users WHERE username = ?', [await user.username], async (err) => {
+				if (err) {
+	    			console.error(err.message);
+			        res.status(400).json({error: "Error deleting user", success: false});
+			    } else {
+			    	await fs.remove(path.join('websites/users', await user.username));
+	    	    	res.status(200).json({message: "User deleted", success: true});
+		    	}
+			});
+		} else {
+			res.status(400).json({error: "Error deleting user; Missing user", success: false});
+		}
+	}
+	catch (err) {
+		console.log(err);
+	}
+});
+
 const storage = multer.diskStorage({
     destination: async function (req, file, cb) {
         const { apiKey, dir } = req.body;

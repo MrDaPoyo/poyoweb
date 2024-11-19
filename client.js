@@ -173,10 +173,29 @@ app.post("/settings/resetDomain", verifiedMiddleware, loggedInMiddleware, async 
 		      })
 		      .catch((error) => {
 		        console.error("Error:", error);
-		        res.status(500).json({ error: "An error occurred; " + error });
+		        res.status(500).json({ error: "An error occurred; " + error, success: false });
 		      });
 		  }	
 	});
+
+app.post("/settings/deleteUser", loggedInMiddleware, verifiedMiddleware, async (req, res) => {
+	const { jwt, userId } = req.body;
+	if (!jwt || !userId) {
+		return res.status(403).json({error: "An error occurred", success: false})
+	}
+	response = await fetch(process.env.API_URL + "auth/removeAccount", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: req.user.username,
+        userId: userId,
+        jwt: jwt
+      })
+    });
+    return res.redirect("/?message=User deleted successfully!");
+});
 
 
 app.post("/auth/register", notLoggedInMiddleware, (req, res) => {
