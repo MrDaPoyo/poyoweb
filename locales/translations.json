@@ -2,8 +2,8 @@
   "en": {
     "index": {
       "aboutus": "What's the PoyoWeb?",
-      "aboutuscorpus": "The PoyoWeb is a free, open-source web host made by a group of teenagers(<a href='https://poyo.study'>Poyo</a> and many collaborators) who weren't happy with the absurd pricing of other webhosts. It's run by the community and sustained by donations. The PoyoWeb will(it's very WIP) also have many, MANY perks. Some of them will be:",
-	  "perksList": [
+      "aboutuscorpus": "The PoyoWeb is a free, open-source web host made by a group of teenagers (<a href='https://poyo.study'>Poyo</a> and many collaborators) who weren't happy with the absurd pricing of other webhosts. It's run by the community and sustained by donations. The PoyoWeb will (it's very WIP) also have many, MANY perks. Some of them will be:",
+      "perksList": [
         "Free custom domains",
         "500 megabytes of storage",
         "Cute interactive Dashboard",
@@ -12,31 +12,35 @@
         "SSH access to your files",
         "A super duper cool API for you to use GitHub Actions with",
         "AI Scrapers and Crawlers are blocked from the entire PoyoWeb, including YOUR site! That means your assets will be safe and sound!",
-        "A very cheap 2$/€ tier with all the things you'd expect from a hosting provider"
+        "A very cheap $2/€2 tier with all the things you'd expect from a hosting provider"
       ]
     },
     "credits": {
-    	"contributors": ["Poyo! - The creator of the PoyoWeb. Handled most of the code and organises the PoyoWeb. <a href='https://poyo.study'>poyo.study</a>"]
+      "contributors": [
+        "Poyo! - The creator of the PoyoWeb. Handled most of the code and organizes the PoyoWeb. <a href='https://poyo.study'>poyo.study</a>"
+      ]
     }
   },
   "es": {
-	"index": {
-      "aboutus": "Que es la PoyoWeb?",
-      "aboutuscorpus": "La PoyoWeb es un hosting de paginas web gratuito, open-source hecho por un grupo de adolescentes(<a href='https://poyo.study'>Poyo</a> y varios colaboradores) que estaban descontenos con los precios absurdos de otros proveedores de hosting. Esta controlada por la comunidad y se mantiene a base de donaciones. La PoyoWeb tendrá muchas ventajas, algunas de las cuales serán:",
-		"perksList": [
-        "Free custom domains",
-        "500 megabytes of storage",
-        "Cute interactive Dashboard",
-        "Clouds",
-        "A fully integrated web editor for your files",
-        "SSH access to your files",
-        "A super duper cool API for you to use GitHub Actions with",
-        "AI Scrapers and Crawlers are blocked from the entire PoyoWeb, including YOUR site! That means your assets will be safe and sound!",
-        "A very cheap 2$/€ tier with all the things you'd expect from a hosting provider"
+    "index": {
+      "aboutus": "¿Qué es la PoyoWeb?",
+      "aboutuscorpus": "La PoyoWeb es un hosting web gratuito y de código abierto creado por un grupo de adolescentes (<a href='https://poyo.study'>Poyo</a> y muchos colaboradores) que no estaban conformes con los precios absurdos de otros proveedores de hosting. Está gestionada por la comunidad y se mantiene gracias a donaciones. La PoyoWeb (aún está en desarrollo) también tendrá muchas, MUCHAS ventajas. Algunas de ellas serán:",
+      "perksList": [
+        "Dominios personalizados gratuitos",
+        "500 megabytes de almacenamiento",
+        "Un tablero interactivo y adorable",
+        "Nubes",
+        "Un editor web completamente integrado para tus archivos",
+        "Acceso SSH a tus archivos",
+        "Una API súper genial para usar con GitHub Actions",
+        "¡Los scrapers y rastreadores de IA están bloqueados en toda la PoyoWeb, incluyendo TU sitio! Esto significa que tus recursos estarán seguros.",
+        "Un nivel muy económico de $2/€2 con todo lo que esperarías de un proveedor de hosting"
       ]
     },
     "credits": {
-        "contributors": ["Poyo! - The creator of the PoyoWeb. Handled most of the code and organises the PoyoWeb. <a href='https://poyo.study'>poyo.study</a>"]
-   	}
+      "contributors": [
+        "¡Poyo! - El creador de la PoyoWeb. Responsable de la mayoría del código y de la organización de la PoyoWeb. <a href='https://poyo.study'>poyo.study</a>"
+      ]
+    }
   }
 }
