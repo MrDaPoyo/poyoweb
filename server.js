@@ -405,7 +405,9 @@ app.post("/settings/linkDomain", async (req, res) => {
 	}
 	db.db.run('UPDATE websites SET domain = ?  WHERE userID = ?', [domain, user.id], async (err) => {
 		if (!err) {
-			generateSSLCert(domain, user.email);
+			if (process.env.DNS_GENERATE_SSL_CERT || false) {
+				generateSSLCert(domain, user.email);
+			}
 			return res.status(200).json({message:"Domain updated!", success: true});
 		} else {
 			return res.status(403).json({error: "Domain is taken!", success: false});
@@ -426,6 +428,10 @@ app.post("/settings/resetDomain", async (req, res) => {
 			return res.status(500).json({error: "Internal Error", success: false});
 		}
 	});
+});
+
+app.get("/utils/getAllDomains", async (req, res) => {
+	res.status(200).json(await db.getAllDomains());
 });
 
 async function generateSSLCert(domain, email) {
