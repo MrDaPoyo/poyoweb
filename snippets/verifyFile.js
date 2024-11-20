@@ -6,9 +6,14 @@ var VALID_EDITABLE_EXTENSIONS = [
     'html', 'htm', 'txt', 'js', 'css', 'scss', 'md', 'markdown', 'manifest', 'less', 'webmanifest', 'xml', 'json', 'opml', 'rdf', 'svg', 'gpg', 'pgp', 'resolveHandle', 'pls', 'yaml', 'yml', 'toml', 'osdx', 'mjs', 'cjs', 'ts', 'php',
 ];
 
+var maxFileNameLength = 50;
+
 function checkFileName(name) {
     name.toLowerCase();
     name.replace(/\s/g, '');
+    if (name.length > maxFileNameLength) {
+    	return false;
+    }
     for (let i = 0; i < VALID_EXTENSIONS.length; i++) {
         if (name.endsWith(VALID_EXTENSIONS[i])) {
             console.log('Valid extension found:', VALID_EXTENSIONS[i]);
@@ -21,6 +26,9 @@ function checkFileName(name) {
 function checkCreatableFile(name) {
     name.toLowerCase();
     name.replace(/\s/g, '');
+    if (name.length > maxFileNameLength) {
+       	return false;
+    }
     for (let i = 0; i < VALID_EDITABLE_EXTENSIONS.length; i++) {
         if (name.endsWith(VALID_EDITABLE_EXTENSIONS[i])) {
             console.log('Valid extension found:', VALID_EDITABLE_EXTENSIONS[i]);
@@ -31,6 +39,9 @@ function checkCreatableFile(name) {
 }
 
 function checkEditableFile(name) {
+	if (name.length > maxFileNameLength) {
+    	return false;
+    }
     name.toLowerCase();
     name.replace(/\s/g, '');
     for (let i = 0; i < VALID_EDITABLE_EXTENSIONS.length; i++) {
