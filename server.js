@@ -4,6 +4,7 @@ const db = require('./db');
 const path = require('path');
 const fs = require('fs-extra')
 const multer = require('multer');
+const bcrypt = require('bcrypt');
 const { exec } = require('child_process');
 require('dotenv').config();
 
@@ -171,6 +172,22 @@ app.post('/auth/sendRecoveryEmail', async (req, res) => {
         } else {
             return res.status(403).send('Email not found');
         }
+    });
+});
+
+app.post('/auth/recoverPassword', async (req, res) => {
+    var { token, email, password } = req.body;
+    if (!email || !token || !password) {
+    	return res.status(403).json({error: 'Missing fields', success: false});
+    }
+    user = await verifyApiKey(token);
+    password = await db.hashPassword(password);
+    if (password)
+    db.db.run('UPDATE users SET password = ? WHERE email = ?;', [password, email], (err) => {
+        if (err) {
+            return res.status(403).json({error: 'User Not Found', success: false});
+        }
+        return res.status(200).json({message: 'Password successfully recovered', success: true});
     });
 });
 

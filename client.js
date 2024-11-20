@@ -309,37 +309,60 @@ app.get('/auth/recover/:token', async (req, res) => {
     });
 });
 
+app.post('/auth/recover/:token', async (req, res) => {
+    const token = req.params.token;
+    const { email, password } = req.body;
+    if (!token || !email || !password) {
+    	return res.redirect("/?message=Missing fields");
+    }
+	const response = await fetch(process.env.API_URL + "auth/recoverPassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: token,
+          email: email,
+          password: password,
+        }),
+        timeout: 5000,
+    });
+    if (await response.ok) {
+    	res.redirect("/auth/login?message=Successfully recovered! You can now log in with your new credentials.");
+    }
+});
+
 app.get("/auth/logout", (req, res) => {
   res.clearCookie("auth");
   res.redirect("/");
 });
 
 app.get('/auth/verify/:token', async (req, res) => {
-  const { token } = req.params;
+  	const { token } = req.params;
+	if (!token) {
+		res.redirect("/?message=Missing token");
+	}
+  	try {
+    	// Forward the request to the verification endpoint
+	    const response = await fetch(`${process.env.API_URL}auth/verify?token=${token}`, {
+    		method: 'GET',
+      		headers: {
+        		'Content-Type': 'application/json'
+	      	}
+    	});
 
-  try {
-    // Forward the request to the verification endpoint
-    const response = await fetch(`${process.env.API_URL}auth/verify?token=${token}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+    	const data = await response.json();
 
-    const data = await response.json();
-
-    if (response.ok && data.success) {
-    	res.redirect("/?message="+await data.message);
-    } else {
-    	res.redirect("/?message="+await data.error);
-    }
-  } catch (err) {
-  	console.log(err);
-  	res.redirect("/?message=An unexpected Error has happened.")
-  }
+    	if (response.ok && data.success) {
+    		res.redirect("/?message="+await data.message);
+    	} else {
+    		res.redirect("/?message="+await data.error);
+    	}
+  	} catch (err) {
+  		console.log(err);
+  		res.redirect("/?message=An unexpected Error has happened.")
+  	}
 });
-
-
     
 app.get("/dashboard", loggedInMiddleware, verifiedMiddleware, async (req, res) => {
   fetch(
