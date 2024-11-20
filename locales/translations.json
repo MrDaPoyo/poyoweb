@@ -5,6 +5,7 @@
       "aboutuscorpus": "The PoyoWeb is a free, open-source web host made by a group of teenagers (<a href='https://poyo.study'>Poyo</a> and many collaborators) who weren't happy with the absurd pricing of other webhosts. It's run by the community and sustained by donations. The PoyoWeb will (it's very WIP) also have many, MANY perks. Some of them will be:",
       "perksList": [
         "Free custom domains",
+        "Free SSL included with every custom domain",
         "500 megabytes of storage",
         "Cute interactive Dashboard",
         "Clouds",
@@ -46,6 +47,7 @@
       "aboutuscorpus": "La PoyoWeb es un hosting web gratuito y de código abierto creado por un grupo de adolescentes (<a href='https://poyo.study'>Poyo</a> y muchos colaboradores) que no estaban conformes con los precios absurdos de otros proveedores de hosting. Está gestionada por la comunidad y se mantiene gracias a donaciones. La PoyoWeb (aún está en desarrollo) también tendrá muchas, MUCHAS ventajas. Algunas de ellas serán:",
       "perksList": [
         "Dominios personalizados gratuitos",
+        "SSL gratuito incluido con cada dominio personalizado",
         "500 megabytes de almacenamiento",
         "Un tablero interactivo y adorable",
         "Nubes",
