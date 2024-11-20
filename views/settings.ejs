@@ -9,11 +9,15 @@
 	<li>And voilá! It's done. You might need to wait up to 40 hours for the DNS changes to globally propagate</li>
 </ol>
 <a href="#linkdomain" class="hidden-link"><h3 margin-bottom="0">Link Your Domain</h3></a>
+<% if (user.verified) { %>
 <form action="/settings/linkDomain" method="POST" class="row-container">
 	<input type="hidden" name="jwt" value="<%= jwt %>">
 	<input type="text" name="domain" value="<%= websiteData.domain %>" placeholder="yourdomain.com">
 	<input type="submit">
 </form>
+<% } else { %>
+	<p>Verify your email address to change your domain!</p>
+<% } %>
 <form action="/settings/resetDomain" method="POST" class="row-container">
 	<input type="hidden" name="jwt" value="<%= jwt %>">
 	<p>Reset your domain to the default PoyoWeb subdomain.</p>
@@ -45,5 +49,8 @@ async function removeAccount(jwt, userId) {
 </script>
 <a href="#removeaccount" class="hidden-link"><h3 class="no-margin">Remove account</h3></a>
 <p class="no-margin">BEWARE! if you delete your account, all of your data will be gone, including your website. Please think very carefully about this before removing your account.</p>
-<button class="red-button" id="deleteAccount" onclick="removeAccount('<%= jwt %>', <%= user.id %>);" style="background-color: red; color: white;">DELETE</button>
+<form action="/settings/deleteUser" method="POST">
+<input type="hidden" value="<%= jwt %>" name="jwt"> 
+<input type="submit" class="red-button" id="deleteAccount" style="background-color: red; color: white;" value="DELETE">
+</form>
 <%- include("footer.ejs") %>

@@ -114,7 +114,7 @@ app.get("/credits", (req, res) => {
   res.render("credits", { title: "Credits, partners and donors" });
 });
 
-app.get("/settings", loggedInMiddleware, verifiedMiddleware, websiteInfoMiddleware, (req, res) => {
+app.get("/settings", loggedInMiddleware, websiteInfoMiddleware, (req, res) => {
 	res.render("settings", { title: "User/Website Settings" });
 });
 
@@ -178,9 +178,9 @@ app.post("/settings/resetDomain", verifiedMiddleware, loggedInMiddleware, async 
 		  }	
 	});
 
-app.post("/settings/deleteUser", loggedInMiddleware, verifiedMiddleware, async (req, res) => {
-	const { jwt, userId } = req.body;
-	if (!jwt || !userId) {
+app.post("/settings/deleteUser", loggedInMiddleware, async (req, res) => {
+	const { jwt } = req.body;
+	if (!jwt) {
 		return res.status(403).json({error: "An error occurred", success: false})
 	}
 	response = await fetch(process.env.API_URL + "auth/removeAccount", {
@@ -190,11 +190,11 @@ app.post("/settings/deleteUser", loggedInMiddleware, verifiedMiddleware, async (
       },
       body: JSON.stringify({
         username: req.user.username,
-        userId: userId,
         jwt: jwt
       })
     });
-    return res.redirect("/?message=User deleted successfully!");
+    res.clearCookie("auth");
+    res.redirect("/");
 });
 
 

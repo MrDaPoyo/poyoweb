@@ -154,21 +154,23 @@ app.post('/auth/removeAccount', async (req, res) => {
 	try {
 		const {jwt, userId} = req.body;
 		if (!jwt || !userId) {
-			res.status(400).json({error: "Error deleting user; Missing fields", success: false});
+			return res.status(400).json({error: "Error deleting user; Missing fields", success: false});
 		}
 		var user = await verifyApiKey(jwt);
 		if (user) {
 			db.db.run('DELETE FROM users WHERE username = ?', [await user.username], async (err) => {
 				if (err) {
 	    			console.error(err.message);
-			        res.status(400).json({error: "Error deleting user", success: false});
+			        return res.status(400).json({error: "Error deleting user", success: false});
 			    } else {
+			    	db.db.run('DELETE FROM websites WHERE userID = ?', [await user.id]);
+			    	db.db.run('DELETE FROM files WHERE userID = ?', [await user.id]);
 			    	await fs.remove(path.join('websites/users', await user.username));
-	    	    	res.status(200).json({message: "User deleted", success: true});
+	    	    	return res.status(200).json({message: "User deleted", success: true});
 		    	}
 			});
 		} else {
-			res.status(400).json({error: "Error deleting user; Missing user", success: false});
+			return res.status(400).json({error: "Error deleting user; Missing user", success: false});
 		}
 	}
 	catch (err) {
