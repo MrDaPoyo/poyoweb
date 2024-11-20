@@ -150,6 +150,30 @@ app.get('/auth/verify', (req, res) => {
     });
 });
 
+app.post('/auth/sendRecoveryEmail', async (req, res) => {
+    var email = req.body.email;
+    if (!email) {
+    	return res.status(403).send('User Not Found');
+    }
+    db.get('SELECT * FROM users WHERE email = ?;', [email], (err, row) => {
+        if (err) {
+            console.error(err.message);
+            return res.status(403).send('User Not Found');
+        }
+        if (row) {
+            const token = jwt.sign(
+                { email: email, userId: row.id },
+                process.env.TOKEN_KEY,
+                { expiresIn: "24h" }
+            );
+            mailer.sendRecoveryEmail(token, email);
+            return res.status(200).send('Password recovery email sent');
+        } else {
+            return res.status(403).send('Email not found');
+        }
+    });
+});
+
 app.post('/auth/removeAccount', async (req, res) => {
 	try {
 		const {jwt, userId} = req.body;

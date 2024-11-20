@@ -272,6 +272,24 @@ app.post("/auth/login", notLoggedInMiddleware, async (req, res) => {
   }
 });
 
+app.get('/auth/recover', async (req, res) => {
+	res.render('recover', {title: "Recover your account"});	
+});
+
+app.get('/auth/recover/:token', async (req, res) => {
+    var token = req.params.token;
+    jwt.verify(token, process.env.AUTH_SECRET, async function (err, decoded) {
+        if (err) {
+            console.log(err);
+            res.send("Password recovery failed, possibly the link is invalid or expired");
+        }
+        else {
+        	var user = await db.findUserById(await decoded.id)
+            res.render('resetPassword', { title: 'Reset Password', url: process.env.URL, token: token, email: user.email, name: user.username });
+        }
+    });
+});
+
 app.get("/auth/logout", (req, res) => {
   res.clearCookie("auth");
   res.redirect("/");
