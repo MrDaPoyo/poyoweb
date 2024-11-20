@@ -1,3 +1,8 @@
 <%- include("header.ejs") %>
-
+<h1>Recover your password!</h1>
+<p>We'll send a recovery email containing a link to reset your password.</p>
+<form method="POST" action="/auth/recover">
+    <input type="email" name="email" placeholder="Email" required>
+    <button type="submit">Recover</button>
+</form>
 <%- include("footer.ejs") %>

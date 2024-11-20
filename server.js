@@ -155,7 +155,7 @@ app.post('/auth/sendRecoveryEmail', async (req, res) => {
     if (!email) {
     	return res.status(403).send('User Not Found');
     }
-    db.get('SELECT * FROM users WHERE email = ?;', [email], (err, row) => {
+    db.db.get('SELECT * FROM users WHERE email = ?;', [email], (err, row) => {
         if (err) {
             console.error(err.message);
             return res.status(403).send('User Not Found');
@@ -163,7 +163,7 @@ app.post('/auth/sendRecoveryEmail', async (req, res) => {
         if (row) {
             const token = jwt.sign(
                 { email: email, userId: row.id },
-                process.env.TOKEN_KEY,
+                process.env.AUTH_SECRET,
                 { expiresIn: "24h" }
             );
             mailer.sendRecoveryEmail(token, email);

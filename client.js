@@ -276,12 +276,31 @@ app.get('/auth/recover', async (req, res) => {
 	res.render('recover', {title: "Recover your account"});	
 });
 
+app.post('/auth/recover', async (req, res) => {
+	const { email } = req.body;
+	if (!email) {
+		return res.status(403).send("Missing email");
+	}
+	const response = await fetch(process.env.API_URL + "auth/sendRecoveryEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+        timeout: 5000,
+    });
+	const text = await response.text();
+	res.redirect("/?message=Recovery email sent successfully!")
+});
+
 app.get('/auth/recover/:token', async (req, res) => {
     var token = req.params.token;
     jwt.verify(token, process.env.AUTH_SECRET, async function (err, decoded) {
         if (err) {
             console.log(err);
-            res.send("Password recovery failed, possibly the link is invalid or expired");
+            res.status(403).send("Password recovery failed, possibly the link is invalid or expired");
         }
         else {
         	var user = await db.findUserById(await decoded.id)
