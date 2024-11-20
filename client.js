@@ -303,8 +303,8 @@ app.get('/auth/recover/:token', async (req, res) => {
             res.status(403).send("Password recovery failed, possibly the link is invalid or expired");
         }
         else {
-        	var user = await db.findUserById(await decoded.id)
-            res.render('resetPassword', { title: 'Reset Password', url: process.env.URL, token: token, email: user.email, name: user.username });
+        	var user = await db.findUserByEmail(await decoded.email)
+            res.render('recoverPassword', { title: 'Reset Password', url: process.env.URL, token: token, email: await user.email, name: await user.username });
         }
     });
 });
