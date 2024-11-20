@@ -45,7 +45,7 @@ const userBlacklist = ["dns", "social", "faq", "poyoweb", "www","admin","poyo","
 const domainBlacklist = ["poyoweb.me"];
 
 function checkUsername(username) {
-    const regex = /^[a-zA-Z0-9_]*$/; // Regex for valid characters only
+    const regex = /^[a-zA-Z0-9]([a-zA-Z0-9_-]{0,61}[a-zA-Z0-9])?$/; // Regex for valid characters only
 
     if (username.length > 20) {
         return 'Username must have at max 20 characters';
