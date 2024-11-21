@@ -63,7 +63,9 @@ const loggedInMiddleware = (req, res, next) => {
   }
 }
 
-router.get("/", checkAuthMiddleware, async (req, res) => {
+router.use(checkAuthMiddleware);
+
+router.get("/", loggedInMiddleware, async (req, res) => {
 	res.render("adminIndex", {title: "Index"});	
 });
 
@@ -71,7 +73,7 @@ router.get("/auth/login", notLoggedInMiddleware, (req, res) => {
   res.render("adminLogin", { title: "Login" });
 });
 
-router.post("/auth/login", async (req, res) => {
+router.post("/auth/login", notLoggedInMiddleware, async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     res.status(400).json({ error: "Missing required fields", success: false });
