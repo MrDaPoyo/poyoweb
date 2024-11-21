@@ -92,17 +92,21 @@ router.post("/auth/login", async (req, res) => {
       const text = await response.text();
       const data = await JSON.parse(await text);
       if (await data.success) {
-        res.cookie("auth", data.jwt, { httpOnly: true });
-        res.locals.loggedIn = true;
-        res.redirect("/?message=Successfully logged in");
+      	if (await db.findUserByEmail(email).admin == 1) {
+        	res.cookie("auth", data.jwt, { httpOnly: true });
+        	res.locals.loggedIn = true;
+        	return res.redirect("/?message=Successfully logged in");
+        } else {
+        	return res.redirect('/?message=Not an admin :P')
+        }
       } else {
         res.clearCookie("auth");
         res.locals.loggedIn = false;
-        res.redirect("/?message=Error "+data.error);
+        return res.redirect("/?message=Error "+data.error);
       }
     } catch (error) {
       console.error("Error:", error);
-      res.status(500).json({ error: "An error occurred; " + error });
+      return res.status(500).json({ error: "An error occurred; " + error });
     }
   }
 });

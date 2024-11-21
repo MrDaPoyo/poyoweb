@@ -23,9 +23,7 @@ function setupDB() {
     verified BOOLEAN DEFAULT FALSE,
     apiKey TEXT DEFAULT NULL,
     tier INTEGER NOT NULL DEFAULT 0,
-    admin INTEGER NOT NULL DEFAULT 0;
-    
-)`);
+    admin INTEGER NOT NULL DEFAULT 0)`);
 
     // Create websites table
     db.run(`CREATE TABLE IF NOT EXISTS websites (
