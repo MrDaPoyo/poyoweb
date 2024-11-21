@@ -86,7 +86,7 @@ router.use(checkAuthMiddleware);
 router.use(isAdmin);
 
 router.get("/", loggedInMiddleware, async (req, res) => {
-	res.render("adminIndex", {title: "Index"});	
+	res.render("adminIndex", await { title: "Index", users: await db.readUsers() });	
 });
 
 router.get("/auth/login", notLoggedInMiddleware, (req, res) => {

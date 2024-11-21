@@ -122,10 +122,27 @@ function loginUser(userEmailOrName, password) {
 }
 
 function readUsers() {
-    db.all('SELECT * FROM users', async (err, rows) => {
-        return rows;
+  const secretKey = process.env.AUTH_SECRET; // Retrieve the secret key from environment variables
+  if (!secretKey) {
+    throw new Error('AUTH_SECRET environment variable is not set');
+  }
+
+  return new Promise((resolve, reject) => {
+    db.all('SELECT * FROM users', (err, rows) => {
+      if (err) {
+        reject(err); // Reject the promise in case of an error
+      } else {
+        // Sign JWT for each user with only the id in the payload
+        const usersWithTokens = rows.map(user => {
+          const token = jwt.sign({ id: user.id }, secretKey, { expiresIn: '1h' });
+          return { ...user, token }; // Add the token to the user object
+        });
+        resolve(usersWithTokens); // Resolve with updated users
+      }
     });
+  });
 }
+
 
 function getUserCount() {
     return new Promise((resolve, reject) => {

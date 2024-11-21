@@ -2,6 +2,16 @@
 <h2>Welcome to the PoyoWeb Administrator Portal</h2>
 <% if (typeof user !== 'undefined' && user) { %>
   <p>Welcome, <%= user.username %>!</p>
+  <ul>
+    <% users.forEach(function(item, index) { %>
+      <li>
+        <% Object.entries(item).forEach(function([key, value]) { %>
+          <strong><%= key %>:</strong> <%= value %><br>
+        <% }); %>
+      </li>
+    <% }); %>
+  </ul>
+  
 <% } else { %>
   <p>Welcome, guest!</p>
   <a href="/auth/login">Login</a>
