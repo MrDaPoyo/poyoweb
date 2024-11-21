@@ -259,7 +259,6 @@ code {
 
   .megacontainer {
     gap: 10px;
-    outline: none; /* Remove the outline for a cleaner mobile look */
   }
 
   .container {
@@ -274,7 +273,8 @@ code {
 
   .header-container {
     text-align: center; /* Center header content for better alignment */
-    padding: 10px;
+    padding: 5px;
+   	align-items: center;
   }
 
   .footer-container {
