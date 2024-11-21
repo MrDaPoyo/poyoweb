@@ -17,6 +17,9 @@ router.use(async (req, res, next) => {
         // For requests to the main domain, continue to the next middleware
         res.locals.isPoyoweb = true;
         return next();
+    } else if (host == process.env.ADMIN_URL) {
+		router.use(require("./admin"));
+		next();
     } else {
 	try {        // Subdomain logic
         res.locals.isPoyoweb = false;

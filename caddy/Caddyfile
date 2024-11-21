@@ -5,6 +5,10 @@
 	}
 }
 
+admin.poyoweb.me {
+    reverse_proxy localhost:8080
+}
+
 # Catch-all for all domains with SSL
 https:// {
 	# Dynamically handle SSL certificates using Caddy's built-in Let's Encrypt integration
@@ -23,3 +27,4 @@ https:// {
 http:// {
 	redir https://{host}{uri} permanent
 }
+
