@@ -1,9 +1,10 @@
 <%- include("adminHeader.ejs") %>
-<h2>Welcome to the PoyoWeb Administrator Portal, 
+<h2>Welcome to the PoyoWeb Administrator Portal</h2>
 <% if (typeof user !== 'undefined' && user) { %>
   <p>Welcome, <%= user.username %>!</p>
 <% } else { %>
   <p>Welcome, guest!</p>
+  <a href="/auth/login">Login</a>
 <% } %>
 </h2> 
 <%- include("adminFooter.ejs") %>
