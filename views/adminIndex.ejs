@@ -8,6 +8,10 @@
         <% Object.entries(item).forEach(function([key, value]) { %>
           <strong><%= key %>:</strong> <%= value %><br>
         <% }); %>
+        <form method="POST" action="/user/deleteUser">
+        	<input type="hidden" value="<%- item.token %>">
+        	<input type="submit" name="jwt" value="Delete user <%- item.username %>">
+        </form>
       </li>
     <% }); %>
   </ul>

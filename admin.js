@@ -139,6 +139,25 @@ router.get("/auth/logout", (req, res) => {
   res.redirect("/");
 });
 
+
+router.post("/user/deleteUser", async (req, res) => {
+	const { jwt } = req.body;
+	if (!jwt) {
+		return res.status(403).json({error: "An error occurred", success: false})
+	}
+	response = await fetch(process.env.API_URL + "auth/removeAccount", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: req.user.username,
+        jwt: jwt
+      })
+    });
+    res.redirect("/");
+});
+
 router.use((req, res, next) => {
   res.status(404).send("404 not found");
 });
