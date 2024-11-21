@@ -67,7 +67,7 @@ router.get("/auth/login", notLoggedInMiddleware, (req, res) => {
 });
 
 router.post("/auth/login", notLoggedInMiddleware, async (req, res) => {
-  const { user, password } = req.body;
+  const { email, password } = req.body;
   if (!user || !password) {
     res.status(400).json({ error: "Missing required fields", success: false });
     return;
