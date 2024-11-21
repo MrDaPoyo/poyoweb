@@ -21,7 +21,10 @@ function setupDB() {
     password TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     verified BOOLEAN DEFAULT FALSE,
-    apiKey TEXT DEFAULT NULL
+    apiKey TEXT DEFAULT NULL,
+    tier INTEGER NOT NULL DEFAULT 0,
+    admin INTEGER NOT NULL DEFAULT 0;
+    
 )`);
 
     // Create websites table

@@ -13,3 +13,6 @@
     <meta name="author" content="PoyoWeb Admin">
 </head>
 <body>
+<% if (typeof message !== 'undefined' && message) { %>
+	<center style="padding: 5px; background-color: orange;"><%= message %></center>
+<% } %>

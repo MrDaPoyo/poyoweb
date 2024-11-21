@@ -7,8 +7,13 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");;
 const path = require("path");
 const db = require("./db");
+const FormData = require("form-data");
 
 var router = express.Router();
+
+router.use(cookieParser());
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
 
 const checkAuthMiddleware = (req, res, next) => {
   const token = req.cookies.auth;
@@ -58,7 +63,7 @@ const loggedInMiddleware = (req, res, next) => {
   }
 }
 
-router.get("/", checkAuthMiddleware,	async (req, res) => {
+router.get("/", checkAuthMiddleware, async (req, res) => {
 	res.render("adminIndex", {title: "Index"});	
 });
 
@@ -66,34 +71,34 @@ router.get("/auth/login", notLoggedInMiddleware, (req, res) => {
   res.render("adminLogin", { title: "Login" });
 });
 
-router.post("/auth/login", notLoggedInMiddleware, async (req, res) => {
+router.post("/auth/login", async (req, res) => {
   const { email, password } = req.body;
-  if (!user || !password) {
+  if (!email || !password) {
     res.status(400).json({ error: "Missing required fields", success: false });
     return;
   } else {
     try {
-      const response = await fetch(process.env.API_URL + "admin/auth/login", {
+      const response = await fetch(process.env.API_URL + "auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user: user,
+          user: email,
           password: password,
         }),
         timeout: 5000,
       });
       const text = await response.text();
-      const data = text ? JSON.parse(text) : {};
-      if (data.success) {
+      const data = await JSON.parse(await text);
+      if (await data.success) {
         res.cookie("auth", data.jwt, { httpOnly: true });
         res.locals.loggedIn = true;
         res.redirect("/?message=Successfully logged in");
       } else {
         res.clearCookie("auth");
         res.locals.loggedIn = false;
-        res.render("/?message=Error");
+        res.redirect("/?message=Error "+data.error);
       }
     } catch (error) {
       console.error("Error:", error);
