@@ -92,7 +92,8 @@ router.post("/auth/login", async (req, res) => {
       const text = await response.text();
       const data = await JSON.parse(await text);
       if (await data.success) {
-      	if (await db.findUserByEmail(email).admin == 1) {
+      	var user = await db.findUserByEmail(email); 
+      	if (user.admin == 1) {
         	res.cookie("auth", data.jwt, { httpOnly: true });
         	res.locals.loggedIn = true;
         	return res.redirect("/?message=Successfully logged in");
