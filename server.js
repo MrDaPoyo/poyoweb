@@ -193,8 +193,8 @@ app.post('/auth/recoverPassword', async (req, res) => {
 
 app.post('/auth/removeAccount', async (req, res) => {
 	try {
-		const {jwt, userId} = req.body;
-		if (!jwt || !userId) {
+		const {jwt} = req.body;
+		if (!jwt) {
 			return res.status(400).json({error: "Error deleting user; Missing fields", success: false});
 		}
 		var user = await verifyApiKey(jwt);

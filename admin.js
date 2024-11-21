@@ -141,8 +141,8 @@ router.get("/auth/logout", (req, res) => {
 
 
 router.post("/user/deleteUser", async (req, res) => {
-	const { jwt } = req.body;
-	if (!jwt) {
+	const { token } = req.body;
+	if (!token) {
 		return res.status(403).json({error: "An error occurred", success: false})
 	}
 	response = await fetch(process.env.API_URL + "auth/removeAccount", {
@@ -151,11 +151,10 @@ router.post("/user/deleteUser", async (req, res) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: req.user.username,
-        jwt: jwt
+        jwt: token,
       })
     });
-    res.redirect("/");
+	res.redirect("/?message="+JSON.stringify(await response.json()));
 });
 
 router.use((req, res, next) => {
