@@ -57,13 +57,33 @@ const notLoggedInMiddleware = (req, res, next) => {
 
 const loggedInMiddleware = (req, res, next) => {
   if (!res.locals.loggedIn) {
-    res.redirect("/auth/login");
+    res.redirect("/auth/login?message=You need to be logged in");
   } else {
     next();
   }
 }
 
+const isAdmin = (req, res, next) => {
+    if (req.path == '/auth/login' || req.path == '/') {
+        return next(); // Skip middleware for the login route
+    }
+
+    if (req.user) {
+        if (req.user.admin == 1) {
+            next();
+        } else {
+            res.clearCookie("auth");
+            return res.redirect("/auth/login?message=You need to be an admin");
+        }
+    } else {
+        res.clearCookie("auth");
+        return res.redirect("/auth/login?message=You need to log in");
+    }
+};
+
+
 router.use(checkAuthMiddleware);
+router.use(isAdmin);
 
 router.get("/", loggedInMiddleware, async (req, res) => {
 	res.render("adminIndex", {title: "Index"});	
@@ -112,6 +132,11 @@ router.post("/auth/login", notLoggedInMiddleware, async (req, res) => {
       return res.status(500).json({ error: "An error occurred; " + error });
     }
   }
+});
+
+router.get("/auth/logout", (req, res) => {
+  res.clearCookie("auth");
+  res.redirect("/");
 });
 
 router.use((req, res, next) => {
