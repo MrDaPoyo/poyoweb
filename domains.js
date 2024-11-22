@@ -12,14 +12,16 @@ router.use(async (req, res, next) => {
     // Define the expected domain structure
     const expectedDomain = process.env.URL_SUFFIX;
     const requestedPath = req.url;
+    console.log(host);
     // Check if the request is for the main domain
-    if (host === expectedDomain) {
+    if (host == expectedDomain) {
         // For requests to the main domain, continue to the next middleware
         res.locals.isPoyoweb = true;
         return next();
-    } else if (host === process.env.ADMIN_URL) {
-		router.use(require("./admin"));
-		next();
+    } else if (host == process.env.ADMIN_URL) {
+		const adminRouter = require("./admin");
+		console.log("Admin Portal Hit");
+		return adminRouter(req, res, next);
     } else {
 	try {        // Subdomain logic
         res.locals.isPoyoweb = false;
