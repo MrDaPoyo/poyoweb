@@ -5,8 +5,10 @@
 	}
 }
 
-admin.poyoweb.me {
-    reverse_proxy localhost:8080
+# Explicitly configure admin.poyoweb.org to use specific certs
+admin.poyoweb.org {
+	tls /var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/admin.poyoweb.org/cert.pem /var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/admin.poyoweb.org/key.pem
+	reverse_proxy localhost:8080
 }
 
 # Catch-all for all domains with SSL
@@ -27,4 +29,3 @@ https:// {
 http:// {
 	redir https://{host}{uri} permanent
 }
-

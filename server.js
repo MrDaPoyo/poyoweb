@@ -502,7 +502,7 @@ app.post("/settings/resetDomain", async (req, res) => {
 });
 
 app.get("/utils/getAllDomains", async (req, res) => {
-	res.status(200).json(await db.getAllDomains());
+	res.status(200).json(await (await db.getAllDomains()).concat(process.env.ADMIN_URL));
 });
 
 async function generateSSLCert(domain, email) {
