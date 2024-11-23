@@ -20,6 +20,7 @@ router.get('/', (req, res) => {
             converter.makeHtml(data); // This is needed to extract metadata
             const metadata = converter.getMetadata();
             return {
+                id: path.basename(file, '.md'),
                 title: metadata.title || path.basename(file, '.md'),
                 description: metadata.description || '',
                 keywords: metadata.keywords || [],
