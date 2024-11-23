@@ -248,10 +248,11 @@ input:focus {
 }
 
 code {
-  background-color: #eee;
-  border-radius: 3px;
-  font-family: courier, monospace;
-  padding: 0 3px;
+  	background-color: #eee;
+  	border-radius: 3px;
+  	font-family: courier, monospace;
+  	padding: 0 3px;
+	white-space: pre-wrap;
 }
 
 @media (max-width: 768px) {
