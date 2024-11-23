@@ -21,7 +21,14 @@ router.get('/:tutorial', (req, res) => {
 
         const converter = new showdown.Converter();
         const html = converter.makeHtml(data);
-        res.json({ content: html });
+        const metadata = converter.getMetadata();
+        const tutorial = {
+            title: metadata.title || tutorialName,
+            description: metadata.description || '',
+            keywords: metadata.keywords || [],
+            content: html
+        };
+        res.render('tutorialTutorial',{ tutorial });
     });
 });
 
