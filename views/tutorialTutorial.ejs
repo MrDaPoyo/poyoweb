@@ -1,0 +1,8 @@
+<% require('header.ejs') %>
+<h1><%= tutorial.title %></h1>
+<p><%= tutorial.description %></p>
+<small>Made by <strong><%= tutorial.author %></strong></small>
+<div class="tutorial-container">
+    <%- tutorial.content %>
+</div>
+<% require('footer.ejs') %>

@@ -11,6 +11,7 @@ const verifyFile = require("./snippets/verifyFile");
 const path = require("path");
 const db = require("./db");
 const l18n = require("./l18n");
+const tutorials = require("./tutorials");
 
 const app = express();
 const port = 8080;
@@ -20,7 +21,7 @@ const checkAuthMiddleware = (req, res, next) => {
   req.jwt = token;
   res.locals.jwt = token;
   res.locals.url = process.env.URL_ENTIRE;
-  res.locals.message = req.query.message || res.locals.message ||  undefined;
+  res.locals.message = req.query.message || res.locals.message || undefined;
   res.locals.ip = process.env.SERVER_IP;
   res.locals.dns = process.env.DNS_URL;
 
@@ -35,12 +36,12 @@ const checkAuthMiddleware = (req, res, next) => {
     } else {
       var user = await db.findUserById(await decoded.id);
       if (!user) {
-      	res.clearCookie("auth");
+        res.clearCookie("auth");
         res.redirect("/?message=Invalid auth cookie");
       } else {
-      	res.locals.loggedIn = true;
-      	res.locals.user = await user;
-      	req.user = await user;
+        res.locals.loggedIn = true;
+        res.locals.user = await user;
+        req.user = await user;
       }
     }
     next();
@@ -48,11 +49,11 @@ const checkAuthMiddleware = (req, res, next) => {
 };
 
 const websiteInfoMiddleware = async (req, res, next) => {
-	var website = await db.getWebsiteByUserId(req.user.id);
-	if (website) {
-		res.locals.websiteData = await website;
-	}
-	next();
+  var website = await db.getWebsiteByUserId(req.user.id);
+  if (website) {
+    res.locals.websiteData = await website;
+  }
+  next();
 }
 
 const notLoggedInMiddleware = (req, res, next) => {
@@ -72,11 +73,11 @@ const loggedInMiddleware = (req, res, next) => {
 }
 
 const verifiedMiddleware = (req, res, next) => {
-	if (req.user.verified == 1) {
-		next();
-	} else {
-		res.redirect("/?message=You need to be verified in order to access this page! :P");
-	}
+  if (req.user.verified == 1) {
+    next();
+  } else {
+    res.redirect("/?message=You need to be verified in order to access this page! :P");
+  }
 }
 
 app.use(cookieParser());
@@ -89,13 +90,14 @@ app.set("views", "views");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use("/tutorials", tutorials);
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" });
 });
 
 app.get("/test", (req, res) => {
-	res.render("test", {title: "test"});
+  res.render("test", { title: "test" });
 });
 
 app.get("/privacy", (req, res) => {
@@ -115,86 +117,86 @@ app.get("/credits", (req, res) => {
 });
 
 app.get("/settings", loggedInMiddleware, websiteInfoMiddleware, (req, res) => {
-	res.render("settings", { title: "User/Website Settings" });
+  res.render("settings", { title: "User/Website Settings" });
 });
 
 app.post("/settings/linkDomain", verifiedMiddleware, loggedInMiddleware, async (req, res) => {
-	const {jwt, domain} = req.body;
-	if (!jwt || !domain) {
-		return res.status(403).send("Uncomplete form");
-	} else {
-		await fetch(process.env.API_URL + "settings/linkDomain", {
-		      method: "POST",
-		      headers: {
-		        "Content-Type": "application/json",
-		      },
-		      body: JSON.stringify({
-		      	apiKey: jwt,
-		        domain: domain
-		      }),
-		    })
-		      .then((response) => response.json())
-		      .then(async (data) => {
-		        if (data.success) {
-		          res.locals.message = "Linked Domain!";
-		          res.redirect("/settings?message=Domain successfully linked!#linkdomain");
-		        } else {                                                                                                                                                                                                                      
-		          res.redirect("/settings/?message=" + await data.error+"#linkdomain");
-		        }
-		      })
-		      .catch((error) => {
-		        console.error("Error:", error);
-		        res.status(500).json({ error: "An error occurred; " + error });
-		      });
-		  }	
-	});
-
-app.post("/settings/resetDomain", verifiedMiddleware, loggedInMiddleware, async (req, res) => {
-	const {jwt} = req.body;
-	if (!jwt) {
-		return res.status(403).send("Missing auth token");
-	} else {
-		await fetch(process.env.API_URL + "settings/resetDomain", {
-		      method: "POST",
-		      headers: {
-		        "Content-Type": "application/json",
-		      },
-		      body: JSON.stringify({
-		      	apiKey: jwt,
-		      }),
-		    })
-		      .then((response) => response.json())
-		      .then(async (data) => {
-		        if (data.success) {
-		          res.redirect("/settings?message=Domain successfully resetted!#linkdomain");
-		        } else {                                                                                                                                                                                                                      
-		          res.redirect("/settings/?message=" + await data.error+"#linkdomain");
-		        }
-		      })
-		      .catch((error) => {
-		        console.error("Error:", error);
-		        res.status(500).json({ error: "An error occurred; " + error, success: false });
-		      });
-		  }	
-	});
-
-app.post("/settings/deleteUser", loggedInMiddleware, async (req, res) => {
-	const { jwt } = req.body;
-	if (!jwt) {
-		return res.status(403).json({error: "An error occurred", success: false})
-	}
-	response = await fetch(process.env.API_URL + "auth/removeAccount", {
+  const { jwt, domain } = req.body;
+  if (!jwt || !domain) {
+    return res.status(403).send("Uncomplete form");
+  } else {
+    await fetch(process.env.API_URL + "settings/linkDomain", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: req.user.username,
-        jwt: jwt
+        apiKey: jwt,
+        domain: domain
+      }),
+    })
+      .then((response) => response.json())
+      .then(async (data) => {
+        if (data.success) {
+          res.locals.message = "Linked Domain!";
+          res.redirect("/settings?message=Domain successfully linked!#linkdomain");
+        } else {
+          res.redirect("/settings/?message=" + await data.error + "#linkdomain");
+        }
       })
-    });
-    res.clearCookie("auth");
-    res.redirect("/");
+      .catch((error) => {
+        console.error("Error:", error);
+        res.status(500).json({ error: "An error occurred; " + error });
+      });
+  }
+});
+
+app.post("/settings/resetDomain", verifiedMiddleware, loggedInMiddleware, async (req, res) => {
+  const { jwt } = req.body;
+  if (!jwt) {
+    return res.status(403).send("Missing auth token");
+  } else {
+    await fetch(process.env.API_URL + "settings/resetDomain", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        apiKey: jwt,
+      }),
+    })
+      .then((response) => response.json())
+      .then(async (data) => {
+        if (data.success) {
+          res.redirect("/settings?message=Domain successfully resetted!#linkdomain");
+        } else {
+          res.redirect("/settings/?message=" + await data.error + "#linkdomain");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        res.status(500).json({ error: "An error occurred; " + error, success: false });
+      });
+  }
+});
+
+app.post("/settings/deleteUser", loggedInMiddleware, async (req, res) => {
+  const { jwt } = req.body;
+  if (!jwt) {
+    return res.status(403).json({ error: "An error occurred", success: false })
+  }
+  response = await fetch(process.env.API_URL + "auth/removeAccount", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: req.user.username,
+      jwt: jwt
+    })
+  });
+  res.clearCookie("auth");
+  res.redirect("/");
 });
 
 
@@ -273,63 +275,63 @@ app.post("/auth/login", notLoggedInMiddleware, async (req, res) => {
 });
 
 app.get('/auth/recover', async (req, res) => {
-	res.render('recover', {title: "Recover your account"});	
+  res.render('recover', { title: "Recover your account" });
 });
 
 app.post('/auth/recover', async (req, res) => {
-	const { email } = req.body;
-	if (!email) {
-		return res.status(403).send("Missing email");
-	}
-	const response = await fetch(process.env.API_URL + "auth/sendRecoveryEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-        }),
-        timeout: 5000,
-    });
-	const text = await response.text();
-	res.redirect("/?message=Recovery email sent successfully!")
+  const { email } = req.body;
+  if (!email) {
+    return res.status(403).send("Missing email");
+  }
+  const response = await fetch(process.env.API_URL + "auth/sendRecoveryEmail", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+    }),
+    timeout: 5000,
+  });
+  const text = await response.text();
+  res.redirect("/?message=Recovery email sent successfully!")
 });
 
 app.get('/auth/recover/:token', async (req, res) => {
-    var token = req.params.token;
-    jwt.verify(token, process.env.AUTH_SECRET, async function (err, decoded) {
-        if (err) {
-            console.log(err);
-            res.status(403).send("Password recovery failed, possibly the link is invalid or expired");
-        }
-        else {
-        	var user = await db.findUserByEmail(await decoded.email)
-            res.render('recoverPassword', { title: 'Reset Password', url: process.env.URL, token: token, email: await user.email, name: await user.username });
-        }
-    });
+  var token = req.params.token;
+  jwt.verify(token, process.env.AUTH_SECRET, async function (err, decoded) {
+    if (err) {
+      console.log(err);
+      res.status(403).send("Password recovery failed, possibly the link is invalid or expired");
+    }
+    else {
+      var user = await db.findUserByEmail(await decoded.email)
+      res.render('recoverPassword', { title: 'Reset Password', url: process.env.URL, token: token, email: await user.email, name: await user.username });
+    }
+  });
 });
 
 app.post('/auth/recover/:token', async (req, res) => {
-    const token = req.params.token;
-    const { email, password } = req.body;
-    if (!token || !email || !password) {
-    	return res.redirect("/?message=Missing fields");
-    }
-	const response = await fetch(process.env.API_URL + "auth/recoverPassword", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: token,
-          email: email,
-          password: password,
-        }),
-        timeout: 5000,
-    });
-    if (await response.ok) {
-    	res.redirect("/auth/login?message=Successfully recovered! You can now log in with your new credentials.");
-    }
+  const token = req.params.token;
+  const { email, password } = req.body;
+  if (!token || !email || !password) {
+    return res.redirect("/?message=Missing fields");
+  }
+  const response = await fetch(process.env.API_URL + "auth/recoverPassword", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token: token,
+      email: email,
+      password: password,
+    }),
+    timeout: 5000,
+  });
+  if (await response.ok) {
+    res.redirect("/auth/login?message=Successfully recovered! You can now log in with your new credentials.");
+  }
 });
 
 app.get("/auth/logout", (req, res) => {
@@ -338,39 +340,39 @@ app.get("/auth/logout", (req, res) => {
 });
 
 app.get('/auth/verify/:token', async (req, res) => {
-  	const { token } = req.params;
-	if (!token) {
-		res.redirect("/?message=Missing token");
-	}
-  	try {
-    	// Forward the request to the verification endpoint
-	    const response = await fetch(`${process.env.API_URL}auth/verify?token=${token}`, {
-    		method: 'GET',
-      		headers: {
-        		'Content-Type': 'application/json'
-	      	}
-    	});
+  const { token } = req.params;
+  if (!token) {
+    res.redirect("/?message=Missing token");
+  }
+  try {
+    // Forward the request to the verification endpoint
+    const response = await fetch(`${process.env.API_URL}auth/verify?token=${token}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
-    	const data = await response.json();
+    const data = await response.json();
 
-    	if (response.ok && data.success) {
-    		res.redirect("/?message="+await data.message);
-    	} else {
-    		res.redirect("/?message="+await data.error);
-    	}
-  	} catch (err) {
-  		console.log(err);
-  		res.redirect("/?message=An unexpected Error has happened.")
-  	}
+    if (response.ok && data.success) {
+      res.redirect("/?message=" + await data.message);
+    } else {
+      res.redirect("/?message=" + await data.error);
+    }
+  } catch (err) {
+    console.log(err);
+    res.redirect("/?message=An unexpected Error has happened.")
+  }
 });
-    
+
 app.get("/dashboard", loggedInMiddleware, verifiedMiddleware, async (req, res) => {
   fetch(
     `${process.env.API_URL}file?apiKey=${req.jwt}&dir=${req.query.dir || ""}`
   )
     .then((response) => response.json())
     .then((data) => {
-      if (!req.query.dir) {var dirName = "";}
+      if (!req.query.dir) { var dirName = ""; }
       if (!data.error) {
         res.render("dashboard", {
           title: "Dashboard",

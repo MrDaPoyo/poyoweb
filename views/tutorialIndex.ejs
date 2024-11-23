@@ -1,0 +1,12 @@
+<%- include('header.ejs') %>
+<h1>Tutorials</h1>
+<ul>
+  <% tutorials.forEach(function(tutorial) { %>
+    <li>
+        <a href="/tutorials/<%= tutorial.id %>" target="_blank"><%= tutorial.title %></a>
+        <p><%= tutorial.description %></p>
+        <small>Made by <strong><%= tutorial.author %></strong></small>
+    </li>
+  <% }); %>
+</ul>
+<%- include('footer.ejs') %>
