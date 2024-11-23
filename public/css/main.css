@@ -63,7 +63,6 @@ body {
 	padding: 2vh;
 	display: flex;
 	flex-direction: column;
-	display: inline-block;
 }
 .container > *:first-child {
 	margin: 0;
