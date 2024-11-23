@@ -30,9 +30,9 @@ router.get('/', (req, res) => {
         });
 
         if (tutorials.length === 0) {
-            return res.render('tutorialIndex', { title: "PoyoWeb Tutorials" });
+            return res.render('tutorialIndex', { title: "Tutorials" });
         }
-        res.render('tutorialIndex', { title: "PoyoWeb Tutorials", tutorials });
+        res.render('tutorialIndex', { title: "Tutorials", tutorials });
     });
 });
 
