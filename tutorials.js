@@ -55,7 +55,7 @@ router.get('/:tutorial', (req, res) => {
             keywords: metadata.keywords || ["No tags"],
             content: html
         };
-        res.render('tutorialTutorial',{ tutorial, title: "PoyoWeb Tutorial - " + tutorial.title });
+        res.render('tutorialTutorial',{ tutorial, title: "Tutorials -> " + tutorial.title });
     });
 });
 
