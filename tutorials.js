@@ -16,9 +16,8 @@ router.get('/', (req, res) => {
         const tutorials = files.filter(file => file.endsWith('.md')).map(file => {
             const filePath = path.join(tutorialsDir, file);
             const data = fs.readFileSync(filePath, 'utf8');
-            const converter = new showdown.Converter();
-            converter.makeHtml(data); // This is needed to extract metadata
-            const metadata = converter.getMetadata();
+            const converter = new showdown.Converter({metadata: true});
+            const metadata = converter.getMetadata(data);
             return {
                 id: path.basename(file, '.md'),
                 title: metadata.title || path.basename(file, '.md'),
@@ -44,7 +43,7 @@ router.get('/:tutorial', (req, res) => {
             return res.status(404).send('Tutorial not found');
         }
 
-        const converter = new showdown.Converter();
+        const converter = new showdown.Converter({metadata: true});
         const html = converter.makeHtml(data);
         const metadata = converter.getMetadata();
         const tutorial = {
