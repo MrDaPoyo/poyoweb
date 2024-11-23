@@ -48,8 +48,9 @@ router.get('/:tutorial', (req, res) => {
         const metadata = converter.getMetadata();
         const tutorial = {
             title: metadata.title || tutorialName,
-            description: metadata.description || '',
-            keywords: metadata.keywords || [],
+            author: metadata.author || 'Unknown',
+            description: metadata.description || 'No description provided',
+            keywords: metadata.keywords || ["No tags"],
             content: html
         };
         res.render('tutorialTutorial',{ tutorial, title: "PoyoWeb Tutorial - " + tutorial.title });
