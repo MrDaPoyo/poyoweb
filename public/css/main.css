@@ -47,14 +47,16 @@ body {
 	min-height: 100%;
 	gap: 5px;
 	background: linear-gradient(
-	    to bottom right,
-	    var(--skyblue),
-	    var(--lightblue),
-	    var(--babyblue)
+		to bottom right,
+		var(--skyblue),
+		var(--lightblue),
+		var(--babyblue)
 	  );
 	outline: 2px outset var(--brightteal);
 	width: 100%;
-	
+	overflow-wrap: break-word; /* Ensures text will wrap */
+	word-wrap: break-word; /* For older browsers */
+	overflow: hidden; /* Prevents overflow */
 }
 
 .container {
