@@ -53,12 +53,15 @@ body {
 	    var(--babyblue)
 	  );
 	outline: 2px outset var(--brightteal);
+	width: 100%;
+	
 }
 
 .container {
 	padding: 2vh;
 	display: flex;
 	flex-direction: column;
+	display: inline-block;
 }
 .container > *:first-child {
 	margin: 0;
@@ -127,9 +130,10 @@ body {
 }
 .main-container {
 	border-top: 2px solid var(--brightteal); 
-	width: 100%;
 	position: relative;
 	padding-left: 25px;
+	overflow-wrap: break-word;
+	display: inline-block;
 }
 .main-container > *:first-child {
 	margin: 0;
