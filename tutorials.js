@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Route to serve tutorials
 router.get('/', (req, res) => {
-    res.render('tutorialIndex');
+    res.render('tutorialIndex', { title: "PoyoWeb Tutorials" });
 });
 
 router.get('/:tutorial', (req, res) => {
@@ -28,7 +28,7 @@ router.get('/:tutorial', (req, res) => {
             keywords: metadata.keywords || [],
             content: html
         };
-        res.render('tutorialTutorial',{ tutorial });
+        res.render('tutorialTutorial',{ tutorial, title: "PoyoWeb Tutorial - " + tutorial.title });
     });
 });
 
