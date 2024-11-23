@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
             const filePath = path.join(tutorialsDir, file);
             const data = fs.readFileSync(filePath, 'utf8');
             const converter = new showdown.Converter({metadata: true});
-            const metadata = converter.getMetadata(data);
+            const metadata = converter.getMetadata();
             return {
                 id: path.basename(file, '.md'),
                 title: metadata.title || path.basename(file, '.md'),
