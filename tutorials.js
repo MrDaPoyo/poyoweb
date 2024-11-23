@@ -7,7 +7,31 @@ const router = express.Router();
 
 // Route to serve tutorials
 router.get('/', (req, res) => {
-    res.render('tutorialIndex', { title: "PoyoWeb Tutorials" });
+    const tutorialsDir = path.join(__dirname, 'tutorials');
+    fs.readdir(tutorialsDir, (err, files) => {
+        if (err) {
+            return res.status(500).send('Unable to scan tutorials directory');
+        }
+
+        const tutorials = files.filter(file => file.endsWith('.md')).map(file => {
+            const filePath = path.join(tutorialsDir, file);
+            const data = fs.readFileSync(filePath, 'utf8');
+            const converter = new showdown.Converter();
+            converter.makeHtml(data); // This is needed to extract metadata
+            const metadata = converter.getMetadata();
+            return {
+            title: metadata.title || path.basename(file, '.md'),
+            description: metadata.description || '',
+            keywords: metadata.keywords || [],
+            file: file
+            };
+        });
+
+        if (tutorials.length === 0) {
+            return res.render('tutorialIndex', { title: "PoyoWeb Tutorials" });
+        }
+        res.render('tutorialIndex', { title: "PoyoWeb Tutorials", tutorials });
+    });
 });
 
 router.get('/:tutorial', (req, res) => {
