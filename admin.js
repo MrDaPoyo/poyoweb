@@ -154,11 +154,11 @@ router.post("/user/deleteUser", async (req, res) => {
         jwt: token,
       })
     });
-	res.redirect("/?message="+JSON.stringify(await response.json()));
+	res.redirect("/?message=" + JSON.stringify(await response.json()));
 });
 
 router.use((req, res, next) => {
-  res.status(404).send("404 not found");
+  res.status(404).send("404 not found - " + process.env.ADMIN_URL);
 });
 
 

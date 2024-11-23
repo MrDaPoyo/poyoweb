@@ -46,20 +46,19 @@ const userBlacklist = ["dns", "social", "faq", "poyoweb", "www","admin","poyo","
 const domainBlacklist = ["poyoweb.me"];
 
 function checkUsername(username) {
-    const regex = /^[a-zA-Z0-9]([a-zA-Z0-9_-]{0,61}[a-zA-Z0-9])?$/; // Regex for valid characters only
+    const regex = /^[a-zA-Z0-9]+$/; // Regex to allow only alphanumeric characters (letters and numbers)
 
     if (username.length > 20) {
         return 'Username must have at max 20 characters';
     } else if (!regex.test(username)) {
-        return 'Username must contain only letters, numbers, and underscores';
+        return 'Username must contain only letters and numbers';
     } else if (userBlacklist.includes(username)) {
-        return 'Username is blacklisted, try again with another different username';
-    } else if (username.includes(" ")) {
-        return 'Username must not contain spaces';
+        return 'Username is blacklisted, try again with a different username';
     } else {
         return true;
     }
 }
+
 
 function checkDomain(inputString) {
   for (const blacklistedUser of domainBlacklist) {
