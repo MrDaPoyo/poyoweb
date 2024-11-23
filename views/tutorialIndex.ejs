@@ -2,7 +2,7 @@
 <h1>Tutorials</h1>
 <ul>
   <% tutorials.forEach(function(tutorial) { %>
-    <li class="tutorial-item row-container">
+    <li class="tutorial-item">
         <a href="/tutorials/<%= tutorial.id %>" target="_blank"><%= tutorial.title %></a>
         <p><%= tutorial.description %></p>
         <small>Made by <strong><%= tutorial.author %></strong></small>
