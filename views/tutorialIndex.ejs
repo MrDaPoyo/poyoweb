@@ -3,6 +3,7 @@
 <ul>
   <% tutorials.forEach(function(tutorial) { %>
     <li>
+        <%- json.stringify(tutorial) %>
         <a href="/tutorials/<%= tutorial.id %>" target="_blank"><%= tutorial.title %></a>
         <p><%= tutorial.description %></p>
         <small>Made by <strong><%= tutorial.author %></strong></small>
