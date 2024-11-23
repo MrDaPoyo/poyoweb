@@ -21,6 +21,7 @@ router.get('/', (req, res) => {
             const metadata = converter.getMetadata();
             return {
                 id: path.basename(file, '.md'),
+                author: metadata.author || 'Unknown',
                 title: metadata.title || path.basename(file, '.md'),
                 description: metadata.description || '',
                 keywords: metadata.keywords || [],
