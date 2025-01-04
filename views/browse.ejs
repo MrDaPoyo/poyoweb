@@ -7,7 +7,7 @@
 <form style="display: inline-block" id='search-form'>
     <label>Sort:</label> <select name="sortby" id="sortby">
         <option value="lastUpdated">Recently Updated</option>
-        <option value="views">Views</option>
+        <option value="views">Hits</option>
     </select>
     <label>Order:</label> <select name="order" id="order">
         <option value="ASC">Ascending</option>
@@ -27,7 +27,7 @@ function search(sortby, order) {
             response.json().then((sites) => sites.forEach((site) => {
                 site_div.innerHTML += `<button style='display: block; margin-top: 10px; text-align: left;' onclick='location.href="https://${site.domain}"'>
                 <h2 style='text-decoration: underline; margin-bottom: 5px; margin-top: 10px;'>${site.name}</h2>
-                <p style='margin-top: 0px;'>Views: ${site.views}<br/>Last Updated: ${site.lastUpdated}</p>
+                <p style='margin-top: 0px;'>Hits: ${site.views}<br/>Last Updated: ${site.lastUpdated}</p>
                 </button>
                 `;
             }));
