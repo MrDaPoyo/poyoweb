@@ -116,6 +116,10 @@ app.get("/credits", (req, res) => {
   res.render("credits", { title: "Credits, partners and donors" });
 });
 
+app.get("/browse", (req, res) => {
+  res.render("browse", { title: "Browse" });
+});
+
 app.get("/settings", loggedInMiddleware, websiteInfoMiddleware, (req, res) => {
   res.render("settings", { title: "User/Website Settings" });
 });
@@ -566,6 +570,18 @@ app.get("/editor", loggedInMiddleware, async (req, res) => {
     console.error("Error:", error);
     res.status(500).json({ error: "An error occurred; " + error });
   }
+});
+
+app.get("/utils/browseWebsites", async (req, res) => {
+    var { sortby, order } = await req.query;
+    try {
+        const response = await fetch(`${process.env.API_URL}utils/browseWebsites?sortby=${sortby}&order=${order}`);
+        const data = await response.json();
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ error: "An error occured; " + error });
+    }
 });
 
 app.use((req, res, next) => {
