@@ -421,6 +421,8 @@ app.post("/dashboard/upload", upload.single("file"), async (req, res) => {
     fileStream.push(req.file.buffer);
     fileStream.push(null); // End the stream
 
+    formData.append("size", fileStream.readableLength);
+
     // Append file to FormData
     formData.append("file", fileStream, {
       filename: req.file.originalname,
