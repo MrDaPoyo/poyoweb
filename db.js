@@ -170,6 +170,19 @@ function getAllDomains() {
 }
 
 
+function browseWebsites(sortby, order) {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT name, domain, views, lastUpdated FROM websites ORDER BY ${sortby} ${order}`, (err, rows) => {
+            if(err) {
+                reject(err); // Reject promise in case of error
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+}
+
+
 function findUserById(id) {
     return new Promise((resolve, reject) => {
         db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {
@@ -552,6 +565,7 @@ module.exports = {
     getAllUserNames,
     getAllFilesByUserId,
     getAllDomains,
+    browseWebsites,
     createApiKey,
     verifyApiKey,
     createUser,

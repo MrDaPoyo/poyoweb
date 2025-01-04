@@ -504,6 +504,11 @@ app.get("/utils/getAllDomains", async (req, res) => {
 	res.status(200).json(await (await db.getAllDomains()).concat(process.env.ADMIN_URL));
 });
 
+app.get("/utils/browseWebsites", async (req, res) => {
+    var {sortby, order} = await req.query;
+    res.status(200).json(await (await db.browseWebsites(sortby, order)));
+});
+
 async function generateSSLCert(domain, email) {
     if (!domain || !email) {
         return res.status(400).json({ error: 'Domain and email are required' });
