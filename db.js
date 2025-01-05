@@ -172,7 +172,7 @@ function getAllDomains() {
 
 function browseWebsites(sortby, order) {
     return new Promise((resolve, reject) => {
-        db.all(`SELECT name, domain, views, lastUpdated FROM websites ORDER BY ${sortby} ${order}`, (err, rows) => {
+        db.all(`SELECT name, domain, views, lastUpdated, totalSize FROM websites ORDER BY ${sortby} ${order}`, (err, rows) => {
             if(err) {
                 reject(err); // Reject promise in case of error
             } else {
@@ -248,6 +248,18 @@ async function retrieveViews(name, onViews) {
 // Function to add size to the totalSize field for a user's website using the website name
 function addSizeByWebsiteName(name, size) {
     db.run('UPDATE websites SET totalSize = totalSize + ? WHERE name = ?', [size, name], (err) => {
+        if (err) {
+            console.error('Error updating totalSize:', err.message);
+        } else {
+            console.log(`Added ${size} to totalSize for website: ${name}`);
+        }
+    });
+}
+
+// Function to subtract size from the totalSize field for a user's website using the website name
+function subSizeByWebsiteName(name, size) {
+    console.log(name, size);
+    db.run('UPDATE websites SET totalSize = totalSize - ? WHERE name = ?', [size, name], (err) => {
         if (err) {
             console.error('Error updating totalSize:', err.message);
         } else {
@@ -556,6 +568,7 @@ module.exports = {
     getTotalSizeByWebsiteName,
     setTotalSizeByWebsiteName,
     addSizeByWebsiteName,
+    subSizeByWebsiteName,
     db,
     insertFileInfo,
     getFileById,

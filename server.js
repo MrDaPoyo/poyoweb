@@ -257,7 +257,7 @@ const upload = multer({
  });
 
 app.post('/file/upload', upload.single("file"), async (req, res) => {
-    var { apiKey, dir } = req.body;
+    var { apiKey, dir, size } = req.body;
     var file = req.file;
     dir = dir || '';
     dir = dir.replace(/^(\.\.(\/|\\|$))+/, '');
@@ -272,7 +272,8 @@ app.post('/file/upload', upload.single("file"), async (req, res) => {
             return res.status(400).json({ error: 'Invalid file path', success: false });
         }
 
-        const fileSize = (await fs.stat(fullPath)).size;
+        const fileSize = size;
+        console.log(fileSize);
         var totalSize = await db.getTotalSizeByWebsiteName(await user.username) + fileSize;
         var fileID = await db.getFileIDByPath(filePath);
 
@@ -354,14 +355,24 @@ app.post('/file/removeByPath', async (req, res) => {
     try {
         // Verify API key
         const user = jwt.verify(apiKey, process.env.AUTH_SECRET);
-        var filePath = path.normalize(path.join((await db.findUserById(user.id)).username, file));
+
+        const usr = await db.findUserById(user.id);
+        const username = usr.username;
+
+        console.log(username);
+        var filePath = path.normalize(path.join(username, file));
         if (!user) {
             return res.status(401).json({ error: 'Invalid API key' });
         }
-        db.removeFileByID(db.getFileIDByPath(filePath));
         var fileSize = (await fs.stat(path.join('websites/users', filePath))).size;
-        var totalSize = await db.getTotalSizeByWebsiteName(await db.findUserById(user.id).username) - await fileSize;
-        db.setTotalSizeByWebsiteName(await db.findUserById(user.id).username, await totalSize);
+        var totalSize = await db.getTotalSizeByWebsiteName(username) - await fileSize;
+        console.log(await db.getTotalSizeByWebsiteName(username), await fileSize);
+
+        db.getFileIDByPath(file).then((res) => {
+            db.removeFileByID(res);
+        });
+
+        db.setTotalSizeByWebsiteName(username, totalSize);
         if (!fs.existsSync(path.join('websites/users', filePath))) {
             return res.status(404).json({ error: 'File not found', success: false });
         }
@@ -374,6 +385,7 @@ app.post('/file/removeByPath', async (req, res) => {
         return res.status(200).json({ message: 'File removed successfully', success: true });
 
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
