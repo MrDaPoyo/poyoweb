@@ -1,0 +1,19 @@
+<rss version="2.0">
+    <channel>
+        <title>PoyoWeb! Blog</title>
+        <description>Updates, Roadmaps and Developer Blog for the PoyoWeb!</description>
+        <link>https://poyoweb.org/blog</link>
+        <language>en-us</language>
+        <pubDate><%= blogPosts.reverse()[0].published %></pubDate>
+        <lastBuildDate><%= blogPosts.reverse()[0].published %></lastBuildDate>
+
+        <% blogPosts.forEach((post) => { %>
+            <item>
+                <title><%= post.title %></title>
+                <link>https://poyoweb.org/blog/<%= post.id %></link>
+                <description><%= post.description %> | By <%= post.author %></description>
+                <pubDate><%= post.published %></pubDate>
+            </item>
+        <% }); %>
+    </channel>
+</rss>

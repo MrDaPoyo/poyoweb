@@ -13,6 +13,7 @@
     <meta name="language" content="English">
     <meta name="revisit-after" content="10 days">
     <meta name="author" content="Poyo!">
+    <link rel='alternate' type='application/rss+xml', title='PoyoWeb! RSS Feed' href='/blog/rss'/>
 </head>
 <body>
 	<style>
@@ -43,15 +44,14 @@
 			</div>
 		<% } %>
 	  </header>
-	  <div class="row-container">
 	  <div class="container link-container">
-	  	<h2>Links</h2>
 	    <a href="<%= url %>"><button>Home</button></a>
 	    <% if (loggedIn) { %>
 	    	<a href="/dashboard"><button>Dashboard</button></a>
 	   		<a href="/settings"><button>Settings</button></a>
 	    <% } %>
 		<a href="/tutorials"><button>Tutorials</button></a>
+		<a href="/blog"><button>Blog</button></a>
 	    <a href="https://github.com/mrdapoyo/poyoweb"><button>GitHub</button></a>
 	    <a href="/credits"><button>Contributors</button></a>
 	    <a href="/donate"><button>Donate</button></a>

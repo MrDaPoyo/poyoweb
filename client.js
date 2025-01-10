@@ -12,6 +12,7 @@ const path = require("path");
 const db = require("./db");
 const l18n = require("./l18n");
 const tutorials = require("./tutorials");
+const blog = require("./blog");
 
 const app = express();
 const port = 8080;
@@ -91,6 +92,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/tutorials", tutorials);
+app.use("/blog", blog);
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" });

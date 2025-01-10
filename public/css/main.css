@@ -29,6 +29,9 @@
   	--input-border: #039BE5;
   	--input-shadow: rgba(0, 0, 0, 0.2);
   	--input-text-color: #37474F;	
+
+    --grey: #dddddd;
+    --corner-radius: 5px;
 }
 
 * {
@@ -40,23 +43,23 @@ body {
 	margin: 2vh 10vw 0 10vw;
 	min-height: 100%;
 	/* background-image: url('../backgrounds/clouds-compressed.webp'); */
-	background-image: url("../backgrounds/cloud-tile-color.jpeg"); 
+	background-image:url("../backgrounds/cloud-tile-color.jpeg"); 
 }
 .megacontainer {
 	position: relative;
 	min-height: 100%;
 	gap: 5px;
-	background: linear-gradient(
-		to bottom right,
-		var(--skyblue),
-		var(--lightblue),
-		var(--babyblue)
-	  );
-	outline: 2px outset var(--brightteal);
 	width: 100%;
 	overflow-wrap: break-word; /* Ensures text will wrap */
 	word-wrap: break-word; /* For older browsers */
 	overflow: hidden; /* Prevents overflow */
+
+    border: 1px solid black;
+    border-radius: var(--corner-radius);
+    box-shadow: 0 0 7px 4px #5e5e5e5e;
+
+    background: white;
+    padding: 10px;
 }
 
 .container {
@@ -74,7 +77,6 @@ body {
 }
 .header-container {
 	position: relative;
-	background: var(--skyblue);
 	width: 100%;
 }
 .header-container .space-between  {
@@ -85,20 +87,14 @@ body {
 	justify-content: space-between;
 }
 .footer-container {
-	border-top: 1px solid var(--cobalt);
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	background: linear-gradient(
-	    to bottom,
-	    var(--skyblue),
-	    var(--lightblue),
-	    var(--babyblue)
-	  );
-	  color: #37474F; /* Darker text color for readability on the lighter background */
-	  padding: 20px;
-	  text-align: center;
-	}
+	padding: 20px;
+	text-align: center;
+
+    border-top: 3px solid var(--ocean);
+}
 
 .footer-links {
 	width: 25vw;
@@ -116,21 +112,23 @@ body {
 
 .link-container  {
     position: relative;
-	background-color: var(--skyblue);
-	flex-direction: column;
+    width: 100%;
 	gap: 10px;
+
+    display: inline-block;
+    background: var(--grey);
+    padding: 0px;
+    padding-bottom: 5px;
 }
 .main-container::before {
 	content: "";
     position: absolute;
     width: 25px;
     height: 100%;
-    background-image: url("../misc/triangle-right.webp");
     top: 0;
     left: 0;
 }
 .main-container {
-	border-top: 2px solid var(--brightteal); 
 	position: relative;
 	padding-left: 25px;
 	overflow-wrap: break-word;
@@ -177,21 +175,19 @@ body {
 }
 
 button, input[type="submit"] {
-    background-color: #AEE3FC;
+    border-radius: 0px;
+    border: 1px solid white;
     color: black;
-    padding: 5px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.1s ease;
-    border: 2px solid #039BE5;
-    will-change: transform;
+    border-top: 3px solid var(--ocean);
+    background: linear-gradient(0deg, #dddddd 0%, rgba(255,255,255,1) 100%);
+
+    padding: 5px; 
+    margin-right: 0px;
+    margin-left: 0px;
 }
 
-button:hover, input[type="submit"] {
-    background-color: #81D4FA;
+button:hover, input[type="submit"]:hover {
+    color: var(--ocean);
 }
 
 button:active {
@@ -227,23 +223,11 @@ form {
 }
 input {
   padding: 5px 10px;
-  font-size: 16px;
-  color: var(--input-text-color);
-  background-color: var(--input-background);
-  border: 2px solid var(--input-border);
-  border-radius: 8px;
-  box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.5),
-              inset -2px -2px 4px rgba(0, 0, 0, 0.1),
-              3px 3px 6px var(--input-shadow);
-  transition: all 0.2s ease;
 }
 
 input:focus {
   outline: none;
   background-color: #B3E5FC;
-  box-shadow: inset 1px 1px 4px rgba(255, 255, 255, 0.7),
-              inset -1px -1px 4px rgba(0, 0, 0, 0.2),
-              3px 3px 6px var(--input-shadow);
 }
 
 code {
@@ -252,6 +236,34 @@ code {
   	font-family: courier, monospace;
   	padding: 0 3px;
 	white-space: pre-wrap;
+}
+
+.box {
+    margin: 5px;
+}
+
+.box .box-title {
+    background: linear-gradient(0deg, #1f6096 0%, #34a2fc 100%);
+    padding-left: 5px;
+    color: white;
+    border-radius: 5px 5px 0px 0px;
+
+    margin-bottom: 0px;
+}
+
+.box .box-title h2 {
+    margin: 0px;
+}
+
+.box .box-content {
+    margin-top: 0px;
+    background: #dddddd;
+    padding: 10px;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.fill-width {
+    width: 100%
 }
 
 @media (max-width: 768px) {
