@@ -27,7 +27,7 @@
         <div class='box-content'>
             <ul>
             	<% const changelog = t('index.changelog'); %>
-              	<% changelog..forEach(perk => { %>
+              	<% changelog.forEach(perk => { %>
                 	<li><%= perk %></li>
               	<% }); %>
             </ul>
