@@ -39,46 +39,69 @@
     }
   }
 </script>
-<h2>Create a new directory</h2>
-<form action="/dashboard/createDir" method="POST">
-  <input type="hidden" name="dir" value="<%- dir || '' %>" />
-  <input type="text" name="dirName" placeholder="Directory name" />
-  <input type="submit" value="Create" />
-</form>
-<h2>File List</h2>
-<% if (!isRoot) { %>
-	<a href="/dashboard?dir=<%- pastDir %>">
-  		<button>Go Back</button>
-	</a>
-<% } %>
-<ul class="dashboard-container">
-  <% for (let key in files.files) { %>
-  <li class="file-container">
-    <span class="file"><%= files.files[key].name %></span>
-    <a href="/dashboard/removeFileByPath?cleanPath=<%= files.files[key].cleanPath %>&dir=<%- dir || '' %>">
-      <button>Delete</button>
-    </a>
-    <% if (files.files[key].type == "file") { %>
-    	<a onclick="rename('<%= files.files[key].cleanPath %>')">
-      		<button>Rename</button>
-    	</a>
-    	<% if (files.files[key].openable == true) { %>
-    		<a href="/editor?file=<%= files.files[key].cleanPath %>"><button>Edit</button></a>
-    	<% } %>
-    <% } else {%>
-    <a href="/dashboard?dir=<%- dir %>/<%- files.files[key].cleanPath %>">
-      <button>Travel</button>
-    </a>
-    <% } %>
-  </li>
-  <hr>
-  <% } %>
-</ul>
-<% if (files.files && files.files.length < 1) { %>
-<p>No Files</p>
-<% } %>
-<h2>Upload File</h2>
-<form action="/dashboard/upload" class="dropzone" method="POST"></form>
+<div class='row-container fill-width' style='width: 100%'>
+    <div class='fill-width'>
+        <div class='box'>
+            <div class='box-title'>
+                <h2>Create a new directory</h2>
+            </div>
+            <div class='box-content'>
+                <form action="/dashboard/createDir" method="POST">
+                  <input type="hidden" name="dir" value="<%- dir || '' %>" />
+                  <input type="text" name="dirName" placeholder="Directory name" />
+                  <input type="submit" value="Create" />
+                </form>
+            </div>
+        </div>
+
+        <div class='box'>
+            <div class='box-title'>
+                <h2>Upload File</h2>
+            </div>
+            <div class='box-content'>
+                <form action="/dashboard/upload" class="dropzone" method="POST"></form>
+            </div>
+        </div>
+    </div>
+    <div class='box fill-width'>
+        <div class='box-title'>
+            <h2>File List</h2>
+        </div>
+        <div class='box-content'>
+            <% if (!isRoot) { %>
+            	<a href="/dashboard?dir=<%- pastDir %>">
+              		<button>Go Back</button>
+            	</a>
+            <% } %>
+            <ul class="dashboard-container">
+              <% for (let key in files.files) { %>
+              <li class="file-container">
+                <span class="file"><%= files.files[key].name %></span>
+                <a href="/dashboard/removeFileByPath?cleanPath=<%= files.files[key].cleanPath %>&dir=<%- dir || '' %>">
+                  <button>Delete</button>
+                </a>
+                <% if (files.files[key].type == "file") { %>
+                	<a onclick="rename('<%= files.files[key].cleanPath %>')">
+                  		<button>Rename</button>
+                	</a>
+                	<% if (files.files[key].openable == true) { %>
+                		<a href="/editor?file=<%= files.files[key].cleanPath %>"><button>Edit</button></a>
+                	<% } %>
+                <% } else {%>
+                <a href="/dashboard?dir=<%- dir %>/<%- files.files[key].cleanPath %>">
+                  <button>Travel</button>
+                </a>
+                <% } %>
+              </li>
+              <hr>
+              <% } %>
+            </ul>
+            <% if (files.files && files.files.length < 1) { %>
+            <p>No Files</p>
+            <% } %>
+        </div>
+    </div>
+</div>
 <script>
   Dropzone.autoDiscover = false;
   var myDropzone = new Dropzone(".dropzone", {

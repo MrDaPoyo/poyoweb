@@ -14,6 +14,11 @@
         "A super duper cool API for you to use GitHub Actions with",
         "AI Scrapers and Crawlers are blocked from the entire PoyoWeb, including YOUR site! That means your assets will be safe and sound!",
         "A very cheap $2/month tier with all the things you'd expect from a hosting provider"
+      ],
+      "changelog": [
+          "[Tori @ 09 Jan, 2025] Added Site Changelog",
+          "[Tori @ 09 Jan, 2025] Complete site redesign",
+          "[Tori @ 10 Jan, 2025] Created Blog and added RSS feed"
       ]
     },
     "credits": {

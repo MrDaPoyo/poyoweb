@@ -2,12 +2,46 @@
 <% if (locals.loggedIn) { %>
 <% } else { %>
 <% } %>
-<p><b><%- t("index.aboutus") %></b></p>
-<p><%- t("index.aboutuscorpus") %></p>
-<ul>
-	<% const perks = t('index.perksList'); %>
-  	<% perks.forEach(perk => { %>
-    	<li><%= perk %></li>
-  	<% }); %>
-</ul>
+<div class='box'>
+    <div class='box-title'>
+        <h2><%- t("index.aboutus") %></h2>
+    </div>
+    <div class='row-container'>
+        <div class='box-content'>
+            <p><%- t("index.aboutuscorpus") %></p>
+            <ul>
+            	<% const perks = t('index.perksList'); %>
+              	<% perks.forEach(perk => { %>
+                	<li><%= perk %></li>
+              	<% }); %>
+            </ul>
+        </div>
+        <img src='/misc/minecraft ad.png' width=100%/>
+    </div>
+</div>
+
+<div class='row-container'>
+    <div class='box'>
+        <div class='box-title'>
+            <h2>Site Changelog</h2>
+        </div>
+        <div class='box-content'>
+            <ul>
+            	<% const changelog = t('index.changelog'); %>
+              	<% changelog.reverse().forEach(perk => { %>
+                	<li><%= perk %></li>
+              	<% }); %>
+            </ul>
+        </div>
+    </div>
+    <!---
+    <div class='box fill-width'>
+        <div class='box-title'>
+            <h2>PoyoWeb! Spotlight</h2>
+        </div>
+        <div class='box-content'>
+        </div>
+    </div>
+    --->
+</div>
 <%- include('footer.ejs') %>
