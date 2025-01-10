@@ -2,7 +2,7 @@
   "en": {
     "index": {
       "aboutus": "What's the PoyoWeb?",
-      "aboutuscorpus": "The PoyoWeb is a free, open-source web host made by a group of teenagers (<a href='https://poyo.study'>Poyo</a> and many collaborators) who weren't happy with the absurd pricing of other webhosts. It's run by the community and sustained by donations. The PoyoWeb will (it's very WIP) also have many, MANY perks. Some of them will be:",
+      "aboutuscorpus": "The PoyoWeb is a free, open-source web host made by a group of teenagers (<a href='https://poyo.study'>Poyo</a>, <a href='https://tori.poyoweb.org'>Tori</a> and many collaborators) who weren't happy with the absurd pricing of other webhosts. It's run by the community and sustained by donations. The PoyoWeb will (it's very WIP) also have many, MANY perks. Some of them will be:",
       "perksList": [
         "Free custom domains",
         "Free SSL included with every custom domain",
@@ -16,9 +16,11 @@
         "A very cheap $2/month tier with all the things you'd expect from a hosting provider"
       ],
       "changelog": [
-          "[Tori @ 09 Jan, 2025] Added Site Changelog",
+          "[Poyo @ 10 Jan, 2025] I feel like adding another changelog because I don't wanna feel useless D:",
+          "[Poyo @ 10 Jan, 2025] Temporarily removed splash image on Home page",
+          "[Tori @ 10 Jan, 2025] Created Blog and added RSS feed",
           "[Tori @ 09 Jan, 2025] Complete site redesign",
-          "[Tori @ 10 Jan, 2025] Created Blog and added RSS feed"
+          "[Tori @ 09 Jan, 2025] Added Site Changelog"
       ]
     },
     "credits": {

@@ -7,16 +7,15 @@
         <h2><%- t("index.aboutus") %></h2>
     </div>
     <div class='row-container'>
-        <div class='box-content'>
+        <div class="box-content">
             <p><%- t("index.aboutuscorpus") %></p>
             <ul>
             	<% const perks = t('index.perksList'); %>
-              	<% perks.forEach(perk => { %>
+                <% perks.forEach(perk => { %>
                 	<li><%= perk %></li>
               	<% }); %>
             </ul>
         </div>
-        <img src='/misc/minecraft ad.png' width=100%/>
     </div>
 </div>
 
@@ -28,7 +27,7 @@
         <div class='box-content'>
             <ul>
             	<% const changelog = t('index.changelog'); %>
-              	<% changelog.reverse().forEach(perk => { %>
+              	<% changelog..forEach(perk => { %>
                 	<li><%= perk %></li>
               	<% }); %>
             </ul>
