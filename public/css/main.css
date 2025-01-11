@@ -92,6 +92,8 @@ body {
 .header-container {
   position: relative;
   width: 100%;
+  background-size: cover;
+  height: 100%;
 }
 
 .header-container .space-between {
@@ -156,12 +158,21 @@ body {
   margin-top: 1vh;
 }
 
+.right, .left {
+  padding: 5px;
+  border-radius: 5px;
+}
+
 .right {
+  position: absolute;
+  bottom: 0;
+  right: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   flex-direction: column;
   justify-content: flex-end;
+  background-color: white;
   /* Aligns items to the right */
   gap: -1px;
   /* Adds space between items */
@@ -169,6 +180,22 @@ body {
 
 .right * {
   margin: 0;
+}
+
+.left {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: white;
+  width: 100%;
+  /* Aligns items to the left */
+  gap: -1px;
+  /* Adds space between items */
 }
 
 .login-container form {
