@@ -50,6 +50,11 @@
       ]
     }
   },
+  "dashboard": {
+		"Create a new directory"
+		"File List"
+		"Upload File"
+	},
   "es": {
     "index": {
       "aboutus": "¿Qué es la PoyoWeb?",
