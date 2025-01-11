@@ -319,6 +319,9 @@ code {
 }
 
 @media (max-width: 768px) {
+  .bannerbackground {
+    display: none;
+  }
   .main-container::before {
     display: none;
   }
