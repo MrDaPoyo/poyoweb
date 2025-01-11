@@ -18,19 +18,20 @@
 <div id='site-list'></div>
 <script>
 function search(sortby, order) {
-    console.log(sortby, order);
     const site_div = document.getElementById('site-list');
     site_div.innerHTML = '';
 
     fetch(`/utils/browseWebsites?sortby=${sortby}&order=${order}`, {method: 'GET'}).then(response => {
         if(response.ok) {
             response.json().then((sites) => sites.forEach((site) => {
-                console.log(site);
                 if(site.totalSize === 0) return;
 
-                site_div.innerHTML += `<button style='display: block; margin-top: 10px; text-align: left;' onclick='location.href="https://${site.domain}"'>
-                <h2 style='text-decoration: underline; margin-bottom: 5px; margin-top: 10px;'>${site.name}</h2>
-                <p style='margin-top: 0px;'>Hits: ${site.views}<br/>Last Updated: ${site.lastUpdated}</p>
+                site_div.innerHTML += `<button style='display: flex; margin-top: 10px; text-align: left;' onclick='location.href="https://${site.domain}"'>
+                <img src='https://${site.domain}/.thumbnail' onerror="this.onerror=null; this.src='/misc/default-thumbnail.png'" width=128px height=128px style='margin-right: 10px; border: 1px solid black;'/>
+                <div>
+                    <h2 style='text-decoration: underline; margin-bottom: 5px; margin-top: 10px;'>${site.name}</h2>
+                    <p style='margin-top: 0px;'>Hits: ${site.views}<br/>Last Updated: ${site.lastUpdated}</p>
+                </div>
                 </button>
                 `;
             }));
