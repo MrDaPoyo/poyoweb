@@ -40,6 +40,9 @@ const addColumnIfNotExists = (tableName, columnName, columnType) => {
 // Add a column to the 'users' table if it doesn't exist
 // addColumnIfNotExists('users', 'admin', 'INTEGER NOT NULL DEFAULT 0');
 
+addColumnIfNotExists('websites', 'title', 'TEXT DEFAULT NULL');
+addColumnIfNotExists('websites', 'description', 'TEXT DEFAULT NULL');
+
 // Close the database connection
 db.close((err) => {
   if (err) {

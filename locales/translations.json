@@ -16,6 +16,7 @@
         "A very cheap $2/month tier with all the things you'd expect from a hosting provider"
       ],
       "changelog": [
+          "[Tori @ 12 Jan, 2025] Added an optional site Title and Description to the dashboard.",
           "[Tori @ 12 Jan, 2025] Fixed 'edit' button not showing and fixed file renaming.",
           "[Tori @ 11 Jan, 2025] Implemented site thumbnail system for Browser.",
           "[Poyo @ 11 Jan, 2025] Added the new banner made by @glassjungle!",

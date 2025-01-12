@@ -169,10 +169,9 @@ function getAllDomains() {
     });
 }
 
-
 function browseWebsites(sortby, order) {
     return new Promise((resolve, reject) => {
-        db.all(`SELECT name, domain, views, lastUpdated, totalSize FROM websites ORDER BY ${sortby} ${order}`, (err, rows) => {
+        db.all(`SELECT name, domain, views, lastUpdated, totalSize, title, description FROM websites ORDER BY ${sortby} ${order}`, (err, rows) => {
             if(err) {
                 reject(err); // Reject promise in case of error
             } else {
@@ -499,6 +498,29 @@ function getWebsiteByUserId(id) {
     });
 }
 
+function getSiteInfoByID(id) {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT title, description FROM websites WHERE id=${id}`, (err, row) => {
+            if(err) {
+                reject(err); // Reject promise in case of error
+            } else {
+                resolve(row);
+            }
+        })
+    });
+}
+
+function setSiteInfoByID(id, title, desc) {
+    db.run(`UPDATE websites SET title="${title}", description="${desc}" WHERE id=${id}`, function(err) {
+        if(err) {
+            console.error("Error:", err.message);
+            return false;
+        } else {
+            return true;
+        }
+    });
+}
+
 function createApiKey(username) {
     if (!username) {
         console.log("Failed to create API Key: Missing Username");
@@ -579,6 +601,8 @@ module.exports = {
     getAllFilesByUserId,
     getAllDomains,
     browseWebsites,
+    getSiteInfoByID,
+    setSiteInfoByID,
     createApiKey,
     verifyApiKey,
     createUser,
