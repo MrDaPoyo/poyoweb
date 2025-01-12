@@ -23,7 +23,8 @@
 	</style>
 	<div class="megacontainer">
 	  <header class="container header-container">
-		<img src="/banners/poyoweb_banner.jpg" alt="PoyoWeb Banner" class="bannerbackground">
+		<img src="/banners/poyoweb_banner_empty.jpg" alt="PoyoWeb Banner" class="bannerbackground">
+		<img src="/logos/new_logo.png" alt="PoyoWeb Logo" class="bannerlogo">
 		<div class="space-between row-container">
 			<div class="left">
 				<h1>PoyoWeb - <%- title %></h1>
@@ -38,12 +39,12 @@
 				<% } %>
 			</div>
 		</div>
-		<% if (typeof message !== 'undefined' && message) { %>
-			<div class="message-container" id="message-container">
-				<%= message %>
-			</div>
-		<% } %>
 	  </header>
+	  <% if (typeof message !== 'undefined' && message) { %>
+		<div class="message-container" id="message-container">
+			<%= message %>
+		</div>
+	  <% } %>
 	  <div class="container link-container">
 	    <a href="<%= url %>"><button>Home</button></a>
 	    <% if (loggedIn) { %>
