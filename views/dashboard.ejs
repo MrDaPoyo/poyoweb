@@ -33,7 +33,6 @@
           apiKey: apiKey,
         })
       );
-      window.location.reload();
     } else {
       alert("Invalid name, aborting.");
     }
@@ -68,7 +67,7 @@
                 <h2>Upload Thumbnail</h2>
             </div>
             <div class='box-content'>
-                <p>Your site thumbnail will appear on the browser and site spotlight. To upload a custom thumbnail, upload your image (Recommended 128x128) and rename it to '.thumbnail'</p>
+                <p>Your site thumbnail will appear on the browser and site spotlight. To upload a custom thumbnail, upload your (png) image (Recommended 128x128) and rename it to 'thumbnail.png'</p>
             </div>
         </div>
     </div>
@@ -93,7 +92,7 @@
                 	<a onclick="rename('<%= files.files[key].cleanPath %>')">
                   		<button>Rename</button>
                 	</a>
-                	<% if (files.files[key].openable == true) { %>
+                	<% if (files.files[key].openable) { %>
                 		<a href="/editor?file=<%= files.files[key].cleanPath %>"><button>Edit</button></a>
                 	<% } %>
                 <% } else {%>
