@@ -27,7 +27,7 @@ function search(sortby, order) {
                 if(site.totalSize === 0) return;
 
                 site_div.innerHTML += `<button style='display: flex; margin-top: 10px; text-align: left;' onclick='location.href="https://${site.domain}"'>
-                <img src='https://${site.domain}/.thumbnail' onerror="this.onerror=null; this.src='/misc/default-thumbnail.png'" width=128px height=128px style='margin-right: 10px; border: 1px solid black;'/>
+                <img src='https://${site.domain}/thumbnail.png' onerror="this.onerror=null; this.src='/misc/default-thumbnail.png'" width=128px height=128px style='margin-right: 10px; border: 1px solid black;'/>
                 <div>
                     <h2 style='text-decoration: underline; margin-bottom: 5px; margin-top: 10px;'>${site.name}</h2>
                     <p style='margin-top: 0px;'>Hits: ${site.views}<br/>Last Updated: ${site.lastUpdated}</p>
