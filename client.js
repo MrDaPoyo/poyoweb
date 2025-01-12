@@ -564,6 +564,33 @@ app.post("/dashboard/createDir", async (req, res) => {
   }
 });
 
+app.post("/dashboard/updateInfo", async (req, res) => {
+    try {
+        const response = await fetch(`${process.env.API_URL}utils/updateInfo`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                apiKey: req.jwt,
+                title: req.body.siteTitle,
+                desc: req.body.siteDesc,
+            }),
+        });
+
+        if(!response.ok) {
+            const errorResponse = await response.json();
+            return;
+        }
+
+        const responseData = await response.json();
+        res.redirect('/dashboard');
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ error: "An error occurred; " + error });
+    }
+});
+
 app.get("/editor", loggedInMiddleware, async (req, res) => {
   try {
     const dir = path.dirname(req.query.file);
@@ -581,6 +608,19 @@ app.get("/utils/browseWebsites", async (req, res) => {
     try {
         const response = await fetch(`${process.env.API_URL}utils/browseWebsites?sortby=${sortby}&order=${order}`);
         const data = await response.json();
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ error: "An error occured; " + error });
+    }
+});
+
+app.get("/utils/getSiteInfo", async (req, res) => {
+    var { apiKey } = req.query;
+    try {
+        const response = await fetch(`${process.env.API_URL}utils/getSiteInfo?apiKey=${apiKey}`);
+        const data = await response.json();
+        console.log(data);
         res.status(200).json(data);
     } catch (error) {
         console.error("Error:", error);

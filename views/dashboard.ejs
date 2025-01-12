@@ -38,6 +38,33 @@
     }
   }
 </script>
+<script>
+function getSiteInfo() {
+    return fetch(`/utils/getSiteInfo?apiKey=<%- jwt %>`);
+}
+</script>
+<div class='box fill-width'>
+     <div class='box-title'>
+         <h2>Site Information</h2>
+     </div>
+     <div class='box-content'>
+        <form action="/dashboard/updateInfo" method="POST">
+            <label>Title: </label><input id='siteTitle' type="text" name="siteTitle" placeholder="Title" />
+            <label>Description: </label><input id='siteDesc' type="text" name="siteDesc" placeholder="Description" />
+            <input type="submit" value="Update" />
+        </form>
+
+        <script>
+            getSiteInfo().then((info) => {
+                info.json().then((body) => {
+                    document.getElementById('siteTitle').value = body.title || "";
+                    document.getElementById('siteDesc').value = body.description || "";
+                });
+            });
+        </script>
+     </div>
+</div>
+
 <div class='row-container fill-width' style='width: 100%'>
     <div>
         <div class='box'>

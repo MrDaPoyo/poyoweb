@@ -521,6 +521,30 @@ app.get("/utils/browseWebsites", async (req, res) => {
     res.status(200).json(await (await db.browseWebsites(sortby, order)));
 });
 
+app.get("/utils/getSiteInfo", async (req, res) => {
+    const { apiKey } = await req.query;
+    const user = await verifyApiKey(apiKey);
+
+    if(!user) {
+        return res.status(401).json({ error: 'Invalid API key' });
+    } else {
+        const siteID = await (await db.getWebsiteByUserId(user.id));
+        res.status(200).json(await (await db.getSiteInfoByID(siteID.id)));
+    }
+});
+
+app.post("/utils/updateInfo", async (req, res) => {
+    const { apiKey, title, desc } = await req.body;
+    const user = await verifyApiKey(apiKey);
+
+    if(!user) {
+    } else {
+        const siteID = await (await db.getWebsiteByUserId(user.id));
+        db.setSiteInfoByID(siteID.id, title, desc)
+        res.status(200).json({ message: "Successfully changed info!" });
+    }
+});
+
 async function generateSSLCert(domain, email) {
     if (!domain || !email) {
         return res.status(400).json({ error: 'Domain and email are required' });
