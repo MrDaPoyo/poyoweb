@@ -39,12 +39,12 @@
 				<% } %>
 			</div>
 		</div>
-		<% if (typeof message !== 'undefined' && message) { %>
-			<div class="message-container" id="message-container">
-				<%= message %>
-			</div>
-		<% } %>
 	  </header>
+	  <% if (typeof message !== 'undefined' && message) { %>
+		<div class="message-container" id="message-container">
+			<%= message %>
+		</div>
+	  <% } %>
 	  <div class="container link-container">
 	    <a href="<%= url %>"><button>Home</button></a>
 	    <% if (loggedIn) { %>
