@@ -49,8 +49,8 @@ function getSiteInfo() {
      </div>
      <div class='box-content'>
         <form action="/dashboard/updateInfo" method="POST">
-            <label>Title: </label><input id='siteTitle' type="text" name="siteTitle" placeholder="Title" />
-            <label>Description: </label><input id='siteDesc' type="text" name="siteDesc" placeholder="Description" />
+            <label>Title: </label><input id='siteTitle' type="text" name="siteTitle" placeholder="Title" maxlength="20" />
+            <label>Description: </label><input id='siteDesc' type="text" name="siteDesc" placeholder="Description" maxlength="200"/>
             <input type="submit" value="Update" />
         </form>
 

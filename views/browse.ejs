@@ -15,7 +15,7 @@
     </select>
     <button type='submit'>Update Search</button>
 </form>
-<div id='site-list'></div>
+<div class='fill-width' id='site-list'></div>
 <script>
 function search(sortby, order) {
     const site_div = document.getElementById('site-list');
@@ -26,7 +26,7 @@ function search(sortby, order) {
             response.json().then((sites) => sites.forEach((site) => {
                 if(site.totalSize === 0) return;
 
-                site_div.innerHTML += `<button style='display: flex; margin-top: 10px; text-align: left;' onclick='location.href="https://${site.domain}"'>
+                site_div.innerHTML += `<button style='display: flex; margin-top: 10px; text-align: left; width: 100%' onclick='location.href="https://${site.domain}"'>
                 <img src='https://${site.domain}/thumbnail.png' onerror="this.onerror=null; this.src='/misc/default-thumbnail.png'" width=128px height=128px style='margin-right: 10px; border: 1px solid black;'/>
                 <div>
                     <h2 style='text-decoration: underline; margin-bottom: 5px; margin-top: 10px;'>${site.title || site.name}</h2>

@@ -30,7 +30,7 @@ function sendVerificationEmail(token, email) {
     const mailConfigurations = {
 
         // It should be a string of sender/server email
-        from: process.env.MAILER_ADDRESS,
+        from: process.env.MAILER_ALIAS,
 
         to: email,
 
