@@ -1,0 +1,35 @@
+<%- include('header.ejs') %> 
+<% if (locals.loggedIn) { %>
+<% } else { %>
+<% } %>
+<div class='row-container'>
+    <div class='box fill-width'>
+        <div class='box-title'>
+            <h2>The PoyowebRing</h2>
+        </div>
+        <div class='box-content'>
+            <p>
+            The PoyowebRing is a way for sites that are hosted on the PoyoWeb, or are adjacent to it (e.g. Neocities sites). It was initially created by Tori in order to improve the accessibility of all sites on the PoyoWeb, and is now being integrated. All sites withing the Webring are linked together through a common widget, hosted on Tori's <a href='https://tori.poyoweb.org'>site</a>.
+            </p>
+        </div>
+    </div>
+    <div class='box fill-width'>
+        <div class='box-title'>
+            <h2>Join the Ring!</h2>
+        </div>
+        <div class='box-content'>
+            <p>
+            Joining the PoyowebRing is a great way to get your site discovered by more people! The PoyoWeb is a (currently) small community, so the Webring allows members to stay closer together and interact with each other.
+            </p>
+
+            <form action='/webring/join' method="POST">
+                <input type='text' name='email' id='email' placeholder='Email' required/>
+                <input type='text' name='name' id='name' placeholder='Name' required/>
+                <input type='text' name='url' id='url' placeholder='Site URL' required/>
+                <input type='text' name='msg' id='msg' placeholder='Message (Optional)'/>
+                <button type="submit">Join!</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('footer.ejs') %>

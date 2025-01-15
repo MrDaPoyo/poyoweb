@@ -9,6 +9,22 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+function sendPoyoringJoinRequestEmail(email, name, url, msg) {
+    const message = `PoywebRing Join request from ${name} (${email}):\nURL: https://${url}\n\nMessage:\n${msg || "No message attached."}`
+    console.log(message);
+    const mailConfiguration = {
+        from: process.env.MAILER_ADDRESS,
+        to: 'tori@poyoweb.org',
+        subject: 'PoyowebRing Join Request',
+        text: message
+    };
+
+    transporter.sendMail(mailConfiguration, function (error) {
+        if(error) throw Error(error);
+        console.log('Email Sent Successfully');
+    });
+}
+
 function sendVerificationEmail(token, email) {
 
     const mailConfigurations = {
@@ -48,6 +64,7 @@ function sendRecoveryEmail(token, email) {
     });
 }
 module.exports = {
+    sendPoyoringJoinRequestEmail,
     sendVerificationEmail,
     sendRecoveryEmail
 };
