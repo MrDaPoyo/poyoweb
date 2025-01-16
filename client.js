@@ -412,7 +412,7 @@ app.post("/webring/join", async (req, res) => {
         return;
     } else {
         try {
-            const response = fetch(process.env.API_URL + "webring/join", {
+            const response = await fetch(process.env.API_URL + "webring/join", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
