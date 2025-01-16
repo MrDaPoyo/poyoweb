@@ -122,6 +122,10 @@ app.get("/browse", (req, res) => {
   res.render("browse", { title: "Browse" });
 });
 
+app.get("/poyoring", (req, res) => {
+  res.render("poyoring", { title: "Webring" });
+});
+
 app.get("/settings", loggedInMiddleware, websiteInfoMiddleware, (req, res) => {
   res.render("settings", { title: "User/Website Settings" });
 });
@@ -399,6 +403,40 @@ app.get("/dashboard", loggedInMiddleware, verifiedMiddleware, async (req, res) =
       console.error("Error:", error);
       res.status(500).json({ error: "An error occurred; " + error });
     });
+});
+
+app.post("/webring/join", async (req, res) => {
+    const { email, name, url, msg } = req.body;
+    if(!email || !name || !url ) {
+        res.status(400).json({ error: "Missing required fields", success: false });
+        return;
+    } else {
+        try {
+            const response = fetch(process.env.API_URL + "webring/join", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    name: name,
+                    url: url,
+                    msg: msg || "No message provided.",
+                }),
+                timeout: 5000,
+            });
+            const text = await response.text();
+            const data = text ? JSON.parse(text) : {};
+            if(data.success) {
+                res.redirect("/?message=Sent PoyowebRing Join Request!");
+            } else {
+                res.redirect("/?message=Failed to send join request.");
+            }
+        } catch(error) {
+            console.error("Error:", error);
+            res.status(500).json({ error: "An error occurred; " + error });
+        }
+    }
 });
 
 const upload = multer();

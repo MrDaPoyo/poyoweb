@@ -256,6 +256,18 @@ const upload = multer({
     },
  });
 
+app.post("/webring/join", async (req, res) => {
+    const { email, name, url, msg } = req.body;
+    try {
+        mailer.sendPoyoringJoinRequestEmail(email, name, url, msg);
+    } catch(err) {
+        console.log(err);
+        return res.status(400).json({ error: "Could not send email", success: false });
+    }
+
+    res.status(200).json({ success: true });
+});
+
 app.post('/file/upload', upload.single("file"), async (req, res) => {
     var { apiKey, dir, size } = req.body;
     var file = req.file;
